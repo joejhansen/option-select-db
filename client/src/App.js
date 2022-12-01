@@ -7,7 +7,7 @@ import Header from './components/Header/Header'
 import Main from './components/Main/Main'
 import Footer from './components/Footer/Footer'
 
-
+import { PageProvider } from './utils/PageContext';
 import { PreferenceProvider } from './utils/PreferenceContext';
 
 
@@ -16,9 +16,11 @@ function App() {
   return (
     <div id='App'>
       <PreferenceProvider>
-        <Header />
-        <Main />
-        <Footer />
+        <PageProvider>
+          <Header />
+          <Main />
+          <Footer />
+        </PageProvider>
       </PreferenceProvider>
     </div>
   );

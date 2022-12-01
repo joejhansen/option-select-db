@@ -4,6 +4,12 @@ export default function reducer(state, action){
             return {
                 state
             }
+        case 'CHANGE_PAGE':
+            console.log(action.payload)
+            return {
+                ...state,
+                currentPage: action.payload,
+            }
         default:
             return state
     }
