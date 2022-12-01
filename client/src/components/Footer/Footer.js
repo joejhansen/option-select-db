@@ -1,19 +1,14 @@
 import React, { useReducer, useState } from 'react'
 // TODO: MAKE ACTIONS AND IMPORT THEM
 
-import reducer from '../../utils/reducers'
 
-import { usePreferenceContext } from '../../utils/PreferenceContext'
 
 const Footer = () => {
-    const initialState = usePreferenceContext();
-
-    const [state, dispatch] = useReducer(reducer, initialState)
 
     return (
-        <>
+        <footer className='d-flex align-self-center justify-content-center'>
             <p>Footer</p>
-        </>
+        </footer>
     )
 }
 

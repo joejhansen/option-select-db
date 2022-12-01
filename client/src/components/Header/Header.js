@@ -6,15 +6,15 @@ import Nav from './Nav/Nav'
 
 import { usePreferenceContext } from '../../utils/PreferenceContext'
 
-const Header = () => {
+const Header = ({ children }) => {
     const initialState = usePreferenceContext();
 
     const [state, dispatch] = useReducer(reducer, initialState)
 
     return (
         <>
-            <p>Header</p>
-            <Nav />
+            <h1>Header</h1>
+            {children}
         </>
     )
 }

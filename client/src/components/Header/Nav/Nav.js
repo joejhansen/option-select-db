@@ -1,25 +1,26 @@
 import React, { useReducer, useState } from 'react'
+import { NavLink } from 'react-router-dom'
+import capitalizeLocal from '../../../utils/capitalizeLocal'
 // TODO: MAKE ACTIONS AND IMPORT THEM
 
-import reducer from '../../../utils/reducers'
-import { usePageContext } from '../../../utils/PageContext'
-
-
-const Nav = () => {
-    const page = usePageContext();
-
-    const [statePage, dispatchPage] = useReducer(reducer, page)
+// TODO: Compose the Nav within a <Header /> component on the main app for easy props
+const Nav = ({ pages, }) => {
 
     return (
         <ul>
-            {statePage.pages.map((page) => {
-                return (
-                    <li id={page} key={page} onClick={((e)=>{
-                        e.preventDefault()
-                        dispatchPage({ type: 'CHANGE_PAGE', payload: e.target.id})
-                    })}>{page}</li>
-                )
-            })}
+            {pages ?
+                pages.map((page) => {
+                    const pageTitle = capitalizeLocal(page)
+                    return (
+                        <li id={page} key={page}>
+                            <NavLink
+                                to={`/${page}`}>
+                                {pageTitle}
+                            </NavLink>
+                        </li>
+                    )
+                })
+                : <p>Nothing Here Yet</p>}
         </ul>
     )
 }
