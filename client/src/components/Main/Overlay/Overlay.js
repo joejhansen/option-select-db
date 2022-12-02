@@ -96,7 +96,14 @@ const Overlay = ({ settings, theme }) => {
             justifyContent: 'flex-end'
         },
         viewportSettings: {
-            aspectRatio: ratio
+            display: 'flex',
+            alignSelf: 'center',
+            justifyContent: 'center',
+            aspectRatio: ratio,
+            outline: 'dashed red 2px',
+        },
+        viewportWrapper: {
+            // height: '100%'
         }
     }
 
@@ -142,8 +149,8 @@ const Overlay = ({ settings, theme }) => {
                             </div>
                             : <></>
                         }
-                        <div className="col">
-                            <div id="viewport" style={styles.viewportSettings}>
+                        <div className="col align-items-center" style={styles.viewportWrapper}>
+                            <div id="viewport" className="" style={styles.viewportSettings}>
                             </div>
                         </div>
                         {overlaySettings.rightBar
