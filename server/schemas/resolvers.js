@@ -1,11 +1,10 @@
-const { User, Player, Game } = require('../models');
+const { CodeId, ConnectName, Game, Metadata, PlayerInfo, User, } = require('../models');
 
 
 const resolvers = {
   Query: {
     me: async (parent, args, context) => {
       return await User.findById(context.user._id).select('-password')
-
     },
     users: async () => {
       const users = await User.find({}).select('-password')
@@ -16,14 +15,14 @@ const resolvers = {
       const user = await User.find(params).select('-password');
       return user
     },
-    players: async () => {
-      const players = await Player.find({})
-      return players
+    connectNames: async () => {
+      const connectName = await ConnectName.find({})
+      return connectName
     },
-    player: async (parent, { _id }) => {
+    connectName: async (parent, { _id }) => {
       const params = _id ? { _id } : {};
-      const player = await Player.findById(params);
-      return player
+      const connectName = await ConnectName.findById(params);
+      return connectName
     },
     games: async () => {
       const games = await Game.find({})
@@ -34,6 +33,11 @@ const resolvers = {
       const game = await Game.find(params);
       return game
     },
+    codeId: async (parent, { _id }) => {
+      const params = _id ? { _id } : {};
+      const codeId = await CodeId.find(params)
+      return codeId
+    }
   },
   Mutation: {
     createUser: async (parent, { username, email, password }) => {
@@ -70,11 +74,11 @@ const resolvers = {
       return user
     },
     createPlayer: async (parent, args) => {
-      const player = await Player.create(args);
+      const player = await ConnectName.create(args);
       return player;
     },
     updatePlayer: async (parent, args) => {
-      const player = await Player.findByIdAndUpdate(
+      const player = await ConnectName.findByIdAndUpdate(
         args.id,
         args,
         { new: true }

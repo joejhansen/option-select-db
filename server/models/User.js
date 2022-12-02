@@ -2,6 +2,7 @@ const { Schema, model } = require('mongoose');
 const bcrypt = require('bcrypt');
 
 const userSchema = new Schema({
+    _id: Schema.Types.ObjectId,
     username: {
         type: String,
         required: true,
@@ -17,8 +18,18 @@ const userSchema = new Schema({
     password: {
         type: String,
         required: true,
-        minlength: 5,
+        minlength: 8,
+        match: [/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/, 'Must contain at least 8 letters, numbers, and/or special characters']
     },
+    codeIds: [
+        { type: Schema.Types.ObjectId, ref: 'CodeId' }
+    ],
+    displayNames: [
+        { type: Schema.Types.ObjectId, ref: 'ConnectNames' }
+    ],
+    games: [
+        { type: Schema.Types.ObjectId, ref: 'Game' }
+    ]
 });
 
 userSchema.pre('save', async function (next) {

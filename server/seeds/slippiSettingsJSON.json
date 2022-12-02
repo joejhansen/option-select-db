@@ -1,0 +1,899 @@
+[
+    {
+        "slpVersion": "3.12.0",
+        "isTeams": false,
+        "isPAL": false,
+        "stageId": 3,
+        "players": [
+            {
+                "playerIndex": 0,
+                "port": 1,
+                "characterId": 12,
+                "characterColor": 0,
+                "startStocks": 4,
+                "type": 0,
+                "teamId": 0,
+                "controllerFix": "UCF",
+                "nametag": "",
+                "displayName": "TEST SLIPPI-JS",
+                "connectCode": "PUSH#676",
+                "userId": "QV2bSvShPUVT4ydFPOhfjb6BpEs2"
+            },
+            {
+                "playerIndex": 1,
+                "port": 2,
+                "characterId": 23,
+                "characterColor": 2,
+                "startStocks": 4,
+                "type": 0,
+                "teamId": 1,
+                "controllerFix": "UCF",
+                "nametag": "",
+                "displayName": "y",
+                "connectCode": "NAEL#376",
+                "userId": "LcGj7sD4TKTYLFe9E2FvPCVJnpk2"
+            }
+        ],
+        "scene": 2,
+        "gameMode": 8,
+        "language": 1
+    },
+    {
+        "slpVersion": "3.12.0",
+        "isTeams": false,
+        "isPAL": false,
+        "stageId": 32,
+        "players": [
+            {
+                "playerIndex": 0,
+                "port": 1,
+                "characterId": 2,
+                "characterColor": 0,
+                "startStocks": 4,
+                "type": 0,
+                "teamId": 1,
+                "controllerFix": "UCF",
+                "nametag": "",
+                "displayName": "Momuchiechipope",
+                "connectCode": "MOMU#677",
+                "userId": "lbQaxTqlBrUulrZu4iRiBcAsAz63"
+            },
+            {
+                "playerIndex": 1,
+                "port": 2,
+                "characterId": 12,
+                "characterColor": 0,
+                "startStocks": 4,
+                "type": 0,
+                "teamId": 1,
+                "controllerFix": "UCF",
+                "nametag": "",
+                "displayName": "TEST SLIPPI-JS",
+                "connectCode": "PUSH#676",
+                "userId": "QV2bSvShPUVT4ydFPOhfjb6BpEs2"
+            }
+        ],
+        "scene": 2,
+        "gameMode": 8,
+        "language": 1
+    },
+    {
+        "slpVersion": "3.12.0",
+        "isTeams": false,
+        "isPAL": false,
+        "stageId": 8,
+        "players": [
+            {
+                "playerIndex": 0,
+                "port": 1,
+                "characterId": 9,
+                "characterColor": 4,
+                "startStocks": 4,
+                "type": 0,
+                "teamId": 0,
+                "controllerFix": "UCF",
+                "nametag": "",
+                "displayName": "Roman",
+                "connectCode": "ROMA#863",
+                "userId": "oGTAaH6vMcPrelMKbTdMUWovUko1"
+            },
+            {
+                "playerIndex": 1,
+                "port": 2,
+                "characterId": 12,
+                "characterColor": 0,
+                "startStocks": 4,
+                "type": 0,
+                "teamId": 1,
+                "controllerFix": "UCF",
+                "nametag": "",
+                "displayName": "TEST SLIPPI-JS",
+                "connectCode": "PUSH#676",
+                "userId": "QV2bSvShPUVT4ydFPOhfjb6BpEs2"
+            }
+        ],
+        "scene": 2,
+        "gameMode": 8,
+        "language": 1
+    },
+    {
+        "slpVersion": "3.12.0",
+        "isTeams": false,
+        "isPAL": false,
+        "stageId": 3,
+        "players": [
+            {
+                "playerIndex": 0,
+                "port": 1,
+                "characterId": 12,
+                "characterColor": 0,
+                "startStocks": 4,
+                "type": 0,
+                "teamId": 1,
+                "controllerFix": "UCF",
+                "nametag": "",
+                "displayName": "TEST SLIPPI-JS",
+                "connectCode": "PUSH#676",
+                "userId": "QV2bSvShPUVT4ydFPOhfjb6BpEs2"
+            },
+            {
+                "playerIndex": 1,
+                "port": 2,
+                "characterId": 20,
+                "characterColor": 0,
+                "startStocks": 4,
+                "type": 0,
+                "teamId": 0,
+                "controllerFix": "UCF",
+                "nametag": "",
+                "displayName": "Bully Maguire",
+                "connectCode": "FYST#409",
+                "userId": "QUzPI52PeDOZRWvcXLavJq9ih6f2"
+            }
+        ],
+        "scene": 2,
+        "gameMode": 8,
+        "language": 1
+    },
+    {
+        "slpVersion": "3.12.0",
+        "isTeams": false,
+        "isPAL": false,
+        "stageId": 2,
+        "players": [
+            {
+                "playerIndex": 0,
+                "port": 1,
+                "characterId": 12,
+                "characterColor": 0,
+                "startStocks": 4,
+                "type": 0,
+                "teamId": 0,
+                "controllerFix": "UCF",
+                "nametag": "",
+                "displayName": "TEST SLIPPI-JS",
+                "connectCode": "PUSH#676",
+                "userId": "QV2bSvShPUVT4ydFPOhfjb6BpEs2"
+            },
+            {
+                "playerIndex": 1,
+                "port": 2,
+                "characterId": 2,
+                "characterColor": 0,
+                "startStocks": 4,
+                "type": 0,
+                "teamId": 1,
+                "controllerFix": "UCF",
+                "nametag": "",
+                "displayName": "JayJoa",
+                "connectCode": "JAYJ#654",
+                "userId": "14ELjCfgALdoIwxu4g3EloSGyZH2"
+            }
+        ],
+        "scene": 2,
+        "gameMode": 8,
+        "language": 1
+    },
+    {
+        "slpVersion": "3.12.0",
+        "isTeams": false,
+        "isPAL": false,
+        "stageId": 2,
+        "players": [
+            {
+                "playerIndex": 0,
+                "port": 1,
+                "characterId": 12,
+                "characterColor": 0,
+                "startStocks": 4,
+                "type": 0,
+                "teamId": 0,
+                "controllerFix": "UCF",
+                "nametag": "",
+                "displayName": "TEST SLIPPI-JS",
+                "connectCode": "PUSH#676",
+                "userId": "QV2bSvShPUVT4ydFPOhfjb6BpEs2"
+            },
+            {
+                "playerIndex": 1,
+                "port": 2,
+                "characterId": 9,
+                "characterColor": 3,
+                "startStocks": 4,
+                "type": 0,
+                "teamId": 1,
+                "controllerFix": "UCF",
+                "nametag": "",
+                "displayName": "hehexd",
+                "connectCode": "WBAT#706",
+                "userId": "01CbcOqIXAQEgzoB4DC6it4kBpC3"
+            }
+        ],
+        "scene": 2,
+        "gameMode": 8,
+        "language": 1
+    },
+    {
+        "slpVersion": "3.12.0",
+        "isTeams": false,
+        "isPAL": false,
+        "stageId": 31,
+        "players": [
+            {
+                "playerIndex": 0,
+                "port": 1,
+                "characterId": 12,
+                "characterColor": 3,
+                "startStocks": 4,
+                "type": 0,
+                "teamId": 0,
+                "controllerFix": "UCF",
+                "nametag": "",
+                "displayName": "TEST SLIPPI-JS",
+                "connectCode": "PUSH#676",
+                "userId": "QV2bSvShPUVT4ydFPOhfjb6BpEs2"
+            },
+            {
+                "playerIndex": 1,
+                "port": 2,
+                "characterId": 20,
+                "characterColor": 1,
+                "startStocks": 4,
+                "type": 0,
+                "teamId": 1,
+                "controllerFix": "UCF",
+                "nametag": "",
+                "displayName": "mcjoules",
+                "connectCode": "MCJO#906",
+                "userId": "fVcjpYsnHvPYkf1gSzNll4Ni9s53"
+            }
+        ],
+        "scene": 2,
+        "gameMode": 8,
+        "language": 1
+    },
+    {
+        "slpVersion": "3.12.0",
+        "isTeams": false,
+        "isPAL": false,
+        "stageId": 31,
+        "players": [
+            {
+                "playerIndex": 0,
+                "port": 1,
+                "characterId": 25,
+                "characterColor": 4,
+                "startStocks": 4,
+                "type": 0,
+                "teamId": 0,
+                "controllerFix": "UCF",
+                "nametag": "",
+                "displayName": "JoJoYi",
+                "connectCode": "JYI#466",
+                "userId": "rGYIdhYajvNCMLXNlyWiLbVHIIH2"
+            },
+            {
+                "playerIndex": 1,
+                "port": 2,
+                "characterId": 12,
+                "characterColor": 3,
+                "startStocks": 4,
+                "type": 0,
+                "teamId": 1,
+                "controllerFix": "UCF",
+                "nametag": "",
+                "displayName": "TEST SLIPPI-JS",
+                "connectCode": "PUSH#676",
+                "userId": "QV2bSvShPUVT4ydFPOhfjb6BpEs2"
+            }
+        ],
+        "scene": 2,
+        "gameMode": 8,
+        "language": 1
+    },
+    {
+        "slpVersion": "3.12.0",
+        "isTeams": false,
+        "isPAL": false,
+        "stageId": 28,
+        "players": [
+            {
+                "playerIndex": 0,
+                "port": 1,
+                "characterId": 12,
+                "characterColor": 0,
+                "startStocks": 4,
+                "type": 0,
+                "teamId": 1,
+                "controllerFix": "UCF",
+                "nametag": "",
+                "displayName": "TEST SLIPPI-JS",
+                "connectCode": "PUSH#676",
+                "userId": "QV2bSvShPUVT4ydFPOhfjb6BpEs2"
+            },
+            {
+                "playerIndex": 1,
+                "port": 2,
+                "characterId": 0,
+                "characterColor": 5,
+                "startStocks": 4,
+                "type": 0,
+                "teamId": 0,
+                "controllerFix": "UCF",
+                "nametag": "",
+                "displayName": "HotSauce55",
+                "connectCode": "HOTS#404",
+                "userId": "iqvKSlUKzEQgM6mKVYxlSOZARGV2"
+            }
+        ],
+        "scene": 2,
+        "gameMode": 8,
+        "language": 1
+    },
+    {
+        "slpVersion": "3.12.0",
+        "isTeams": false,
+        "isPAL": false,
+        "stageId": 31,
+        "players": [
+            {
+                "playerIndex": 0,
+                "port": 1,
+                "characterId": 7,
+                "characterColor": 2,
+                "startStocks": 4,
+                "type": 0,
+                "teamId": 1,
+                "controllerFix": "UCF",
+                "nametag": "",
+                "displayName": "Lyradical",
+                "connectCode": "LYRA#118",
+                "userId": "Op3DlccXFVVEQyvhXyes9Gq86vy2"
+            },
+            {
+                "playerIndex": 1,
+                "port": 2,
+                "characterId": 12,
+                "characterColor": 0,
+                "startStocks": 4,
+                "type": 0,
+                "teamId": 0,
+                "controllerFix": "UCF",
+                "nametag": "",
+                "displayName": "TEST SLIPPI-JS",
+                "connectCode": "PUSH#676",
+                "userId": "QV2bSvShPUVT4ydFPOhfjb6BpEs2"
+            }
+        ],
+        "scene": 2,
+        "gameMode": 8,
+        "language": 1
+    },
+    {
+        "slpVersion": "3.12.0",
+        "isTeams": false,
+        "isPAL": false,
+        "stageId": 31,
+        "players": [
+            {
+                "playerIndex": 0,
+                "port": 1,
+                "characterId": 20,
+                "characterColor": 3,
+                "startStocks": 4,
+                "type": 0,
+                "teamId": 0,
+                "controllerFix": "UCF",
+                "nametag": "",
+                "displayName": "DotAGenius",
+                "connectCode": "FLYQ#415",
+                "userId": "SaSZ9bS0oTWuCZ90FTU2xu2ntaD2"
+            },
+            {
+                "playerIndex": 1,
+                "port": 2,
+                "characterId": 12,
+                "characterColor": 0,
+                "startStocks": 4,
+                "type": 0,
+                "teamId": 1,
+                "controllerFix": "UCF",
+                "nametag": "",
+                "displayName": "TEST SLIPPI-JS",
+                "connectCode": "PUSH#676",
+                "userId": "QV2bSvShPUVT4ydFPOhfjb6BpEs2"
+            }
+        ],
+        "scene": 2,
+        "gameMode": 8,
+        "language": 1
+    },
+    {
+        "slpVersion": "3.12.0",
+        "isTeams": false,
+        "isPAL": false,
+        "stageId": 31,
+        "players": [
+            {
+                "playerIndex": 0,
+                "port": 1,
+                "characterId": 20,
+                "characterColor": 2,
+                "startStocks": 4,
+                "type": 0,
+                "teamId": 0,
+                "controllerFix": "UCF",
+                "nametag": "",
+                "displayName": "SabrinaSupreme",
+                "connectCode": "SABR#116",
+                "userId": "fPThcLK0Cac7k6vvgdzFfYk0Pb33"
+            },
+            {
+                "playerIndex": 1,
+                "port": 2,
+                "characterId": 12,
+                "characterColor": 0,
+                "startStocks": 4,
+                "type": 0,
+                "teamId": 1,
+                "controllerFix": "UCF",
+                "nametag": "",
+                "displayName": "TEST SLIPPI-JS",
+                "connectCode": "PUSH#676",
+                "userId": "QV2bSvShPUVT4ydFPOhfjb6BpEs2"
+            }
+        ],
+        "scene": 2,
+        "gameMode": 8,
+        "language": 1
+    },
+    {
+        "slpVersion": "3.12.0",
+        "isTeams": false,
+        "isPAL": false,
+        "stageId": 8,
+        "players": [
+            {
+                "playerIndex": 0,
+                "port": 1,
+                "characterId": 12,
+                "characterColor": 0,
+                "startStocks": 4,
+                "type": 0,
+                "teamId": 1,
+                "controllerFix": "UCF",
+                "nametag": "",
+                "displayName": "TEST SLIPPI-JS",
+                "connectCode": "PUSH#676",
+                "userId": "QV2bSvShPUVT4ydFPOhfjb6BpEs2"
+            },
+            {
+                "playerIndex": 1,
+                "port": 2,
+                "characterId": 20,
+                "characterColor": 3,
+                "startStocks": 4,
+                "type": 0,
+                "teamId": 1,
+                "controllerFix": "UCF",
+                "nametag": "",
+                "displayName": "pbfh",
+                "connectCode": "CLIF#350",
+                "userId": "93OwfI3IRgV0gQm8MYu0gRCXkh02"
+            }
+        ],
+        "scene": 2,
+        "gameMode": 8,
+        "language": 1
+    },
+    {
+        "slpVersion": "3.12.0",
+        "isTeams": false,
+        "isPAL": false,
+        "stageId": 8,
+        "players": [
+            {
+                "playerIndex": 0,
+                "port": 1,
+                "characterId": 9,
+                "characterColor": 3,
+                "startStocks": 4,
+                "type": 0,
+                "teamId": 0,
+                "controllerFix": "UCF",
+                "nametag": "",
+                "displayName": "KingSA",
+                "connectCode": "KING#204",
+                "userId": "CSdEjgZy5NSqP7zaZiIyeor0Vya2"
+            },
+            {
+                "playerIndex": 1,
+                "port": 2,
+                "characterId": 12,
+                "characterColor": 0,
+                "startStocks": 4,
+                "type": 0,
+                "teamId": 1,
+                "controllerFix": "UCF",
+                "nametag": "",
+                "displayName": "TEST SLIPPI-JS",
+                "connectCode": "PUSH#676",
+                "userId": "QV2bSvShPUVT4ydFPOhfjb6BpEs2"
+            }
+        ],
+        "scene": 2,
+        "gameMode": 8,
+        "language": 1
+    },
+    {
+        "slpVersion": "3.12.0",
+        "isTeams": false,
+        "isPAL": false,
+        "stageId": 32,
+        "players": [
+            {
+                "playerIndex": 0,
+                "port": 1,
+                "characterId": 12,
+                "characterColor": 0,
+                "startStocks": 4,
+                "type": 0,
+                "teamId": 0,
+                "controllerFix": "UCF",
+                "nametag": "",
+                "displayName": "TEST SLIPPI-JS",
+                "connectCode": "PUSH#676",
+                "userId": "QV2bSvShPUVT4ydFPOhfjb6BpEs2"
+            },
+            {
+                "playerIndex": 1,
+                "port": 2,
+                "characterId": 20,
+                "characterColor": 2,
+                "startStocks": 4,
+                "type": 0,
+                "teamId": 1,
+                "controllerFix": "UCF",
+                "nametag": "",
+                "displayName": "Quasar",
+                "connectCode": "DARK#185",
+                "userId": "Ht6UYOnVDCRcnRB9beWzMyqqp2J3"
+            }
+        ],
+        "scene": 2,
+        "gameMode": 8,
+        "language": 1
+    },
+    {
+        "slpVersion": "3.12.0",
+        "isTeams": false,
+        "isPAL": false,
+        "stageId": 28,
+        "players": [
+            {
+                "playerIndex": 0,
+                "port": 1,
+                "characterId": 12,
+                "characterColor": 0,
+                "startStocks": 4,
+                "type": 0,
+                "teamId": 0,
+                "controllerFix": "UCF",
+                "nametag": "",
+                "displayName": "TEST SLIPPI-JS",
+                "connectCode": "PUSH#676",
+                "userId": "QV2bSvShPUVT4ydFPOhfjb6BpEs2"
+            },
+            {
+                "playerIndex": 1,
+                "port": 2,
+                "characterId": 9,
+                "characterColor": 3,
+                "startStocks": 4,
+                "type": 0,
+                "teamId": 1,
+                "controllerFix": "UCF",
+                "nametag": "",
+                "displayName": "Jnut",
+                "connectCode": "JNUT#885",
+                "userId": "yX5tIQlHN6NIfJKVimjfYaWHyBE3"
+            }
+        ],
+        "scene": 2,
+        "gameMode": 8,
+        "language": 1
+    },
+    {
+        "slpVersion": "3.12.0",
+        "isTeams": false,
+        "isPAL": false,
+        "stageId": 31,
+        "players": [
+            {
+                "playerIndex": 0,
+                "port": 1,
+                "characterId": 9,
+                "characterColor": 0,
+                "startStocks": 4,
+                "type": 0,
+                "teamId": 0,
+                "controllerFix": "UCF",
+                "nametag": "",
+                "displayName": "SkiRuffles",
+                "connectCode": "SKI#765",
+                "userId": "ySCECpaOiHYTBLtLNqeKjrSM5X02"
+            },
+            {
+                "playerIndex": 1,
+                "port": 2,
+                "characterId": 12,
+                "characterColor": 0,
+                "startStocks": 4,
+                "type": 0,
+                "teamId": 0,
+                "controllerFix": "UCF",
+                "nametag": "",
+                "displayName": "TEST SLIPPI-JS",
+                "connectCode": "PUSH#676",
+                "userId": "QV2bSvShPUVT4ydFPOhfjb6BpEs2"
+            }
+        ],
+        "scene": 2,
+        "gameMode": 8,
+        "language": 1
+    },
+    {
+        "slpVersion": "3.12.0",
+        "isTeams": false,
+        "isPAL": false,
+        "stageId": 3,
+        "players": [
+            {
+                "playerIndex": 0,
+                "port": 1,
+                "characterId": 12,
+                "characterColor": 0,
+                "startStocks": 4,
+                "type": 0,
+                "teamId": 1,
+                "controllerFix": "UCF",
+                "nametag": "",
+                "displayName": "TEST SLIPPI-JS",
+                "connectCode": "PUSH#676",
+                "userId": "QV2bSvShPUVT4ydFPOhfjb6BpEs2"
+            },
+            {
+                "playerIndex": 1,
+                "port": 2,
+                "characterId": 20,
+                "characterColor": 0,
+                "startStocks": 4,
+                "type": 0,
+                "teamId": 0,
+                "controllerFix": "UCF",
+                "nametag": "",
+                "displayName": "jush",
+                "connectCode": "JUSH#339",
+                "userId": "YQkCoOrCx2WMc7HVWpuW68OQSul2"
+            }
+        ],
+        "scene": 2,
+        "gameMode": 8,
+        "language": 1
+    },
+    {
+        "slpVersion": "3.12.0",
+        "isTeams": false,
+        "isPAL": false,
+        "stageId": 31,
+        "players": [
+            {
+                "playerIndex": 0,
+                "port": 1,
+                "characterId": 12,
+                "characterColor": 0,
+                "startStocks": 4,
+                "type": 0,
+                "teamId": 0,
+                "controllerFix": "UCF",
+                "nametag": "",
+                "displayName": "TEST SLIPPI-JS",
+                "connectCode": "PUSH#676",
+                "userId": "QV2bSvShPUVT4ydFPOhfjb6BpEs2"
+            },
+            {
+                "playerIndex": 1,
+                "port": 2,
+                "characterId": 20,
+                "characterColor": 1,
+                "startStocks": 4,
+                "type": 0,
+                "teamId": 0,
+                "controllerFix": "UCF",
+                "nametag": "",
+                "displayName": "Snwman",
+                "connectCode": "SNWM#114",
+                "userId": "pfidLPOIavNI5qd3s5mOB2K2y1o2"
+            }
+        ],
+        "scene": 2,
+        "gameMode": 8,
+        "language": 1
+    },
+    {
+        "slpVersion": "3.12.0",
+        "isTeams": false,
+        "isPAL": false,
+        "stageId": 31,
+        "players": [
+            {
+                "playerIndex": 0,
+                "port": 1,
+                "characterId": 2,
+                "characterColor": 0,
+                "startStocks": 4,
+                "type": 0,
+                "teamId": 1,
+                "controllerFix": "UCF",
+                "nametag": "",
+                "displayName": "moondog9",
+                "connectCode": "MOON#462",
+                "userId": "5cMuaBENdFeprEn0dAgQ2FEaXSF2"
+            },
+            {
+                "playerIndex": 1,
+                "port": 2,
+                "characterId": 12,
+                "characterColor": 0,
+                "startStocks": 4,
+                "type": 0,
+                "teamId": 1,
+                "controllerFix": "UCF",
+                "nametag": "",
+                "displayName": "TEST SLIPPI-JS",
+                "connectCode": "PUSH#676",
+                "userId": "QV2bSvShPUVT4ydFPOhfjb6BpEs2"
+            }
+        ],
+        "scene": 2,
+        "gameMode": 8,
+        "language": 1
+    },
+    {
+        "slpVersion": "3.12.0",
+        "isTeams": false,
+        "isPAL": false,
+        "stageId": 31,
+        "players": [
+            {
+                "playerIndex": 0,
+                "port": 1,
+                "characterId": 12,
+                "characterColor": 0,
+                "startStocks": 4,
+                "type": 0,
+                "teamId": 0,
+                "controllerFix": "UCF",
+                "nametag": "",
+                "displayName": "TEST SLIPPI-JS",
+                "connectCode": "PUSH#676",
+                "userId": "QV2bSvShPUVT4ydFPOhfjb6BpEs2"
+            },
+            {
+                "playerIndex": 1,
+                "port": 2,
+                "characterId": 20,
+                "characterColor": 2,
+                "startStocks": 4,
+                "type": 0,
+                "teamId": 1,
+                "controllerFix": "UCF",
+                "nametag": "",
+                "displayName": "Whimsy",
+                "connectCode": "WHIM#861",
+                "userId": "LElyD5bssjWnEU9Mz5068AMJdBx2"
+            }
+        ],
+        "scene": 2,
+        "gameMode": 8,
+        "language": 1
+    },
+    {
+        "slpVersion": "3.12.0",
+        "isTeams": false,
+        "isPAL": false,
+        "stageId": 8,
+        "players": [
+            {
+                "playerIndex": 0,
+                "port": 1,
+                "characterId": 19,
+                "characterColor": 4,
+                "startStocks": 4,
+                "type": 0,
+                "teamId": 1,
+                "controllerFix": "UCF",
+                "nametag": "",
+                "displayName": "Purpz",
+                "connectCode": "PURP#277",
+                "userId": "LgXa7stJZXPzPUxqKkSDNdcscxK2"
+            },
+            {
+                "playerIndex": 1,
+                "port": 2,
+                "characterId": 12,
+                "characterColor": 0,
+                "startStocks": 4,
+                "type": 0,
+                "teamId": 0,
+                "controllerFix": "UCF",
+                "nametag": "",
+                "displayName": "TEST SLIPPI-JS",
+                "connectCode": "PUSH#676",
+                "userId": "QV2bSvShPUVT4ydFPOhfjb6BpEs2"
+            }
+        ],
+        "scene": 2,
+        "gameMode": 8,
+        "language": 1
+    },
+    {
+        "slpVersion": "3.12.0",
+        "isTeams": false,
+        "isPAL": false,
+        "stageId": 2,
+        "players": [
+            {
+                "playerIndex": 0,
+                "port": 1,
+                "characterId": 12,
+                "characterColor": 0,
+                "startStocks": 4,
+                "type": 0,
+                "teamId": 1,
+                "controllerFix": "UCF",
+                "nametag": "",
+                "displayName": "TEST SLIPPI-JS",
+                "connectCode": "PUSH#676",
+                "userId": "QV2bSvShPUVT4ydFPOhfjb6BpEs2"
+            },
+            {
+                "playerIndex": 1,
+                "port": 2,
+                "characterId": 0,
+                "characterColor": 2,
+                "startStocks": 4,
+                "type": 0,
+                "teamId": 0,
+                "controllerFix": "UCF",
+                "nametag": "",
+                "displayName": "qu4rtz",
+                "connectCode": "PCHY#645",
+                "userId": "Fbe65k0aSIbWLzadtI4hpqyqoXD2"
+            }
+        ],
+        "scene": 2,
+        "gameMode": 8,
+        "language": 1
+    }
+]
