@@ -37,7 +37,8 @@ function App() {
       display: 'flex',
       flexDirection: 'column',
       minHeight: '100vh',
-      mindWidth: '100vw',
+      mindWidth: '100vh',
+      maxHeight: 'max-content'
     },
     // this fills the empty space for main content
     body: {
@@ -65,11 +66,18 @@ function App() {
             <Header >
               <Nav pages={pages} />
             </Header>
-            <div style={styles.body}>
+            {/* i could either keep this as a container for style and independently change the overlay to fullwidth
+            or i could just make the a container-fluid already */}
+            <div className='container-fluid' style={styles.body}>
               <Routes>
                 <Route
                   // quick hack to handle the nav
-                  path={"/" && "/home"}
+                  index
+                  element={<Home />}
+                />
+                <Route
+                  // quick hack to handle the nav
+                  path="/home"
                   element={<Home />}
                 />
                 {/* This does not work */}

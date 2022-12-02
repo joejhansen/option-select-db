@@ -2,8 +2,6 @@ import React, { useReducer, useState } from 'react'
 // TODO: MAKE ACTIONS AND IMPORT THEM
 import reducer from '../../utils/reducers'
 
-import Nav from './Nav/Nav'
-
 import { usePreferenceContext } from '../../utils/PreferenceContext'
 
 const Header = ({ children }) => {
@@ -13,8 +11,16 @@ const Header = ({ children }) => {
 
     return (
         <>
-            <h1>Header</h1>
-            {children}
+            <header className='container-fluid'>
+                <div className='row'>
+                    <div className='col-md-3 d-flex justify-content-center'>
+                        <h1>Logo/Title</h1>
+                    </div>
+                    <div className='col-md-9'>
+                        {children}
+                    </div>
+                </div>
+            </header>
         </>
     )
 }
