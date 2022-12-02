@@ -1,40 +1,21 @@
 import { useState } from "react"
 import { redirect } from "react-router-dom"
-
+import OverlaySettings from "./OverlaySettings"
 const Overlay = ({ settings, theme }) => {
     const defaultOverlaySettings = {
         chroma: 'lightgray',
-        aspectRatios: ['4/3', '100vw/100vh', '16/9', '16/10', '73/60'],
+        aspectRatios: ['4/3', 'fill', 'native', '16/9', '16/10', '73/60'],
         ratio: '4/3',
         header: true,
         headerSettings: [
             {
-                height: '',
-                width: '',
                 title: 'Header',
                 text: 'this is a header',
             },
-            {
-                height: '',
-                width: '',
-                title: 'Header',
-                text: 'this is a header',
-            },
-        ],
-        footer: true,
-        footerSettings: [
-            {
-                height: '',
-                width: '',
-                title: 'Footer',
-                text: 'this is a footer',
-            }
         ],
         leftBar: true,
         leftBarSettings: [
             {
-                height: '',
-                width: '',
                 title: 'Left Bar',
                 text: 'this is a left bar',
             }
@@ -42,11 +23,16 @@ const Overlay = ({ settings, theme }) => {
         rightBar: true,
         rightBarSettings: [
             {
-                height: '',
-                width: '',
                 title: 'Right Bar',
                 text: 'this is a right bar',
             }
+        ],
+        footer: true,
+        footerSettings: [
+            {
+                title: 'Footer',
+                text: 'this is a footer',
+            },
         ],
 
         theme: theme ? theme : {
@@ -61,6 +47,39 @@ const Overlay = ({ settings, theme }) => {
     const [overlaySettings, changeSettings] = useState(
         settings ? settings : defaultOverlaySettings
     )
+    const [ratio, changeRatio] = useState(
+        overlaySettings ? overlaySettings.ratio : '4/3'
+    )
+    const getScreenDimension = () => {
+        const width = window.screen.width;
+        const height = window.screen.height;
+        return width / height
+    }
+
+    const convertRatio = (ratioSetting) => {
+        switch (ratioSetting) {
+            case 'fill':
+                return 'auto'
+            case 'native':
+                return getScreenDimension()
+            default:
+                return ratioSetting
+        }
+    }
+
+    const handleSettingsChange = (e) => {
+        e.preventDefault()
+        switch (e.target.id) {
+            case '':
+
+                break;
+
+            default:
+                break;
+        }
+
+    }
+
     const styles = {
         background: {
             backgroundColor: overlaySettings ? overlaySettings.chroma : 'lightgray',
@@ -69,10 +88,19 @@ const Overlay = ({ settings, theme }) => {
             minHeight: '100vh',
             mindWidth: '100vh',
         },
-        middle: {
+        middleRow: {
             flex: '1 0 auto'
         },
+        rightCol: {
+            display: 'flex',
+            justifyContent: 'flex-end'
+        },
+        viewportSettings: {
+            aspectRatio: ratio
+        }
     }
+
+
     // const overlaySettings = settings ? settings : {
     //     settings: {
     //         something: 'else'
@@ -80,77 +108,80 @@ const Overlay = ({ settings, theme }) => {
     // }
 
     return (
-        <div className="row">
-            <div className="col" style={styles.background}>
-                {overlaySettings.header
-                    ?
-                    <div className="row">
-                        {overlaySettings.headerSettings.map((column) => {
-                            return (
-                                <div className="col-auto">
-                                    <p>{column.title}</p>
-                                    <p>{column.text}</p>
-                                </div>
-                            )
-                        })}
-                    </div>
-                    :<></>
-                }
-                <div className="row" style={styles.middle}>
-                    {overlaySettings.leftBar
+        <>
+            <div className="row">
+                <div className="col" style={styles.background}>
+                    {overlaySettings.header
                         ?
-                        <div className="col-auto">
-                            {
-                                overlaySettings.leftBarSettings.map((row) => {
-                                    return (
-                                        <>
-                                            <p>{row.title}</p>
-                                            <p>{row.text}</p>
-                                        </>
-                                    )
-                                })
-                            }
-                        </div>
-                        :<></>
-                    }
-                    <div className="col-auto">
-                        <p>Title</p>
-                        <p>text</p>
-                    </div>
-                    {overlaySettings.rightBar
-                        ?
-                        <div className="col-auto">
-                            {
-                                overlaySettings.rightBarSettings.map((row) => {
-                                    return (
-                                        <>
-                                            <p>{row.title}</p>
-                                            <p>{row.text}</p>
-                                        </>
-                                    )
-                                })
-                            }
+                        <div className="row">
+                            {overlaySettings.headerSettings.map((column) => {
+                                return (
+                                    <div className="col">
+                                        <p>{column.title}</p>
+                                        <p>{column.text}</p>
+                                    </div>
+                                )
+                            })}
                         </div>
                         : <></>
                     }
-                </div>
-                {overlaySettings.footer
-                    ?
-                    <div className="row">
-                        {overlaySettings.footerSettings.map((column) => {
-                            return (
-                                <div className="col-auto">
-                                    <p>{column.title}</p>
-                                    <p>{column.text}</p>
-                                </div>
-                            )
-                        })}
+                    <div className="row" style={styles.middleRow}>
+                        {overlaySettings.leftBar
+                            ?
+                            <div className="col">
+                                {
+                                    overlaySettings.leftBarSettings.map((row) => {
+                                        return (
+                                            <>
+                                                <p>{row.title}</p>
+                                                <p>{row.text}</p>
+                                            </>
+                                        )
+                                    })
+                                }
+                            </div>
+                            : <></>
+                        }
+                        <div className="col">
+                            <div id="viewport" style={styles.viewportSettings}>
+                            </div>
+                        </div>
+                        {overlaySettings.rightBar
+                            ?
+                            <div className="col">
+                                {
+                                    overlaySettings.rightBarSettings.map((row) => {
+                                        return (
+                                            <>
+                                                <p>{row.title}</p>
+                                                <p>{row.text}</p>
+                                            </>
+                                        )
+                                    })
+                                }
+                            </div>
+                            : <></>
+                        }
                     </div>
-                    :
-                    <></>
-                }
+                    {overlaySettings.footer
+                        ?
+                        <div className="row">
+                            {overlaySettings.footerSettings.map((column) => {
+                                return (
+                                    <div className="col">
+                                        <p>{column.title}</p>
+                                        <p>{column.text}</p>
+                                    </div>
+                                )
+                            })}
+                        </div>
+                        :
+                        <></>
+                    }
+                </div>
             </div>
-        </div>
+            <OverlaySettings />
+        </>
     )
 }
 

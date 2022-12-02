@@ -5,6 +5,6 @@ const playerSchema = new Schema({
 }
 )
 
-const Player = model('User', playerSchema)
+const Player = model('Player', playerSchema)
 
 module.exports = Player

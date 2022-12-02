@@ -3,43 +3,71 @@ const { User, Player, Game } = require('../models');
 
 const resolvers = {
   Query: {
+    me: async (parent, args, context) => {
+      return await User.findById(context.user._id).select('-password')
+
+    },
     users: async () => {
-      return User.find({})
+      const users = await User.find({}).select('-password')
+      return users
     },
     user: async (parent, { _id }) => {
       const params = _id ? { _id } : {};
-      return User.find(params);
+      const user = await User.find(params).select('-password');
+      return user
     },
     players: async () => {
-      return Player.find({})
+      const players = await Player.find({})
+      return players
     },
     player: async (parent, { _id }) => {
       const params = _id ? { _id } : {};
-      return Player.find(params);
+      const player = await Player.findById(params);
+      return player
     },
     games: async () => {
-      return Game.find({})
+      const games = await Game.find({})
+      return games
     },
     game: async (parent, { _id }) => {
       const params = _id ? { _id } : {};
-      return Game.find(params);
+      const game = await Game.find(params);
+      return game
     },
   },
   Mutation: {
-    createUser: async (parent, args) => {
-      const user = await User.create(args);
+    createUser: async (parent, { username, email, password }) => {
+      const user = await User.create({ username, email, password })
       return user;
+    },
+    login: async (parent, { email, password }) => {
+      const user = await User.findOne({ email });
+
+      if (!user) {
+        throw new AuthenticationError('No user found with this email address');
+      }
+
+      const correctPw = await user.isCorrectPassword(password);
+
+      if (!correctPw) {
+        throw new AuthenticationError('Incorrect credentials');
+      }
+
+      const token = signToken(user);
+
+      return { token, user };
     },
     updateUser: async (parent, args) => {
       const user = await User.findByIdAndUpdate(
         args.id,
         args,
         { new: true }
-      )
+      ).select('-password');
       return user
     },
     deleteUser: async (parent, args) => {
-      const user = await User.findByIdAndDelete(args.id)
+      const user = await User.findByIdAndDelete(args.id).select('-password');
+      return user
     },
     createPlayer: async (parent, args) => {
       const player = await Player.create(args);
