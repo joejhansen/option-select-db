@@ -1,13 +1,30 @@
 const db = require('../config/connection');
-const { Tech } = require('../models');
-
-const techData = require('./techData.json');
+const { CodeId, ConnectName, Game, Metadata, PlayerInfo, User } = require('../models');
+const { processSlp, processSlpBulk, processSlpUpload } = require('./slpIngest')
+const games = [
+  { game: 'melee' },
+  { game: 'melee' },
+  { game: 'melee' },
+  { game: 'melee' },
+]
 
 db.once('open', async () => {
-  await Tech.deleteMany({});
-
-  const technologies = await Tech.insertMany(techData);
-
-  console.log('Technologies seeded!');
-  process.exit(0);
+  if (!games || typeof (games) !== 'object') {
+    return { message: `no games in array` }
+  }
+  try {
+    const { processed, errors } = await processSlpBulk(games)
+    if (!processed && !errors) {
+      return { message: `Error in bulk process`, games: games }
+    }
+    console.log(`to upload`)
+    const response = await processSlpUpload(processed)
+    if (!response) {
+      return { message: `Error uploading processed files`, processed: processed }
+    }
+    return console.log(response, 'hello')
+  } catch (err) {
+    return console.log(err)
+  }
 });
+
