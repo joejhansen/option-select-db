@@ -77,9 +77,14 @@ const playerInfoSchema = new Schema({
         unique: false,
         trim: true,
     },
-    player: [
-        { type: Schema.Types.ObjectId, ref: 'ConnectName'}
-    ]
+    connectName: [
+        { type: Schema.Types.ObjectId, ref: 'ConnectName' }
+    ],
+    createdAt: {
+        type: Date,
+        default: Date.now,
+        get: (timestamp) => dateFormat(timestamp),
+    },
 })
 
 const PlayerInfo = model('PlayerInfo', playerInfoSchema)

@@ -29,7 +29,7 @@ const example = [
         "userId": "LcGj7sD4TKTYLFe9E2FvPCVJnpk2"
     }
 ]
-const connectNameSchema = new Schema({
+const displayNameSchema = new Schema({
     _id: Schema.Types.ObjectId,
     displayName: {
         type: String,
@@ -38,20 +38,14 @@ const connectNameSchema = new Schema({
         trim: true,
         maxLength: 15,
     },
-    connectCode: {
-        type: String,
-        required: true,
-        unique: false,
-        trim: true,
+    codeIds: [{ type: Schema.Types.ObjectId, ref: 'CodeId' }],
+    createdAt: {
+        type: Date,
+        default: Date.now,
+        get: (timestamp) => dateFormat(timestamp),
     },
-    userId: {
-        type: String,
-        required: true,
-        unique: true,
-        trim: true,
-    }
 })
 
-const ConnectName = model('ConnectName', connectNameSchema)
+const DisplayName = model('DisplayName', displayNameSchema)
 
-module.exports = ConnectName
+module.exports = DisplayName

@@ -3,7 +3,8 @@ const { Schema, model } = require('mongoose');
 
 const codeIdSchema = new Schema({
     _id: Schema.Types.ObjectId,
-    code: {
+    appUser: { type: Schema.Types.ObjectId, ref: 'User' },
+    connectCode: {
         type: String,
         required: true,
         unique: false,
@@ -14,7 +15,14 @@ const codeIdSchema = new Schema({
         required: true,
         unique: true,
         trim: true,
-    }
+    },
+    connectNames: [{ type: Schema.Types.ObjectId, ref: 'ConnectName' }],
+    games: [{ type: Schema.Types.ObjectId, ref: 'Game' }],
+    createdAt: {
+        type: Date,
+        default: Date.now,
+        get: (timestamp) => dateFormat(timestamp),
+    },
 })
 
 const CodeId = model('CodeId', codeIdSchema)

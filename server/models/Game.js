@@ -17,7 +17,7 @@ const gameSchema = new Schema({
         trim: true,
     },
     players: [
-        { type: Schema.Types.ObjectId, ref: 'Player' },
+        { type: Schema.Types.ObjectId, ref: 'CodeId' },
     ],
     isTeams: {
         type: Boolean,
@@ -49,9 +49,13 @@ const gameSchema = new Schema({
         required: true,
         unique: false,
     },
-    metadata: [
-        { type: Schema.Types.ObjectId, ref: 'Metadata' }
-    ],
+    playerInfo: [{ type: Schema.Types.ObjectId, ref: 'PlayerInfo' }],
+    metadata: { type: Schema.Types.ObjectId, ref: 'Metadata' },
+    createdAt: {
+        type: Date,
+        default: Date.now,
+        get: (timestamp) => dateFormat(timestamp),
+    },
 }
 )
 

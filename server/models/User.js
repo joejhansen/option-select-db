@@ -24,12 +24,12 @@ const userSchema = new Schema({
     codeIds: [
         { type: Schema.Types.ObjectId, ref: 'CodeId' }
     ],
-    displayNames: [
-        { type: Schema.Types.ObjectId, ref: 'ConnectNames' }
-    ],
-    games: [
-        { type: Schema.Types.ObjectId, ref: 'Game' }
-    ]
+    
+    createdAt: {
+        type: Date,
+        default: Date.now,
+        get: (timestamp) => dateFormat(timestamp),
+    },
 });
 
 userSchema.pre('save', async function (next) {
