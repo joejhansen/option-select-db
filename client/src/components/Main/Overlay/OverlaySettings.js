@@ -129,8 +129,10 @@ const OverlaySettings = ({ overlaySettings, theme, handleSettingsChange }) => {
 
         const chroma = formData.get(`chroma`)
 
-        const ratio = formData.get(`ratio`)
-
+        let ratio = formData.get(`ratio`)
+        if (ratio === 'Ratio') {
+            ratio = overlaySettings.ratio
+        }
         let themePrimary = formData.get(`themePrimary`).trim()
         let themeSecondary = formData.get(`themeSecondary`).trim()
         let themeTertiary = formData.get(`themeTertiary`).trim()
