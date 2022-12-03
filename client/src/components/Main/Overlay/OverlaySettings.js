@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-const OverlaySettings = ({ overlaySettings, theme, setSettings }) => {
+const OverlaySettings = ({ overlaySettings, theme, handleSettingsChange }) => {
     const defaultOverlaySettings = {
         chroma: 'lightgray',
         aspectRatios: ['4/3', 'fill', 'native', '16/9', '16/10', '73/60'],
@@ -51,7 +51,7 @@ const OverlaySettings = ({ overlaySettings, theme, setSettings }) => {
     }
 
     const [useHeader, setHeader] = useState(overlaySettings.header)
-    const [numHead, setNumHeader] = useState(overlaySettings.headerSettings.length)
+    const [numHeader, setNumHeader] = useState(overlaySettings.headerSettings.length)
 
     const [useFooter, setFooter] = useState(overlaySettings.footer)
     const [numFooter, setNumFooter] = useState(overlaySettings.footerSettings.length)
@@ -62,18 +62,18 @@ const OverlaySettings = ({ overlaySettings, theme, setSettings }) => {
     const [useRightBar, setRightBar] = useState(overlaySettings.rightBar)
     const [numRightBar, setNumRightBar] = useState(overlaySettings.rightBarSettings.length)
 
-    const handleNumComponentsRender = (numComponent) => {
+    const renderNumComponents = ({ numComponents, component, componentSettings }) => {
         let render = []
-        for (let i = 0; i < numComponent; i++) {
+        for (let i = 0; i < numComponents; i++) {
             render.push(
-                <div className="col">
+                <div className="col-auto">
                     <label htmlFor="theme" className="form-label">Title</label>
                     <div className="mb-3">
-                        <input type="text" className="form-control" id="titleHeader1" />
+                        <input type="text" className="form-control" id={`title${component}${i + 1}`} name={`${component}Title`} defaultValue={componentSettings[i] ? componentSettings[i].title : ``} />
                     </div>
                     <label htmlFor="theme" className="form-label">Text</label>
                     <div className="mb-3">
-                        <input type="text" className="form-control" id="textHeader1" />
+                        <input type="text" className="form-control" id={`text${component}${i + 1}`} name={`${component}Text`} defaultValue={componentSettings[i] ? componentSettings[i].text : ``} />
                     </div>
                 </div>
             )
@@ -97,10 +97,10 @@ const OverlaySettings = ({ overlaySettings, theme, setSettings }) => {
         }
     }
     const handleInnerComponentNum = (e) => {
-        const number = parseInt(e.target.value)
-        if (typeof number !== 'number') {
+        if (e.target.value === '# of Divs') {
             return
         }
+        const number = parseInt(e.target.value)
         switch (e.target.id) {
             case 'numsHeader':
                 setNumHeader(number)
@@ -122,42 +122,130 @@ const OverlaySettings = ({ overlaySettings, theme, setSettings }) => {
     // this'll be a doozy
     const handleSubmit = (e) => {
         e.preventDefault()
-        const primary = e.target
-        let newSettings = {}
+        // TODO: add the name attribute so this actually works
+        // use formdata to make it easy to refactor if needed
+        const formData = new FormData(e.target)
+        const values = [...formData.entries()]
+
+        const chroma = formData.get(`chroma`)
+
+        const ratio = formData.get(`ratio`)
+
+        let themePrimary = formData.get(`themePrimary`).trim()
+        let themeSecondary = formData.get(`themeSecondary`).trim()
+        let themeTertiary = formData.get(`themeTertiary`).trim()
+        let themeAccent = formData.get(`themeAccent`).trim()
+        let themeText = formData.get(`themeText`).trim()
+        console.log(themeText)
+        if (!themePrimary) {
+            themePrimary = '#303134'
+        }
+        if (!themeSecondary) {
+            themeSecondary = `#202124`
+        }
+        if (!themeTertiary) {
+            themeTertiary = `#303134`
+        }
+        if (!themeAccent) {
+            themeAccent = `#F88A8A`
+        }
+        if (!themeText) {
+            themeText = `#BDC1C6`
+        }
+        const newTheme = {
+            primary: themePrimary,
+            secondary: themeSecondary,
+            tertiary: themeTertiary,
+            accent: themeAccent,
+            text: themeText,
+        }
+        const headerTitles = formData.getAll('headerTitle')
+        const headerTexts = formData.getAll(`headerText`)
+        let headerSettings = []
+        for (let i = 0; i < numHeader; i++) {
+            headerSettings.push({ title: headerTitles[i], text: headerTexts[i] })
+        }
+        const leftBarTitles = formData.getAll(`leftBarTitle`)
+        const leftBarTexts = formData.getAll(`leftBarText`)
+        let leftBarSettings = []
+        for (let i = 0; i < numLeftBar; i++) {
+            leftBarSettings.push({ title: leftBarTitles[i], text: leftBarTexts[i] })
+        }
+
+        const rightBarTitles = formData.getAll(`rightBarTitle`)
+        const rightBarTexts = formData.getAll(`rightBarText`)
+        let rightBarSettings = []
+        for (let i = 0; i < numRightBar; i++) {
+            rightBarSettings.push({ title: rightBarTitles[i], text: rightBarTexts[i] })
+        }
+
+        const footerTitles = formData.getAll(`footerTitle`)
+        const footerTexts = formData.getAll(`footerText`)
+        let footerSettings = []
+        for (let i = 0; i < numFooter; i++) {
+            footerSettings.push({ title: footerTitles[i], text: footerTexts[i] })
+        }
+        const newSettings = {
+            chroma: chroma,
+            header: useHeader,
+            headerSettings: headerSettings,
+            leftBar: useLeftBar,
+            leftBarSettings: leftBarSettings,
+            rightBar: useRightBar,
+            rightBarSettings: rightBarSettings,
+            footer: useFooter,
+            footerSettings: footerSettings,
+            ratio: ratio,
+            theme: newTheme,
+        }
+        console.log(newSettings)
+        console.log(overlaySettings)
+        handleSettingsChange(newSettings)
+        // console.table({ headerSettings: headerSettings, leftBarSettings: leftBarSettings, rightBarSettings: rightBarSettings, footerSettings: footerSettings })
         return
+        // setSettings(newSettings)
     }
 
 
     // Look on my Works, ye Mighty, and despair!
     return (
-        <form style={styles.container}>
+        <form style={styles.container} onSubmit={handleSubmit} name='overlay settings'>
             <div className="row">
                 <label htmlFor="chroma and theme" className="form-label">Colors and Theme</label>
 
                 <div className="col">
                     <div className="mb-3">
                         <label htmlFor="chroma" className="form-label">Chroma Color</label>
-                        <input type="email" className="form-control" id="chroma" aria-describedby="chroma" />
+                        <input type="text" className="form-control" id="chroma" name='chroma' aria-describedby="chroma" defaultValue={overlaySettings.chroma} />
                         <div id="chroma" className="form-text">This will be used to set the background color of the overlay</div>
                     </div>
+                    <select className="form-select" aria-label="Default select example" id="ratio" name="ratio">
+                        <option>Ratio</option>
+                        <option value="4/3">4/3</option>
+                        <option value="73/60">73/60</option>
+                        <option value="16/9">16/9</option>
+                        <option value="16/10">16/10</option>
+                        <option value="native">native</option>
+                        <option value="fill">fill</option>
+                    </select>
                 </div>
                 <div className="col">
                     <label htmlFor="theme" className="form-label">Theme</label>
 
                     <div className="mb-3">
-                        <input type="text" className="form-control" id="primary" placeholder="primary" />
+                        <input type="text" className="form-control" id="primary" name="themePrimary" placeholder="primary" defaultValue={overlaySettings.theme.primary} />
                     </div>
                     <div className="mb-3">
-                        <input type="text" className="form-control" id="secondary" placeholder="secondary" />
+                        <input type="text" className="form-control" id="secondary" name="themeSecondary" placeholder="secondary" defaultValue={overlaySettings.theme.secondary} />
                     </div>
                     <div className="mb-3">
-                        <input type="text" className="form-control" id="tertiary" placeholder="tertiary" />
+                        <input type="text" className="form-control" id="tertiary" name="themeTertiary" placeholder="tertiary" defaultValue={overlaySettings.theme.tertiary} />
                     </div>
                     <div className="mb-3">
-                        <input type="text" className="form-control" id="accent" placeholder="accent" />
+                        <input type="text" className="form-control" id="accent" name="themeAccent" placeholder="accent" defaultValue={overlaySettings.theme.accent} />
                     </div>
                     <div className="mb-3">
-                        <input type="text" className="form-control" id="text" placeholder="text" />
+                        <input type="text" className="form-control" id="text" name="themeText" placeholder="text" defaultValue={overlaySettings.theme.text} />
                     </div>
                 </div>
             </div>
@@ -187,7 +275,7 @@ const OverlaySettings = ({ overlaySettings, theme, setSettings }) => {
                                             <option value="4">4</option>
                                         </select>
                                         <div className="row">
-                                            {handleNumComponentsRender(numHead)}
+                                            {renderNumComponents({ numComponents: numHeader, component: 'header', componentSettings: overlaySettings.headerSettings })}
                                         </div>
                                     </>
                                     : <p className="form-text" htmlFor="header">Header Not Selected</p>}
@@ -213,7 +301,7 @@ const OverlaySettings = ({ overlaySettings, theme, setSettings }) => {
                                             <option value="4">4</option>
                                         </select>
                                         <div className="row">
-                                            {handleNumComponentsRender(numLeftBar)}
+                                            {renderNumComponents({ numComponents: numLeftBar, component: 'leftBar', componentSettings: overlaySettings.leftBarSettings })}
 
                                         </div>
                                     </>
@@ -240,7 +328,7 @@ const OverlaySettings = ({ overlaySettings, theme, setSettings }) => {
                                             <option value="4">4</option>
                                         </select>
                                         <div className="row">
-                                            {handleNumComponentsRender(numRightBar)}
+                                            {renderNumComponents({ numComponents: numRightBar, component: 'rightBar', componentSettings: overlaySettings.rightBarSettings })}
                                         </div>
                                     </>
                                     : <p className="form-text" htmlFor="rightBar">RightBar Not Selected</p>}
@@ -266,7 +354,7 @@ const OverlaySettings = ({ overlaySettings, theme, setSettings }) => {
                                             <option value="4">4</option>
                                         </select>
                                         <div className="row">
-                                            {handleNumComponentsRender(numFooter)}
+                                            {renderNumComponents({ numComponents: numFooter, component: 'footer', componentSettings: overlaySettings.footerSettings })}
                                         </div>
                                     </>
                                     : <p className="form-text" htmlFor="footer">Footer Not Selected</p>}

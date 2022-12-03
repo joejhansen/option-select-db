@@ -1,8 +1,8 @@
 import { useState } from "react"
-import { redirect } from "react-router-dom"
+// import { redirect } from "react-router-dom"
 import OverlaySettings from "./OverlaySettings"
 const Overlay = ({ theme }) => {
-    const aspectRatios = ['4/3', 'fill', 'native', '16/9', '16/10', '73/60']
+    // const aspectRatios = ['4/3', 'fill', 'native', '16/9', '16/10', '73/60']
     const defaultOverlaySettings = {
         chroma: 'lightgray',
         ratio: 'native',
@@ -50,7 +50,7 @@ const Overlay = ({ theme }) => {
     // TODO: Set up localstorage or indexedDB for overlay settings like chroma key and fonts
     const [overlaySettings, setSettings] = useState(savedOverlaySettings)
     const [ratio, setRatio] = useState(overlaySettings ? overlaySettings.ratio : '4/3')
-    
+
     const getScreenDimension = () => {
         const width = window.screen.width;
         const height = window.screen.height;
@@ -70,9 +70,10 @@ const Overlay = ({ theme }) => {
         }
     }
 
-    const handleSettingsChange = (e) => {
-        e.preventDefault()
-
+    const handleSettingsChange = (newSettings) => {
+        setSettings(newSettings)
+        setRatio(newSettings.ratio)
+        localStorage.setItem('savedOverlaySettings', JSON.stringify(newSettings))
     }
 
     const styles = {
@@ -82,6 +83,7 @@ const Overlay = ({ theme }) => {
             flexDirection: 'column',
             minHeight: '100vh',
             mindWidth: '100vh',
+            maxHeight: '100vh'
         },
         middleRow: {
             flex: '1 0 auto'
@@ -90,18 +92,20 @@ const Overlay = ({ theme }) => {
             display: 'flex',
             justifyContent: 'flex-end'
         },
+        // TODO: fix 4/3 and other settings that break at fullscreen
         viewportSettings: {
             display: 'flex',
             alignSelf: 'center',
             justifyContent: 'center',
             aspectRatio: convertRatio(ratio),
+            // maxHeight: 'inherit',
             // gotta figure out how to make it so that fill works properly
             // minHeight: 'auto',
             // minwidth: 'auto',
             outline: 'dashed red 2px',
         },
         viewportWrapper: {
-            height: '100%'
+            // maxHeight: 'inherit'
         }
     }
 
@@ -121,7 +125,7 @@ const Overlay = ({ theme }) => {
                         <div className="row">
                             {overlaySettings.headerSettings.map((column, index) => {
                                 return (
-                                    <div className="col">
+                                    <div className="col" key={index} id={`heeader${index + 1}`}>
                                         <p>{column.title}</p>
                                         <p>{column.text}</p>
                                     </div>
@@ -137,10 +141,12 @@ const Overlay = ({ theme }) => {
                                 {
                                     overlaySettings.leftBarSettings.map((row, index) => {
                                         return (
-                                            <>
-                                                <p>{row.title}</p>
-                                                <p>{row.text}</p>
-                                            </>
+                                            <div className="row" key={index} id={`leftBar${index + 1}`}>
+                                                <div className="col">
+                                                    <p>{row.title}</p>
+                                                    <p>{row.text}</p>
+                                                </div>
+                                            </div>
                                         )
                                     })
                                 }
@@ -157,10 +163,12 @@ const Overlay = ({ theme }) => {
                                 {
                                     overlaySettings.rightBarSettings.map((row, index) => {
                                         return (
-                                            <>
-                                                <p>{row.title}</p>
-                                                <p>{row.text}</p>
-                                            </>
+                                            <div className="row" key={index} id={`rightBar${index + 1}`}>
+                                                <div className="col">
+                                                    <p>{row.title}</p>
+                                                    <p>{row.text}</p>
+                                                </div>
+                                            </div>
                                         )
                                     })
                                 }
@@ -173,7 +181,7 @@ const Overlay = ({ theme }) => {
                         <div className="row">
                             {overlaySettings.footerSettings.map((column, index) => {
                                 return (
-                                    <div className="col">
+                                    <div className="col" key={index} id={`footer${index + 1}`}>
                                         <p>{column.title}</p>
                                         <p>{column.text}</p>
                                     </div>
@@ -185,7 +193,7 @@ const Overlay = ({ theme }) => {
                     }
                 </div>
             </div>
-            <OverlaySettings overlaySettings={overlaySettings} theme={theme} setSettings={setSettings} />
+            <OverlaySettings overlaySettings={overlaySettings} theme={theme} handleSettingsChange={handleSettingsChange} />
         </>
     )
 }
