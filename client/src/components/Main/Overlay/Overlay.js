@@ -79,18 +79,18 @@ const Overlay = ({ theme }) => {
         setRatio(newSettings.ratio)
         localStorage.setItem('savedOverlaySettings', JSON.stringify(newSettings))
     }
-
+    // https://cssgridgarden.com/
     const styles = {
         background: {
             backgroundColor: overlaySettings.theme.accent,
-            display: 'flex',
-            flexDirection: 'column',
-            minHeight: '100vh',
-            maxHeight: '100vh',
-            mindWidth: '100vh',
+            display: 'grid',
+            // minHeight: '100vh',
+            height: '100vh',
+            width: '100vw',
         },
         middleRow: {
-            flex: '1 0 auto',
+            // display: 'flex',
+            // flex
             maxHeight: '100%'
         },
         // TODO: fix 4/3 and other settings that break at fullscreen
@@ -119,9 +119,16 @@ const Overlay = ({ theme }) => {
             backgroundColor: overlaySettings.theme.secondary
         },
         overlayRow: {
-            maxHeight: '100vh'
+            // maxHeight: '100vh'
+        },
+        headerFooter: {},
+        gridBackground: {
+            gridTemplate: "1fr/1fr",
+            height: '100vh'
+        },
+        girdRows: {
+            gridTemplate: "20% 1fr 20% / 1fr"
         }
-
     }
 
 
@@ -135,6 +142,11 @@ const Overlay = ({ theme }) => {
     return (
         <>
             <div className="row" style={styles.overlayRow}>
+                <div style={styles.gridBackground}>
+                    <div style={styles.girdRows}>
+
+                    </div>
+                </div>
                 <div className="col" style={styles.background}>
                     {overlaySettings.header
                         ?

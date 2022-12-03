@@ -49,7 +49,7 @@ const OverlaySettings = ({ overlaySettings, theme, handleSettingsChange }) => {
             color: theme.text
         }
     }
-
+    // TODO: add chyron/ticker
     const [useHeader, setHeader] = useState(overlaySettings.header)
     const [numHeader, setNumHeader] = useState(overlaySettings.headerSettings.length)
 
