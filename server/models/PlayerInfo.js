@@ -30,7 +30,7 @@ const example = [
     }
 ]
 const playerInfoSchema = new Schema({
-    _id: Schema.Types.ObjectId,
+    connectName: { type: Schema.Types.ObjectId, ref: 'ConnectName' },
     playerIndex: {
         type: Number,
         required: true,
@@ -77,16 +77,8 @@ const playerInfoSchema = new Schema({
         unique: false,
         trim: true,
     },
-    connectName: [
-        { type: Schema.Types.ObjectId, ref: 'ConnectName' }
-    ],
-    createdAt: {
-        type: Date,
-        default: Date.now,
-        get: (timestamp) => dateFormat(timestamp),
-    },
 })
 
-const PlayerInfo = model('PlayerInfo', playerInfoSchema)
+// const PlayerInfo = model('PlayerInfo', playerInfoSchema)
 
-module.exports = PlayerInfo
+module.exports = playerInfoSchema

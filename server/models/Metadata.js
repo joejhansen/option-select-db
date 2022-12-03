@@ -8,9 +8,8 @@ const metadataSchema = new Schema({
         default: Date.now,
         get: (timestamp) => dateFormat(timestamp),
     },
-    // more stuff
 })
 
-const Metadata = model('Metadata', metadataSchema)
+// const Metadata = model('Metadata', metadataSchema)
 
-module.exports = Metadata
+module.exports = metadataSchema

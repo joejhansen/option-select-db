@@ -1,4 +1,6 @@
 const { Schema, model } = require('mongoose');
+const metadataSchema = require('./Metadata');
+const playerInfoSchema = require('./PlayerInfo');
 const example = {
     "slpVersion": "3.12.0",
     "isTeams": false,
@@ -10,15 +12,13 @@ const example = {
 }
 const gameSchema = new Schema({
     _id: Schema.Types.ObjectId,
+    connectNames: [{ type: Schema.Types.ObjectId, ref: 'ConnectNames' }],
     slpVersion: {
         type: String,
         required: true,
         unique: false,
         trim: true,
     },
-    players: [
-        { type: Schema.Types.ObjectId, ref: 'CodeId' },
-    ],
     isTeams: {
         type: Boolean,
         required: true,
@@ -49,8 +49,8 @@ const gameSchema = new Schema({
         required: true,
         unique: false,
     },
-    playerInfo: [{ type: Schema.Types.ObjectId, ref: 'PlayerInfo' }],
-    metadata: { type: Schema.Types.ObjectId, ref: 'Metadata' },
+    playerInfo: [playerInfoSchema],
+    metadata: [metadataSchema],
     createdAt: {
         type: Date,
         default: Date.now,

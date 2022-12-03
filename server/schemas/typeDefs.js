@@ -20,15 +20,16 @@ const typeDefs = gql`
   }
   type Game {
     _id: ID!
+    connectNames: [ConnectName]
     slpVersion: String!
-    players: [Player]
     isTeams: Boolean!
     isPal: Boolean!
     stageId: Int!
     scene: Int!
     gameMode: Int!
     language: Int!
-    metadata: Metadata
+    playerInfo: []
+    metadata: [Metadata]
     createdAt: String!
 # other stuff
   }
