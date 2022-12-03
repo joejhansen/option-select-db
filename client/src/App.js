@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import logo from './logo.svg';
 // importing CSS
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -27,8 +27,6 @@ import Footer from './components/Footer/Footer'
 //    Errors
 import NotFound from './components/Error/NotFound'
 
-import { PreferenceProvider } from './utils/PreferenceContext';
-
 // Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({
   uri: '/graphql',
@@ -56,6 +54,56 @@ const client = new ApolloClient({
 // context or composition... https://reactjs.org/docs/context.html#before-you-use-context
 // this too => https://reactrouter.com/en/main/components/link
 function App() {
+  let defaultPreferences = {
+    user: {
+      _id: '',
+      email: '',
+      username: '',
+    },
+    theme: {
+      // dark
+      // generously provided by google
+      primary: '#303134',
+      secondary: '#202124',
+      tertiary: '#303134',
+      accent: '#f88a8a',
+      text: '#bdc1c6',
+    },
+    session: {
+      games: [],
+    },
+  }
+
+  let savedPreferences = JSON.parse(localStorage.getItem('savedPreferences'))
+  if (!savedPreferences) {
+    localStorage.setItem('savedPreferences', JSON.stringify(defaultPreferences))
+    savedPreferences = defaultPreferences
+  }
+
+  const [preferences, setPreferences] = useState(savedPreferences)
+
+  const [theme, setTheme] = useState(savedPreferences.theme)
+
+// functionality for theme/overlay change
+  const setThemeHandler = (e) => {
+    e.preventDefault()
+    let newTheme = {}
+    for (let i = 0; i < e.target.children.length - 1; i++) {
+      const id = e.target.children[i].id
+      const value = e.target.children[i].value.trim()
+      if (!value || !id) {
+        continue
+      }
+      newTheme[id] = value
+    }
+    const oldTheme = preferences.theme
+    newTheme = { ...oldTheme, ...newTheme }
+    preferences.theme = newTheme
+    console.log(preferences.theme)
+    localStorage.setItem('savedPreferences', JSON.stringify(preferences))
+    setTheme(preferences.theme)
+    return
+  }
 
   const styles = {
     // the app render will fill the entire screen
@@ -64,7 +112,8 @@ function App() {
       flexDirection: 'column',
       minHeight: '100vh',
       mindWidth: '100vh',
-      maxHeight: 'max-content'
+      maxHeight: 'max-content',
+      backgroundColor: theme.secondary
     },
     // this fills the empty space for main content
     body: {
@@ -86,54 +135,52 @@ function App() {
   return (
     <div id='App' style={styles.app}>
       <ApolloProvider client={client}>
-        <PreferenceProvider>
-          <Router >
-            {/* nested composition for the page change because it's simpler than context */}
-            <Header >
-              <Nav pages={pages} />
-            </Header>
-            {/* i could either keep this as a container for style and independently change the overlay to fullwidth
+        <Router >
+          {/* nested composition for the page change because it's simpler than context */}
+          <Header theme={theme}>
+            <Nav theme={theme} pages={pages} />
+          </Header>
+          {/* i could either keep this as a container for style and independently change the overlay to fullwidth
             or i could just make the a container-fluid already */}
-            <div className='container-fluid' style={styles.body}>
-              <Routes>
-                <Route
-                  // quick hack to handle the nav
-                  index
-                  element={<Home />}
-                />
-                <Route
-                  // quick hack to handle the nav
-                  path="/home"
-                  element={<Home />}
-                />
-                {/* This does not work */}
-                {/* {pages.map((page) => {
+          <div className='container-fluid' style={styles.body}>
+            <Routes>
+              <Route
+                // quick hack to handle the nav
+                index
+                element={<Home theme={theme} />}
+              />
+              <Route
+                // quick hack to handle the nav
+                path="/home"
+                element={<Home theme={theme} setThemeHandler={setThemeHandler} />}
+              />
+              {/* This does not work */}
+              {/* {pages.map((page) => {
                 return (
                   <Route path={`/${page}`}
                     element={<{page} />}
                   />
                 )
               })} */}
-                <Route path="/about"
-                  element={<About />}
-                />
-                <Route path="/data"
-                  element={<Data />}
-                />
-                <Route path="/settings"
-                  element={<Settings />}
-                />
-                <Route path="/overlay"
-                  element={<Overlay />}
-                />
-                <Route path='*'
-                  element={<NotFound />}
-                />
-              </Routes>
-            </div>
-            <Footer />
-          </Router>
-        </PreferenceProvider>
+              <Route path="/about"
+                element={<About theme={theme} />}
+              />
+              <Route path="/data"
+                element={<Data theme={theme} />}
+              />
+              <Route path="/settings"
+                element={<Settings theme={theme} />}
+              />
+              <Route path="/overlay"
+                element={<Overlay theme={theme} />}
+              />
+              <Route path={'*' || '404'}
+                element={<NotFound theme={theme} />}
+              />
+            </Routes>
+          </div>
+          <Footer theme={theme} />
+        </Router>
       </ApolloProvider>
     </div >
   );

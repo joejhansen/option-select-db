@@ -5,24 +5,34 @@ const PreferenceContext = createContext();
 export const usePreferenceContext = () => useContext(PreferenceContext);
 
 export const PreferenceProvider = ({ children }) => {
-    const preferences = {
+
+    let preferences
+
+    let defaultPreferences = {
         user: {
             _id: '',
-            slippiID: '',
+            email: '',
             username: '',
-            slippiPort: '',
-            slippiLocation: '',
         },
         theme: {
-            primary: '',
-            secondary: '',
-            tertiary: '',
-            accent: '',
-            text: '',
+            // dark
+            // generously provided by google
+            primary: '#303134',
+            secondary: '#202124',
+            tertiary: '#303134',
+            accent: '#f88a8a',
+            text: '#bdc1c6',
         },
         session: {
             games: [],
         },
+    }
+
+    const savedPreferences = localStorage.getItem('savedPreferences')
+    if (!savedPreferences) {
+        preferences = defaultPreferences
+    } else {
+        preferences = savedPreferences
     }
 
     return (

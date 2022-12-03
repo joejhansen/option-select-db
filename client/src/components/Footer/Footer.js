@@ -3,10 +3,16 @@ import React, { useReducer, useState } from 'react'
 
 
 
-const Footer = () => {
+const Footer = ({ theme, page }) => {
 
+    const styles = {
+        container: {
+            backgroundColor: theme.primary,
+            color: theme.text
+        }
+    }
     return (
-        <footer className='container-fluid'>
+        <footer className='container-fluid' style={styles.container}>
             <div className='row'>
                 <div className='col'>
                     <div className='d-flex align-self-center justify-content-center'>

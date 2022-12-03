@@ -1,11 +1,11 @@
 import { useState } from "react"
 import { redirect } from "react-router-dom"
 import OverlaySettings from "./OverlaySettings"
-const Overlay = ({ settings, theme }) => {
+const Overlay = ({ theme }) => {
+    const aspectRatios = ['4/3', 'fill', 'native', '16/9', '16/10', '73/60']
     const defaultOverlaySettings = {
         chroma: 'lightgray',
-        aspectRatios: ['4/3', 'fill', 'native', '16/9', '16/10', '73/60'],
-        ratio: '4/3',
+        ratio: 'native',
         header: true,
         headerSettings: [
             {
@@ -34,7 +34,6 @@ const Overlay = ({ settings, theme }) => {
                 text: 'this is a footer',
             },
         ],
-
         theme: theme ? theme : {
             primary: '',
             secondary: '',
@@ -43,13 +42,15 @@ const Overlay = ({ settings, theme }) => {
             text: '',
         }
     }
+    let savedOverlaySettings = JSON.parse(localStorage.getItem('savedOverlaySettings'))
+    if (!savedOverlaySettings) {
+        localStorage.setItem('savedOverlaySettings', JSON.stringify(defaultOverlaySettings))
+        savedOverlaySettings = defaultOverlaySettings
+    }
     // TODO: Set up localstorage or indexedDB for overlay settings like chroma key and fonts
-    const [overlaySettings, changeSettings] = useState(
-        settings ? settings : defaultOverlaySettings
-    )
-    const [ratio, changeRatio] = useState(
-        overlaySettings ? overlaySettings.ratio : '4/3'
-    )
+    const [overlaySettings, setSettings] = useState(savedOverlaySettings)
+    const [ratio, setRatio] = useState(overlaySettings ? overlaySettings.ratio : '4/3')
+    
     const getScreenDimension = () => {
         const width = window.screen.width;
         const height = window.screen.height;
@@ -59,8 +60,10 @@ const Overlay = ({ settings, theme }) => {
     const convertRatio = (ratioSetting) => {
         switch (ratioSetting) {
             case 'fill':
+                // this does not work
                 return 'auto'
             case 'native':
+                // this works
                 return getScreenDimension()
             default:
                 return ratioSetting
@@ -69,14 +72,6 @@ const Overlay = ({ settings, theme }) => {
 
     const handleSettingsChange = (e) => {
         e.preventDefault()
-        switch (e.target.id) {
-            case '':
-
-                break;
-
-            default:
-                break;
-        }
 
     }
 
@@ -99,11 +94,14 @@ const Overlay = ({ settings, theme }) => {
             display: 'flex',
             alignSelf: 'center',
             justifyContent: 'center',
-            aspectRatio: ratio,
+            aspectRatio: convertRatio(ratio),
+            // gotta figure out how to make it so that fill works properly
+            // minHeight: 'auto',
+            // minwidth: 'auto',
             outline: 'dashed red 2px',
         },
         viewportWrapper: {
-            // height: '100%'
+            height: '100%'
         }
     }
 
@@ -121,7 +119,7 @@ const Overlay = ({ settings, theme }) => {
                     {overlaySettings.header
                         ?
                         <div className="row">
-                            {overlaySettings.headerSettings.map((column) => {
+                            {overlaySettings.headerSettings.map((column, index) => {
                                 return (
                                     <div className="col">
                                         <p>{column.title}</p>
@@ -135,9 +133,9 @@ const Overlay = ({ settings, theme }) => {
                     <div className="row" style={styles.middleRow}>
                         {overlaySettings.leftBar
                             ?
-                            <div className="col">
+                            <div className="col-2">
                                 {
-                                    overlaySettings.leftBarSettings.map((row) => {
+                                    overlaySettings.leftBarSettings.map((row, index) => {
                                         return (
                                             <>
                                                 <p>{row.title}</p>
@@ -155,9 +153,9 @@ const Overlay = ({ settings, theme }) => {
                         </div>
                         {overlaySettings.rightBar
                             ?
-                            <div className="col">
+                            <div className="col-2">
                                 {
-                                    overlaySettings.rightBarSettings.map((row) => {
+                                    overlaySettings.rightBarSettings.map((row, index) => {
                                         return (
                                             <>
                                                 <p>{row.title}</p>
@@ -173,7 +171,7 @@ const Overlay = ({ settings, theme }) => {
                     {overlaySettings.footer
                         ?
                         <div className="row">
-                            {overlaySettings.footerSettings.map((column) => {
+                            {overlaySettings.footerSettings.map((column, index) => {
                                 return (
                                     <div className="col">
                                         <p>{column.title}</p>
@@ -187,7 +185,7 @@ const Overlay = ({ settings, theme }) => {
                     }
                 </div>
             </div>
-            <OverlaySettings />
+            <OverlaySettings overlaySettings={overlaySettings} theme={theme} setSettings={setSettings} />
         </>
     )
 }

@@ -4,7 +4,7 @@ import capitalizeLocal from '../../../utils/helpers/capitalizeLocal'
 // TODO: MAKE ACTIONS AND IMPORT THEM
 
 // TODO: Compose the Nav within a <Header /> component on the main app for easy props
-const Nav = ({ pages, }) => {
+const Nav = ({ pages, theme }) => {
 
     const styles = {
         ul: {
@@ -17,11 +17,11 @@ const Nav = ({ pages, }) => {
             // color: theme ? theme.text : 'black',
         },
         active: {
+            color: theme.accent,
             textDecoration: 'none',
-            color: 'blue'
         },
         inactive: {
-            color: 'black',
+            color: theme.text,
             textDecoration: 'none',
         }
     }
