@@ -91,44 +91,30 @@ const Overlay = ({ theme }) => {
         localStorage.setItem('savedOverlaySettings', JSON.stringify(newSettings))
     }
 
+    // DO NOT UNDER ANY CIRCUMSTANCES CHANGE THIS
+    // I WILL BLOCK YOU IF YOU SUBMIT AN ISSUE ON THESE TWO FUNCTIONS
+    // THIS TOOK HOURS
     const handleViewPortWidth = (ratio) => {
-        const { width, height } = viewPort
-        const ratiowidth = parseInt(ratio.split('/')[0])
-        const ratioHeight = parseInt(ratio.split('/')[1])
-        // if (ratio === 'fill') {
-        //     return '1fr'
-        // }
-        // if (typeof ratio === 'number') {
-        //     // console.log(ratio)
-        //     // console.log(typeof ratio)
-
-        //     return '1fr'
-        // }
-        // if (ratiowidth > ratioHeight) {
-        //     return '1fr'
-        // }
-        // const { viewWidth, viewHeight } = getViewWrapperDimensions()
-    }
-    const handleViewPortHeight = (ratio) => {
+        if (ratio === 'fill' || typeof ratio === 'number') {
+            return '1fr'
+        }
         const { width, height } = viewPort
         const ratioWidth = parseInt(ratio.split('/')[0])
         const ratioHeight = parseInt(ratio.split('/')[1])
-        // if (ratio === 'fill') {
-        //     return '1fr'
-        // }
-        // if (typeof ratio === 'number') {
-        //     // console.log(typeof ratio)
-        //     // console.log(ratio)
-        //     const ratioHeight = `${(1 / ratio) * 100}%`
-        //     return ratioHeight
-        // }
-        // if (ratioHeight > ratioWidth) {
-        //     return '1fr'
-        // }
-        // const { viewWidth, viewHeight } = getViewWrapperDimensions()
-        // return `${(ratioHeight * viewWidth) / ratioWidth}px`
-        // return '1fr'
-        // return `${(ratioHeight / ratioWidth) * 100}%`
+        const desiredSize = `${(height * ratioWidth) / ratioHeight}px`
+        return desiredSize
+    }
+    const handleViewPortHeight = (ratio) => {
+        if (ratio === 'fill' || typeof ratio === 'number') {
+            return '1fr'
+        }
+        // It works! kinda
+        const { width, height } = viewPort
+        const ratioWidth = parseInt(ratio.split('/')[0])
+        const ratioHeight = parseInt(ratio.split('/')[1])
+        const desiredSize = `${(width * ratioHeight) / ratioWidth}px`
+
+        return desiredSize
     }
     // https://cssgridgarden.com/
     const styles = {
@@ -207,18 +193,23 @@ const Overlay = ({ theme }) => {
             // handleViewPortHeight()
             // handleViewPortWidth()
             // gridTemplate: `auto ${handleViewPortHeight(convertRatio(ratio))} auto / auto ${handleViewPortWidth(convertRatio(ratio))} auto`
-            gridTemplate: "auto auto auto/auto auto auto",
+            gridTemplate: `auto ${handleViewPortHeight(convertRatio(ratio))} auto/auto ${handleViewPortWidth(convertRatio(ratio))} auto`,
+            maxHeight: `100%`,
+            overflow: 'hidden',
+            // gridTemplate: "auto auto auto/auto 1fr auto",
         },
         gridViewPort: {
             backgroundColor: overlaySettings.chroma,
-            ratio: convertRatio(ratio),
-            width: '100%'
+            // overflow: 'hidden'
+            // width: '100%',
+            // maxHeight: '100%'
             // wdith: '100%'
         },
         gridBackgroundNew: {
             display: 'grid',
             gridTemplate: "10% 1fr 10%/10% 1fr 10%",
-            height: '100vh',
+            minHeight: '100vh',
+            maxHeight: '100vh',
             backgroundColor: overlaySettings.theme.accent,
             padding: '0'
         }
@@ -274,7 +265,8 @@ const Overlay = ({ theme }) => {
                         <div style={styles.gridFooter}></div>
                     </div>
                 </div> */}
-                <div className="col" style={styles.background}>
+                {/* overlay with flex. don't do this */}
+                {/* <div className="col" style={styles.background}>
                     {overlaySettings.header
                         ?
                         <div className="row" style={styles.componentContainer}>
@@ -348,9 +340,12 @@ const Overlay = ({ theme }) => {
                         :
                         <></>
                     }
-                </div>
+                </div> */}
             </div>
-            <OverlaySettings overlaySettings={overlaySettings} theme={theme} handleSettingsChange={handleSettingsChange} />
+            <div className="row">
+                <OverlaySettings overlaySettings={overlaySettings} theme={theme} handleSettingsChange={handleSettingsChange} />
+            </div>
+
         </>
     )
 }
