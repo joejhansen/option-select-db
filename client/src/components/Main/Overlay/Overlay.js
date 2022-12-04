@@ -1,11 +1,11 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 // import { redirect } from "react-router-dom"
 import OverlaySettings from "./OverlaySettings"
 const Overlay = ({ theme }) => {
     // const aspectRatios = ['4/3', 'fill', 'native', '16/9', '16/10', '73/60']
     const defaultOverlaySettings = {
         chroma: 'lightgray',
-        ratio: 'native',
+        ratio: '16/9',
         header: true,
         headerSettings: [
             {
@@ -50,22 +50,33 @@ const Overlay = ({ theme }) => {
     // TODO: Set up localstorage or indexedDB for overlay settings like chroma key and fonts
     const [overlaySettings, setSettings] = useState(savedOverlaySettings)
     const [ratio, setRatio] = useState(overlaySettings ? overlaySettings.ratio : '4/3')
+    const [viewPort, setViewPort] = useState({ width: 0, height: 0, })
 
+    useEffect(() => {
+        const viewWrapper = document.getElementById('viewWrapper')
+        const resizeObserver = new ResizeObserver(async (viewWrapper, observer) => {
+            const dimensions = { height: viewWrapper[0].borderBoxSize[0].blockSize, width: viewWrapper[0].borderBoxSize[0].inlineSize }
+            if (JSON.stringify(viewPort) === JSON.stringify(dimensions)) {
+                return null
+            }
+            // console.log({new: dimensions, old: viewPort})
+            return setViewPort(dimensions)
+        })
+        resizeObserver.observe(viewWrapper)
+    })
     const getScreenDimension = () => {
         const width = window.screen.width;
         const height = window.screen.height;
         return width / height
     }
-    const getViewportDimension = () => {
-        const width = window.innerWidth
-        const height = window.innerHeight
-        return width / height
-    }
+    // TODO: dig a hole and bury myself
+    // TODO: get useState for viewportheight and width on load, then change them on viewport change
+
     const convertRatio = (ratioSetting) => {
         switch (ratioSetting) {
             case 'fill':
                 // this kinda works but has to be reset every time you resize the window
-                return getViewportDimension()
+                return 'fill'
             case 'native':
                 // this works because the screen dimensions should always be static
                 return getScreenDimension()
@@ -78,6 +89,46 @@ const Overlay = ({ theme }) => {
         setSettings(newSettings)
         setRatio(newSettings.ratio)
         localStorage.setItem('savedOverlaySettings', JSON.stringify(newSettings))
+    }
+
+    const handleViewPortWidth = (ratio) => {
+        const { width, height } = viewPort
+        const ratiowidth = parseInt(ratio.split('/')[0])
+        const ratioHeight = parseInt(ratio.split('/')[1])
+        // if (ratio === 'fill') {
+        //     return '1fr'
+        // }
+        // if (typeof ratio === 'number') {
+        //     // console.log(ratio)
+        //     // console.log(typeof ratio)
+
+        //     return '1fr'
+        // }
+        // if (ratiowidth > ratioHeight) {
+        //     return '1fr'
+        // }
+        // const { viewWidth, viewHeight } = getViewWrapperDimensions()
+    }
+    const handleViewPortHeight = (ratio) => {
+        const { width, height } = viewPort
+        const ratioWidth = parseInt(ratio.split('/')[0])
+        const ratioHeight = parseInt(ratio.split('/')[1])
+        // if (ratio === 'fill') {
+        //     return '1fr'
+        // }
+        // if (typeof ratio === 'number') {
+        //     // console.log(typeof ratio)
+        //     // console.log(ratio)
+        //     const ratioHeight = `${(1 / ratio) * 100}%`
+        //     return ratioHeight
+        // }
+        // if (ratioHeight > ratioWidth) {
+        //     return '1fr'
+        // }
+        // const { viewWidth, viewHeight } = getViewWrapperDimensions()
+        // return `${(ratioHeight * viewWidth) / ratioWidth}px`
+        // return '1fr'
+        // return `${(ratioHeight / ratioWidth) * 100}%`
     }
     // https://cssgridgarden.com/
     const styles = {
@@ -123,11 +174,53 @@ const Overlay = ({ theme }) => {
         },
         headerFooter: {},
         gridBackground: {
+            display: 'grid',
             gridTemplate: "1fr/1fr",
-            height: '100vh'
+            height: '100vh',
+            backgroundColor: overlaySettings.theme.accent,
+            padding: '0'
         },
-        girdRows: {
-            gridTemplate: "20% 1fr 20% / 1fr"
+        gridRows: {
+            display: 'grid',
+            gridTemplate: "10% 1fr 10% / 1fr",
+            outline: ''
+        },
+        gridHeader: {
+            backgroundColor: overlaySettings.theme.secondary,
+            // padding: '0'
+        },
+        gridFooter: {
+            backgroundColor: overlaySettings.theme.secondary,
+        },
+        gridMiddle: {
+            display: 'grid',
+            gridTemplate: '1fr / 10% 1fr 10%'
+        },
+        gridRightBar: {
+            backgroundColor: overlaySettings.theme.secondary,
+        },
+        gridLeftBar: {
+            backgroundColor: overlaySettings.theme.secondary,
+        },
+        gridViewWrapper: {
+            display: 'grid',
+            // handleViewPortHeight()
+            // handleViewPortWidth()
+            // gridTemplate: `auto ${handleViewPortHeight(convertRatio(ratio))} auto / auto ${handleViewPortWidth(convertRatio(ratio))} auto`
+            gridTemplate: "auto auto auto/auto auto auto",
+        },
+        gridViewPort: {
+            backgroundColor: overlaySettings.chroma,
+            ratio: convertRatio(ratio),
+            width: '100%'
+            // wdith: '100%'
+        },
+        gridBackgroundNew: {
+            display: 'grid',
+            gridTemplate: "10% 1fr 10%/10% 1fr 10%",
+            height: '100vh',
+            backgroundColor: overlaySettings.theme.accent,
+            padding: '0'
         }
     }
 
@@ -142,11 +235,45 @@ const Overlay = ({ theme }) => {
     return (
         <>
             <div className="row" style={styles.overlayRow}>
-                <div style={styles.gridBackground}>
-                    <div style={styles.girdRows}>
-
+                <div style={styles.gridBackgroundNew}>
+                    {/* header */}
+                    <div style={styles.gridHeader}></div>
+                    <div style={styles.gridHeader}></div>
+                    <div style={styles.gridHeader}></div>
+                    {/* middle */}
+                    <div style={styles.gridLeftBar}></div>
+                    <div id="viewWrapper" style={styles.gridViewWrapper}>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div style={styles.gridViewPort}></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
                     </div>
+                    <div style={styles.gridRightBar}></div>
+                    {/* footer */}
+                    <div style={styles.gridFooter}></div>
+                    <div style={styles.gridFooter}></div>
+                    <div style={styles.gridFooter}></div>
                 </div>
+                {/* <div style={styles.gridBackground}>
+                    <div style={styles.gridRows}>
+                        <div style={styles.gridHeader}></div>
+                        <div style={styles.gridMiddle}>
+                            <div style={styles.gridRightBar}></div>
+                            <div style={styles.gridViewWrapper}>
+                                <div style={styles.gridViewPort}>
+                                    
+                                </div>
+                            </div>
+                            <div style={styles.gridRightBar}></div>
+                        </div>
+                        <div style={styles.gridFooter}></div>
+                    </div>
+                </div> */}
                 <div className="col" style={styles.background}>
                     {overlaySettings.header
                         ?
