@@ -22,10 +22,12 @@ import Data from './components/Main/Data/Data';
 import Home from './components/Main/Home/Home'
 import Overlay from './components/Main/Overlay/Overlay';
 import Settings from './components/Main/Settings/Settings';
+import SlippiConnect from './components/Main/Settings/SlippiConnection';
 //    Footer
 import Footer from './components/Footer/Footer'
 //    Errors
 import NotFound from './components/Error/NotFound'
+import Upload from './components/Main/Data/Upload/Upload';
 
 // Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({
@@ -84,7 +86,7 @@ function App() {
 
   const [theme, setTheme] = useState(savedPreferences.theme)
 
-// functionality for theme/overlay change
+  // functionality for theme/overlay change
   const setThemeHandler = (e) => {
     e.preventDefault()
     let newTheme = {}
@@ -118,6 +120,7 @@ function App() {
     // this fills the empty space for main content
     body: {
       flex: '1 0 auto',
+      color: theme.text
     },
   }
   // pages in lowercase regardless of language
@@ -166,14 +169,16 @@ function App() {
                 element={<About theme={theme} />}
               />
               <Route path="/data"
-                element={<Data theme={theme} />}
-              />
+                element={<Data theme={theme} />}>
+                  <Route path="/data/upload" element={<Upload />} />
+                </Route>
               <Route path="/settings"
-                element={<Settings theme={theme} />}
-              />
+                element={<Settings theme={theme} />}>
+                <Route path='/settings/slippiconnection' element={<SlippiConnect theme={theme} />} />
+              </Route>
               <Route path="/overlay"
-                element={<Overlay theme={theme} />}
-              />
+                element={<Overlay theme={theme} />}>
+              </Route>
               <Route path={'*' || '404'}
                 element={<NotFound theme={theme} />}
               />

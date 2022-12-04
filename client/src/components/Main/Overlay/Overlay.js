@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 // import { redirect } from "react-router-dom"
 import OverlaySettings from "./OverlaySettings"
 const Overlay = ({ theme }) => {
-    // const aspectRatios = ['4/3', 'fill', 'native', '16/9', '16/10', '73/60']
+
     const defaultOverlaySettings = {
         chroma: 'lightgray',
         ratio: '16/9',
@@ -42,6 +42,8 @@ const Overlay = ({ theme }) => {
             text: '',
         }
     }
+    // remove for production or else overwrites on mount
+    // localStorage.setItem('savedOverlaySettings', JSON.stringify(defaultOverlaySettings))
     let savedOverlaySettings = JSON.parse(localStorage.getItem('savedOverlaySettings'))
     if (!savedOverlaySettings) {
         localStorage.setItem('savedOverlaySettings', JSON.stringify(defaultOverlaySettings))
@@ -233,6 +235,7 @@ const Overlay = ({ theme }) => {
                     <div style={styles.gridHeader}></div>
                     {/* middle */}
                     <div style={styles.gridLeftBar}></div>
+                    {/* this doesn't render on mobile for some reason. it's not possible to use an overlay or connect to slippi on mobile, though. So, who cares? */}
                     <div id="viewWrapper" style={styles.gridViewWrapper}>
                         <div></div>
                         <div></div>

@@ -1,7 +1,11 @@
-const Data = () => {
-    return(
+import { Outlet } from "react-router-dom"
+
+const Data = ({ theme }) => {
+
+    return (
         <div className="container">
-        <p>Data</p>
+            <p>Data</p>
+            <Outlet />
         </div>
     )
 }
