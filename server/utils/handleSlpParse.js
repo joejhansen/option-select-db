@@ -1,7 +1,7 @@
 const { SlippiGame } = require('@slippi/slippi-js')
 const fs = require('fs')
 
-const slp = './testSlps/test.slp'
+const slp = './testSlps/testRealGame.slp'
 
 const handleSlpParse = async (slp) => {
     try {
@@ -16,12 +16,12 @@ const handleSlpParse = async (slp) => {
         const payload = { settings, metadata, stats, frames, rollbackFrames, winners }
         // uncomment the below if you would like to look at these files.
         // fs.writeFileSync('./testSlps/parsedTestSlpJSONs/testSlpParse.json', payload)
-        // fs.writeFileSync('./testSlps/parsedTestSlpJSONs/testSlpParseSettings.json', settings)
-        // fs.writeFileSync('./testSlps/parsedTestSlpJSONs/testSlpParseMetadata.json', metadata)
-        // fs.writeFileSync('./testSlps/parsedTestSlpJSONs/testSlpParseStats.json', stats)
-        // fs.writeFileSync('./testSlps/parsedTestSlpJSONs/testSlpParseFrames.json', frames)
-        // fs.writeFileSync('./testSlps/parsedTestSlpJSONs/testSlpParseRollbackFrames.json', rollbackFrames)
-        // fs.writeFileSync('./testSlps/parsedTestSlpJSONs/testSlpParseWinners.json', winners)
+        fs.writeFileSync('./testSlps/parsedTestSlpJSONs/testSlpParseSettings.json', settings)
+        fs.writeFileSync('./testSlps/parsedTestSlpJSONs/testSlpParseMetadata.json', metadata)
+        fs.writeFileSync('./testSlps/parsedTestSlpJSONs/testSlpParseStats.json', stats)
+        fs.writeFileSync('./testSlps/parsedTestSlpJSONs/testSlpParseFrames.json', frames)
+        fs.writeFileSync('./testSlps/parsedTestSlpJSONs/testSlpParseRollbackFrames.json', rollbackFrames)
+        fs.writeFileSync('./testSlps/parsedTestSlpJSONs/testSlpParseWinners.json', winners)
         return payload
     } catch (err) {
         return { message: `error parsing slp file`, err: err }

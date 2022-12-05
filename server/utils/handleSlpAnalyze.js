@@ -37,16 +37,19 @@ const handleSlpAnalyze = (payload) => {
     const player2 = playersSettings[1]
     const player3 = playersSettings[2]
     const player4 = playersSettings[3]
-    
+
     //players is an object with at least two players denoted by their index, 0 through 3 at most for ports 1-4
-    const { 
+    const {
         startAt,                            //string. example : "2022-12-05T03:43:00Z"
         lastFrame,                          //num
         players: playersMetadata,           //object with object where keys = index
         playedOn                            //string. usually 'dolphin'
     } = metadata
+    // TODO: convert PlayersMetadata to an array in the order of the playerindex or else the mongoose model wont work
+    // TODO: convert players.characters to just 'character' where the value is a number equal to the keyvalue of the original object. see below
+    // for some reason, players.characters is "characterNum": "someRandomNumIDKWhatIt'sFor", so let's get rid of the value and just use the key as a number
 
-    const { 
+    const {
         lastFrames,                         //num
         playableFrameCount,                 //num
         stocks,                             //array of objects in chronological order by the frame the stock was lost.
@@ -56,9 +59,11 @@ const handleSlpAnalyze = (payload) => {
         overall,                            //array of objects equal to the ammount of players in that game, ordered by playerindex
         gameComplete                        //boolean. checking for quit-outs(LRAStart)
     } = stats
+    // TODO: parse stocks, conversions, combos, and overall for juicy info
+    // stats does not include any reference to the DisplayName or ConnectCode
 
     //all of these may be 0 if played on a local connection, therefore no lag and no need for rollback
-    const { 
+    const {
         frames: framesRollback,             //object
         count,                              //num = framesRollback length
         lengths                             //array. not sure what this is
@@ -66,6 +71,7 @@ const handleSlpAnalyze = (payload) => {
 
     //this is an array for some reason. idk why. maybe for teams? we destructure it and then put the stuff in an object for conformity
     const winnersParsed = { ...winners }
+    // TODO: parse this into an array as well for mongoose
 
 
     // we're doing frames last just in case

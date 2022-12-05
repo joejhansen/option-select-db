@@ -16,7 +16,7 @@ const codeIdSchema = new Schema({
         unique: true,
         trim: true,
     },
-    connectNames: [{ type: Schema.Types.ObjectId, ref: 'ConnectName' }],
+    displayNames: [{ type: Schema.Types.ObjectId, ref: 'DisplayName' }],
     games: [{ type: Schema.Types.ObjectId, ref: 'Game' }],
     createdAt: {
         type: Date,
