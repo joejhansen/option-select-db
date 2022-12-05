@@ -1,4 +1,5 @@
 const { Schema, model } = require('mongoose');
+const Move = require('./Move')
 const conversionSchema = new Schema({
     playerIndex: {
         type: Number
@@ -22,11 +23,7 @@ const conversionSchema = new Schema({
         type: Number
     },
     // TODO: make moves model
-    moves: {
-        type: [
-            Mixed
-        ]
-    },
+    moves: [Move],
     didKill: {
         type: Boolean
     },

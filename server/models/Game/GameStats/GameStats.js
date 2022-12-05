@@ -4,7 +4,7 @@ const Combo = require('./Combo')
 const Conversion = require('./Conversion')
 const OverallStats = require('./OverallStats')
 const Stock = require('./Stock')
-
+// DONE I THINK
 const gameStatsSchema = new Schema(
     {
         lastFrame: {

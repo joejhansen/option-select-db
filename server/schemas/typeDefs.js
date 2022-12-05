@@ -5,52 +5,195 @@ const typeDefs = gql`
     token: ID!
     user: User
   }
-  type CodeId{
-    _id: ID!
-    connectCode: String!
-    userId: User
-    createdAt: String!
+  type SettingsPlayer{
+    playerIndex: Int
+    port: Int
+    characterId: Int
+    characterColor: Int
+    startStocks: Int
+    type: Int
+    teamId: Int
+    controllerFix: String
+    nametag: String
+    displayName: String
+    connectCode: String
+    userId: String
   }
-  type ConnectNames {
-    _id: ID!
-    displayName: String!
-    connectCode: String!
-    userId: User
-    createdAt: String!
+  type Settings {
+    slpVersion: String
+    isTeams: Boolean
+    isPAL: Boolean
+    stageID: Int
+    players: [SettingsPlayer]
+  }
+  type MetadataName{
+    netplay: String
+    code: String
+  }
+  type MetadataPlayer{
+    names: MetadataName
+    character: Int
+  }
+  type Metadata{
+    startAt: DateTime
+    lastFram: Int
+    players: [MetadataPlayer]
+    playedOn: String
+  }
+  type Stock{
+    playerIndex: Int
+    startFrame: Int
+    endFrame: Int
+    startPercent: Int
+    endPercent: Int
+    currentPercent: Int
+    count: Int
+    deathAnimation: Int
+  }
+  type Move{
+    playerIndex: Int
+    frame: Int
+    moveId: Int
+    hitCount: Int
+    damage: Int
+  }
+  type Conversion{
+    playerIndex: Int
+    lastHitBy: Int
+    startFrame: Int
+    endFrame: Int
+    startPercent: Int
+    currentPercent: Int
+    endPercent: Int
+    moves: [Move]
+    didKill: Boolean
+    openingType: String
+  }
+  type Combo{
+    playerIndex: Int
+    startFrame: Int
+    endFrame: Int
+    startPercent: Int
+    currentPercent: Int
+    endPercent: Int
+    moves: [Move]
+    didKill: Boolean
+    lastHitBy: Int
+  }
+  type LCancelCount{
+    success: Int
+    fail: Int
+  }
+  type AttackCount{
+    jab1: Int
+    jab2: Int
+    jab3: Int
+    jabm: Int
+    dash: Int
+    ftilt: Int
+    utilt: Int
+    dtilt: Int
+    fsmash: Int
+    usmash: Int
+    dsmash: Int
+    nair: Int
+    fair: Int
+    bair: Int
+    uair: Int
+    dair: Int
+  }
+  type GrabCount{
+    succes: Int
+    fail: Int
+  }
+  type ThrowCount{
+    up: Int
+    forward: Int
+    back: Int
+    down: Int
+  }
+  type GroundTechCount{
+    away: Int
+    in: Int
+    neutral: Int
+    fail: Int
+  }
+  type WallTechCount{
+    success: Int
+    fail: Int
+  }
+  type ActionCounts{
+    playerIndex: Int
+    wavedashCount: Int
+    wavelandCount: Int
+    airDodgeCount: Int
+    dashDanceCount: Int
+    ledgegrabCount: Int
+    rollCount: Int
+    lCancelCount: LCancelCount
+    attackCount: AttackCount
+    grabCount: GrabCount
+    throwCount: ThrowCount
+    groundTechCount: GroundTechCount
+    wallTechCount: WallTechCount
+  }
+  type RatioCount {
+    count: Int
+    total: Int
+    ratio: Int
+  }
+  type OverallStats{
+    playerIndex: Int
+    inputCounts: InputCounts
+    conversionCount: Int
+    totalDamage: Int
+    killCount: Int
+    successfulConversions: RatioCount
+    inputsPerMinute: RatioCount
+    digitalInputsPerMinute: RatioCount
+    openingsPerKill: RatioCount
+    damagePerOpening: RatioCount
+    neutralWinRatio: RatioCount
+    counterHitRatio: RatioCount
+    beneficialTradeRatio: RatioCount
+
+  }
+  type Stats{
+    lastFrame: Int
+    playableFrameCount: Int
+    stocks: [Stock]
+    conversions: [Conversion]
+    combos: [Combo]
+    actionCounts: [ActionCounts]
+    overall: [OverallStats]
+    gameComplete: Boolean
+  }
+  type Winner{
+    playerIndex: Int
+    position: Int
   }
   type Game {
     _id: ID!
     connectNames: [ConnectName]
-    slpVersion: String!
-    isTeams: Boolean!
-    isPal: Boolean!
-    stageId: Int!
-    scene: Int!
-    gameMode: Int!
-    language: Int!
-    playerInfo: []
-    metadata: [Metadata]
-    createdAt: String!
-# other stuff
-  }
-  type Metadata{
-    _id: ID!
+    settings: Settings
+    metadata: Metadata
+    stats: Stats
+    winners: [Winner]
     createdAt: String!
   }
-  type PlayerInfo {
+  type CodeId{
     _id: ID!
-    playerIndex: Int!
-    port: Int!
-    characterId: Int!
-    characterColor: Int!
-    startStocks: Int!
-    type: Int!
-    teamId: Int!
-    controllerFix: String!
-    nametag: String!
-    connectName: ConnectName
+    appUser: String!
+    connectCode: String!
+    userId: String!
+    displayNames: [DisplayName]
+    games: [Game]
     createdAt: String!
-    updatedAt: String!
+  }
+  type DisplayName {
+    _id: ID!
+    displayName: String!
+    codeIds: [CodeId]
   }
   type User {
     _id: ID!
@@ -58,7 +201,6 @@ const typeDefs = gql`
     email: String!
     password: String!
     codeIds: [CodeId]
-    games: [Game]
     createdAt: String!
     updatedAt: String!
   }

@@ -6,7 +6,7 @@ const metadataPlayerSchema = new Schema({
             type: String
         },
         code: {
-            type: Date
+            type: String
         }
     },
     character: Number

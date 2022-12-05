@@ -1,4 +1,5 @@
 const { Schema, model } = require('mongoose');
+const dateFormat = require('../utils/dateFormat')
 
 
 const codeIdSchema = new Schema({
@@ -7,14 +8,10 @@ const codeIdSchema = new Schema({
     connectCode: {
         type: String,
         required: true,
-        unique: false,
-        trim: true,
     },
     userId: {
         type: String,
         required: true,
-        unique: true,
-        trim: true,
     },
     displayNames: [{ type: Schema.Types.ObjectId, ref: 'DisplayName' }],
     games: [{ type: Schema.Types.ObjectId, ref: 'Game' }],
