@@ -19,7 +19,6 @@ const comboSchema = new Schema({
     endPercent: {
         type: Number
     },
-    // TODO: make moves model
     moves: [Move],
     didKill: {
         type: Boolean

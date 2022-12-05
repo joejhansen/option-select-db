@@ -2,7 +2,7 @@ const db = require('../config/connection');
 const { CodeId, ConnectName, Game, Metadata, PlayerInfo } = require('../../models')
 
 const handleSlpUpload = async (payload) => {
-    const { codeIds, connectNames, games, metadatas, playerInfos, } = payload
+    const { codeIds, displayNames, game } = payload
     try {
         db.once('open', async () => {
             // remove deletemanys for production
