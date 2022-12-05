@@ -5,7 +5,8 @@ const typeDefs = gql`
     token: ID!
     user: User
   }
-  type SettingsPlayer{
+
+  type SettingsPlayer {
     playerIndex: Int
     port: Int
     characterId: Int
@@ -19,6 +20,7 @@ const typeDefs = gql`
     connectCode: String
     userId: String
   }
+
   type Settings {
     slpVersion: String
     isTeams: Boolean
@@ -26,21 +28,24 @@ const typeDefs = gql`
     stageID: Int
     players: [SettingsPlayer]
   }
-  type MetadataName{
+  type MetadataName {
     netplay: String
     code: String
   }
-  type MetadataPlayer{
+
+  type MetadataPlayer {
     names: MetadataName
     character: Int
   }
-  type Metadata{
-    startAt: DateTime
+
+  type Metadata {
+    startAt: String
     lastFram: Int
     players: [MetadataPlayer]
     playedOn: String
   }
-  type Stock{
+
+  type Stock {
     playerIndex: Int
     startFrame: Int
     endFrame: Int
@@ -50,14 +55,16 @@ const typeDefs = gql`
     count: Int
     deathAnimation: Int
   }
-  type Move{
+
+  type Move {
     playerIndex: Int
     frame: Int
     moveId: Int
     hitCount: Int
     damage: Int
   }
-  type Conversion{
+
+  type Conversion {
     playerIndex: Int
     lastHitBy: Int
     startFrame: Int
@@ -69,7 +76,8 @@ const typeDefs = gql`
     didKill: Boolean
     openingType: String
   }
-  type Combo{
+
+  type Combo {
     playerIndex: Int
     startFrame: Int
     endFrame: Int
@@ -80,11 +88,13 @@ const typeDefs = gql`
     didKill: Boolean
     lastHitBy: Int
   }
-  type LCancelCount{
+
+  type LCancelCount {
     success: Int
     fail: Int
   }
-  type AttackCount{
+
+  type AttackCount {
     jab1: Int
     jab2: Int
     jab3: Int
@@ -102,27 +112,32 @@ const typeDefs = gql`
     uair: Int
     dair: Int
   }
-  type GrabCount{
+
+  type GrabCount {
     succes: Int
     fail: Int
   }
-  type ThrowCount{
+
+  type ThrowCount {
     up: Int
     forward: Int
     back: Int
     down: Int
   }
-  type GroundTechCount{
+
+  type GroundTechCount {
     away: Int
     in: Int
     neutral: Int
     fail: Int
   }
-  type WallTechCount{
+
+  type WallTechCount {
     success: Int
     fail: Int
   }
-  type ActionCounts{
+
+  type ActionCounts {
     playerIndex: Int
     wavedashCount: Int
     wavelandCount: Int
@@ -137,12 +152,22 @@ const typeDefs = gql`
     groundTechCount: GroundTechCount
     wallTechCount: WallTechCount
   }
+
   type RatioCount {
     count: Int
     total: Int
     ratio: Int
   }
-  type OverallStats{
+
+  type InputCounts {
+    buttons: Int
+    triggers: Int
+    cstick: Int
+    joystick: Int
+    total: Int
+  }
+
+  type OverallStats {
     playerIndex: Int
     inputCounts: InputCounts
     conversionCount: Int
@@ -156,9 +181,9 @@ const typeDefs = gql`
     neutralWinRatio: RatioCount
     counterHitRatio: RatioCount
     beneficialTradeRatio: RatioCount
-
   }
-  type Stats{
+
+  type Stats {
     lastFrame: Int
     playableFrameCount: Int
     stocks: [Stock]
@@ -168,20 +193,23 @@ const typeDefs = gql`
     overall: [OverallStats]
     gameComplete: Boolean
   }
-  type Winner{
+
+  type Winner {
     playerIndex: Int
     position: Int
   }
+
   type Game {
     _id: ID!
-    connectNames: [ConnectName]
+    displayNames: [DisplayName]
     settings: Settings
     metadata: Metadata
     stats: Stats
     winners: [Winner]
     createdAt: String!
   }
-  type CodeId{
+
+  type CodeId {
     _id: ID!
     appUser: String!
     connectCode: String!
@@ -190,11 +218,13 @@ const typeDefs = gql`
     games: [Game]
     createdAt: String!
   }
+
   type DisplayName {
     _id: ID!
     displayName: String!
     codeIds: [CodeId]
   }
+
   type User {
     _id: ID!
     username: String!
@@ -206,28 +236,29 @@ const typeDefs = gql`
   }
 
   type Query {
-    codeIds: [CodeId]
-    connectNames: [ConnectName]
-    game: Game
-    games: [Game]
-    metadatas: [Metadata]
-    playerInfos: [PlayerInfo]
     users: [User]
-    user(_id:ID!): User
   }
-
+  # type Query {
+    # codeIds: [CodeId]
+    # connectNames: [ConnectName]
+    # game: Game
+    # games: [Game]
+    # metadatas: [Metadata]
+    # playerInfos: [PlayerInfo]
+    # users: [User]
+    # user(_id:ID!): User
+  # }
   type Mutation {
-    createCodeId(connectCode: String! userId: String): CodeId
-    createConnectName(displayName: String!, connectCode:): ConnectName
-    createGame: Game
-    createMetadata: Metadata
-    createPlayerInfo: PlayerInfo
     createUser(username: String!, email: String!, password: String!): User
-    deleteUser(_id: ID! email: String!, password: String!): User
-    updateUser(_id: ID!, email: String! username: String, password: String): User
-    createPlayer(slippiID: String!, slippiUsername: String!): Player
-    login(username: String!, password: String!): User
   }
+  # type Mutation {
+    # createCodeId(connectCode: String! userId: String): CodeId
+    # createConnectName(displayName: String!, connectCode:): ConnectName
+    # deleteUser(_id: ID! email: String!, password: String!): User
+    # updateUser(_id: ID!, email: String! username: String, password: String): User
+    # createPlayer(slippiID: String!, slippiUsername: String!): Player
+    # login(username: String!, password: String!): User
+  # }
 `;
 
 module.exports = typeDefs;
