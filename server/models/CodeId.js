@@ -3,7 +3,6 @@ const dateFormat = require('../utils/dateFormat')
 
 
 const codeIdSchema = new Schema({
-    _id: Schema.Types.ObjectId,
     appUser: { type: Schema.Types.ObjectId, ref: 'User' },
     connectCode: {
         type: String,

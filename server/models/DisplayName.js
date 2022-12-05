@@ -1,7 +1,6 @@
 const { Schema, model } = require('mongoose');
 
 const displayNameSchema = new Schema({
-    _id: Schema.Types.ObjectId,
     displayName: {
         type: String,
         required: true,

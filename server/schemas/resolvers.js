@@ -6,10 +6,10 @@ const resolvers = {
     // me: async (parent, args, context) => {
     //   return await User.findById(context.user._id).select('-password')
     // },
-    // users: async () => {
-    //   const users = await User.find({}).select('-password')
-    //   return users
-    // },
+    users: async () => {
+      const users = await User.find({}).select('-password')
+      return users
+    },
     // user: async (parent, { _id }) => {
     //   const params = _id ? { _id } : {};
     //   const user = await User.find(params).select('-password');
@@ -40,10 +40,10 @@ const resolvers = {
     // }
   },
   Mutation: {
-    // createUser: async (parent, { username, email, password }) => {
-    //   const user = await User.create({ username, email, password })
-    //   return user;
-    // },
+    createUser: async (parent, { username, email, password }) => {
+      const user = await User.create({ username, email, password })
+      return user;
+    },
     // login: async (parent, { email, password }) => {
     //   const user = await User.findOne({ email });
 

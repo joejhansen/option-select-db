@@ -3,7 +3,6 @@ const bcrypt = require('bcrypt');
 const dateFormat = require('../utils/dateFormat')
 
 const userSchema = new Schema({
-    _id: Schema.Types.ObjectId,
     username: {
         type: String,
         required: true,
@@ -25,7 +24,7 @@ const userSchema = new Schema({
     codeIds: [
         { type: Schema.Types.ObjectId, ref: 'CodeId' }
     ],
-    
+
     createdAt: {
         type: Date,
         default: Date.now,
