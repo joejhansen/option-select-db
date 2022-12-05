@@ -4,7 +4,6 @@
 /node_modules
 /.pnp
 .pnp.js
-
 # testing
 /coverage
 
@@ -21,3 +20,6 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+# if you would like these files, you'll have to create them yourself 
+# use the handleSlpParse.js with the test.slp provided in the server/utils/testSlps folder
+/server/utils/testSlps/parsedTestSlpJSONs
