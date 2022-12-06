@@ -7,9 +7,18 @@ const dateFormat = require('../../utils/dateFormat')
 
 const gameSchema = new Schema({
     displayNames: [{ type: Schema.Types.ObjectId, ref: 'DisplayName' }],
-    settings: Settings,
-    metadata: Metadata,
-    stats: Stats,
+    settings: {
+        type: Settings,
+        required: true,
+    },
+    metadata: {
+        type: Metadata,
+        required: true
+    },
+    stats: {
+        type: Stats,
+        required: true
+    },
     // rollbackFrames: [],
     winners: [Winner],
     createdAt: {

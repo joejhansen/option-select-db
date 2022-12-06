@@ -35,12 +35,12 @@ const typeDefs = gql`
 
   type MetadataPlayer {
     names: MetadataName
-    character: Int
+    characters: Int
   }
 
   type Metadata {
     startAt: String
-    lastFram: Int
+    lastFrame: Int
     players: [MetadataPlayer]
     playedOn: String
   }
@@ -237,6 +237,13 @@ const typeDefs = gql`
 
   type Query {
     users: [User]
+    user(_id: ID!): User
+    games: [Game]
+    game(_id: ID!): Game
+    displayNames: [DisplayName]
+    displayName(_id: ID!): DisplayName
+    codeIds: [CodeId]
+    codeId(_id: ID!): CodeId
   }
   # type Query {
     # codeIds: [CodeId]
@@ -249,7 +256,22 @@ const typeDefs = gql`
     # user(_id:ID!): User
   # }
   type Mutation {
-    createUser(username: String!, email: String!, password: String!): User
+    login(
+      email: String!, 
+      password: String!
+      ): Auth
+    addUser(
+      firstName: String!
+      lastName: String!
+      email: String!
+      password: String!
+    ): Auth
+    updateUser(
+      firstName: String
+      lastName: String
+      email: String
+      password: String
+    ): User
   }
   # type Mutation {
     # createCodeId(connectCode: String! userId: String): CodeId
