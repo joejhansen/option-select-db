@@ -10,18 +10,17 @@ const handleSlpAnalyze = (payload) => {
         // rollbackFrames,                     //object
         winners                             //object
     } = payload
-
     //players is an array of at least 2 objects
     //keep as const immutability
     const {
-        slpVersion,                         //string matching /\d{0,3}.\d{0,3}.\d{0,3}/             
-        isTeams,                            //boolean                                               
-        isPAL,                              //boolean
-        stageId,                            //num
+        // slpVersion,                         //string matching /\d{0,3}.\d{0,3}.\d{0,3}/             
+        // isTeams,                            //boolean                                               
+        // isPAL,                              //boolean
+        // stageId,                            //num
         players: playersSettings,           //array. "players" is shared as a keyname throughout
-        scene,                              //num
-        gameMode,                           //num
-        language                            //num
+        // scene,                              //num
+        // gameMode,                           //num
+        // language                            //num
     } = settings
     // slpVersion,isTeams,isPAL,stageId,playersSettings,scene,gameMode,and language require no change
     // export as is within game object
@@ -58,29 +57,32 @@ const handleSlpAnalyze = (payload) => {
     // TODO: convert players.characters to an array where the values are numbers equal to the keyvalues of the original object. see below
     // for some reason, players.characters is "characterNum": "someRandomNumIDKWhatIt'sFor", so let's get rid of the value and just use the key as a number
     const playersMetadata = []
-    playersMetadataObject.map((player) => {
+    for (let [player, data] of Object.entries(playersMetadataObject)) {
         let characters = []
-        for (let character in player.characters) {
-            characters.push(parseInt(character))
+        console.log(data.characters)
+        for (let [character, innerData] of Object.entries(data.characters)) {
+            console.log(character)
+            characters.push(character)
         }
-        player.characters = characters
-        playersMetadata.push(player)
-    })
+        data.characters = characters
+        console.log(data)
+        playersMetadata.push(data)
+    }
     // repacking metadata in our desired format
-    metadata = { startAt, lastFrame, playersMetadata: players, playedOn }
+    metadata = { startAt, lastFrame, players: playersMetadata, playedOn }
 
-    const {
-        lastFrames,                         //num
-        playableFrameCount,                 //num
-        stocks,                             //array of objects in chronological order by the frame the stock was lost.
-        conversions,                        //array of objects in chronological order by the frame the combo->kill starts
-        combos,                             //array of objects in chronological order by the frame the combo starts. will include everything in array in line above
-        actionCounts,                       //array of objects equal to the ammount of players in that game, ordered by playerindex
-        overall,                            //array of objects equal to the ammount of players in that game, ordered by playerindex
-        gameComplete                        //boolean. checking for quit-outs(LRAStart)
-    } = stats
+    // const {
+    //     lastFrames,                         //num
+    //     playableFrameCount,                 //num
+    //     stocks,                             //array of objects in chronological order by the frame the stock was lost.
+    //     conversions,                        //array of objects in chronological order by the frame the combo->kill starts
+    //     combos,                             //array of objects in chronological order by the frame the combo starts. will include everything in array in line above
+    //     actionCounts,                       //array of objects equal to the ammount of players in that game, ordered by playerindex
+    //     overall,                            //array of objects equal to the ammount of players in that game, ordered by playerindex
+    //     gameComplete                        //boolean. checking for quit-outs(LRAStart)
+    // } = stats
     // requires no unpacking
-    // stats does not include any reference to the DisplayName or ConnectCode
+    // stats does not include any reference to the DisplayName or ConnectCode, only the playerIndex/port#
 
     //all of these may be 0 if played on a local connection, therefore no lag and no need for rollback
     // const {
@@ -132,16 +134,20 @@ const handleSlpAnalyze = (payload) => {
 
     const game = {
         displayNames: [], //todo add id's afer adding other info
-        settings: settings,
-        metadata: metadata,
-        stats: stats,
-        winners: winners
+        settings,
+        metadata,
+        stats,
+        winners
     }
 
     const finalPayload = {
-        codeIds,
-        displayNames,
-        game
+        codeIds,                    //an array
+        displayNames,               //an array
+        game                        //a single object
     }
+    console.log(finalPayload.game.metadata.players)
     return finalPayload
+
 }
+
+module.exports = handleSlpAnalyze
