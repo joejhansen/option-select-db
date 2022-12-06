@@ -12,27 +12,43 @@ const resolvers = {
       return user
     },
     games: async () => {
-      const games = await Game.find({})
+      const games = await Game.find({}).populate({
+        path: `displayNames`,
+        populate: {
+          path: 'codeIds'
+        }
+      })
       return games
     },
     game: async (parent, { _id }) => {
-      const game = await Game.findById(_id)
+      const game = await Game.findById(_id).populate({
+        path: `displayNames`,
+        populate: {
+          path: 'codeIds'
+        }
+      })
       return game
     },
     displayNames: async () => {
-      const displayNames = await DisplayName.find({})
+      const displayNames = await DisplayName.find({}).populate({
+        path: 'codeIds'
+      })
       return displayNames
     },
     displayName: async (parent, { _id }) => {
-      const displayName = await DisplayName.findById(_id)
+      const displayName = await DisplayName.findById(_id).populate({
+        path: 'codeIds'
+      })
       return displayName
     },
     codeIds: async () => {
-      const codeIds = await CodeId.find({})
+      const codeIds = await CodeId.find({}).populate('displayNames').populate('games')
       return codeIds
     },
     codeId: async (parent, { _id }) => {
-      const codeId = await CodeId.findById(_id)
+      const codeId = await CodeId.findById(_id).populate({
+        path: 'displayNames'
+      })
       return codeId
     }
   },

@@ -9,7 +9,7 @@ const metadataPlayerSchema = new Schema({
             type: String
         }
     },
-    character: Number
+    characters: [Number]
 })
 
 module.exports = metadataPlayerSchema

@@ -35,7 +35,7 @@ const typeDefs = gql`
 
   type MetadataPlayer {
     names: MetadataName
-    characters: Int
+    characters: [Int]
   }
 
   type Metadata {
@@ -50,8 +50,8 @@ const typeDefs = gql`
     startFrame: Int
     endFrame: Int
     startPercent: Int
-    endPercent: Int
-    currentPercent: Int
+    endPercent: Float
+    currentPercent: Float
     count: Int
     deathAnimation: Int
   }
@@ -61,7 +61,7 @@ const typeDefs = gql`
     frame: Int
     moveId: Int
     hitCount: Int
-    damage: Int
+    damage: Float
   }
 
   type Conversion {
@@ -69,9 +69,9 @@ const typeDefs = gql`
     lastHitBy: Int
     startFrame: Int
     endFrame: Int
-    startPercent: Int
-    currentPercent: Int
-    endPercent: Int
+    startPercent: Float
+    currentPercent: Float
+    endPercent: Float
     moves: [Move]
     didKill: Boolean
     openingType: String
@@ -81,9 +81,9 @@ const typeDefs = gql`
     playerIndex: Int
     startFrame: Int
     endFrame: Int
-    startPercent: Int
-    currentPercent: Int
-    endPercent: Int
+    startPercent: Float
+    currentPercent: Float
+    endPercent: Float
     moves: [Move]
     didKill: Boolean
     lastHitBy: Int
@@ -211,7 +211,7 @@ const typeDefs = gql`
 
   type CodeId {
     _id: ID!
-    appUser: String!
+    appUser: String
     connectCode: String!
     userId: String!
     displayNames: [DisplayName]

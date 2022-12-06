@@ -68,6 +68,7 @@ const handleSlpAnalyze = (payload) => {
         }
         // repacking metadata in our desired format
         metadata = { startAt, lastFrame, players: playersMetadata, playedOn }
+        // console.log(metadata.players)
 
         // const {
         //     lastFrames,                         //num

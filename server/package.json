@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "seed": "nodemon seeds/seed.js",
+    "seed": "node utils/slpHandles/handleSlpSeed.js",
     "watch": "nodemon server.js"
   },
   "author": "",

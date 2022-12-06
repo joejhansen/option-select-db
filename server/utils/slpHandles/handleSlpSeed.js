@@ -11,7 +11,6 @@ const game4 = '../testSlps/seedSlps/Game_20220908T022241.slp'
 const game5 = '../testSlps/seedSlps/Game_20220908T022504.slp'
 const db = require('../../config/connection');
 const { User, Game, CodeId, DisplayName } = require('../../models')
-
 const handleSlpSeed = async (seedFiles) => {
     // DB OPEN ONCE FOR THE ENTIRE TIME, THEN CLOSE
     db.once('open', async () => {
