@@ -7,8 +7,8 @@ const handleSlpUpload = async (payload) => {
         let newCodeId_ids = []
         for (codeId of codeIds) {
             const codeIdResponse = await CodeId.findOneAndUpdate(
-                { 'connectCode': codeId.connectCode },
-                codeId,
+                { 'connectCode': { $ne: codeId.connectCode } },
+                { $setOnInsert: codeId },
                 { new: true, upsert: true, },
             )
             newCodeId_ids.push(codeIdResponse._id)
@@ -21,8 +21,8 @@ const handleSlpUpload = async (payload) => {
         let newDisplayName_ids = []
         for (displayName of displayNames) {
             const displayNameResponse = await DisplayName.findOneAndUpdate(
-                { displayName: displayName.displayName },
-                displayName,
+                { 'displayName': { $ne: displayName.displayName } },
+                { $setOnInsert: displayName },
                 { new: true, upsert: true }
             )
             newDisplayName_ids.push(displayNameResponse._id)
@@ -42,10 +42,10 @@ const handleSlpUpload = async (payload) => {
             console.log(codeId, newGameResponse._id)
             const addGameAndDisplayNames = await CodeId.updateOne(
                 { '_id': codeId },
-                { $push : { games: newGameResponse._id } },
-                // { upsert: true }
-                // displayNames: { _id: newDisplayName_ids[index] } 
-            )
+                { $addToSet: { 'games': newGameResponse._id, 'displayNames': newDisplayName_ids[index] } })
+            // { upsert: true }
+            // displayNames: { _id: newDisplayName_ids[index] } 
+
             console.log(`gameid added to codeid`)
             index++
             continue
