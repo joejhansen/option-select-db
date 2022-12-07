@@ -16,12 +16,7 @@ const resolvers = {
       return games
     },
     gameById: async (parent, { _id }) => {
-      const game = await Game.findById(_id).populate({
-        path: `displayNames`,
-        populate: {
-          path: 'codeIds'
-        }
-      })
+      const game = await Game.findById(_id).populate('displayNames').populate('codeIds')
       return game
     },
     displayNames: async () => {

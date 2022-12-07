@@ -143,13 +143,6 @@ query GameById($id: ID!) {
     _id
     displayNames {
       displayName
-      codeIds {
-        connectCode
-        appUser
-        _id
-        userId
-        createdAt
-      }
       _id
     }
     settings {
@@ -336,7 +329,10 @@ query GameById($id: ID!) {
       position
     }
     createdAt
+    codeIds {
+      _id
+      connectCode
+    }
   }
 }
-
 `
