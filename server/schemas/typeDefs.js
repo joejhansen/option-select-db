@@ -154,9 +154,9 @@ const typeDefs = gql`
   }
 
   type RatioCount {
-    count: Int
-    total: Int
-    ratio: Int
+    count: Float
+    total: Float
+    ratio: Float
   }
 
   type InputCounts {
@@ -171,7 +171,7 @@ const typeDefs = gql`
     playerIndex: Int
     inputCounts: InputCounts
     conversionCount: Int
-    totalDamage: Int
+    totalDamage: Float
     killCount: Int
     successfulConversions: RatioCount
     inputsPerMinute: RatioCount
@@ -201,6 +201,7 @@ const typeDefs = gql`
 
   type Game {
     _id: ID!
+    codeIds: [CodeId]
     displayNames: [DisplayName]
     settings: Settings
     metadata: Metadata
@@ -239,11 +240,13 @@ const typeDefs = gql`
     users: [User]
     user(_id: ID!): User
     games: [Game]
-    game(_id: ID!): Game
+    gameById(_id: ID!): Game
     displayNames: [DisplayName]
-    displayName(_id: ID!): DisplayName
+    displayNameByName(displayName: String!): DisplayName
+    displayNameById(_id: ID!): DisplayName
     codeIds: [CodeId]
-    codeId(_id: ID!): CodeId
+    codeIdByCode(connectCode: String!): CodeId
+    codeIdById(_id: ID!): CodeId
   }
   # type Query {
     # codeIds: [CodeId]

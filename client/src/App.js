@@ -19,6 +19,15 @@ import Nav from './components/Header/Nav/Nav';
 //    Main
 import About from './components/Main/About/About'
 import Data from './components/Main/Data/Data';
+import ConnectCodes from './components/Main/Data/ConnectCode/Search'
+import ConnectCodesAll from './components/Main/Data/ConnectCode/All'
+import ConnectCodeIndividual from './components/Main/Data/ConnectCode/Individual';
+import DisplayNames from './components/Main/Data/DisplayName/Search'
+import DisplayNamesAll from './components/Main/Data/DisplayName/All';
+import DisplayNameIndividual from './components/Main/Data/DisplayName/Individual';
+import Games from './components/Main/Data/Game/Search'
+import GamesAll from './components/Main/Data/Game/All'
+import GameIndividual from './components/Main/Data/Game/Individual'
 import Home from './components/Main/Home/Home'
 import Overlay from './components/Main/Overlay/Overlay';
 import Settings from './components/Main/Settings/Settings';
@@ -31,7 +40,7 @@ import Upload from './components/Main/Data/Upload/Upload';
 
 // Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({
-  uri: '/graphql',
+  uri: 'http://localhost:3001/graphql',
 });
 
 // Construct request middleware that will attach the JWT token to every request as an `authorization` header
@@ -157,21 +166,25 @@ function App() {
                 path="/home"
                 element={<Home theme={theme} setThemeHandler={setThemeHandler} />}
               />
-              {/* This does not work */}
-              {/* {pages.map((page) => {
-                return (
-                  <Route path={`/${page}`}
-                    element={<{page} />}
-                  />
-                )
-              })} */}
               <Route path="/about"
                 element={<About theme={theme} />}
               />
               <Route path="/data"
                 element={<Data theme={theme} />}>
-                  <Route path="/data/upload" element={<Upload />} />
+                <Route path="/data/upload" element={<Upload theme={theme} />} />
+                <Route path="/data/connectcode" element={<ConnectCodes theme={theme} />} >
+                  <Route path="/data/connectcode/all" element={<ConnectCodesAll theme={theme} />} />
+                  <Route path="/data/connectcode/:id" element={<ConnectCodeIndividual theme={theme} />} />
                 </Route>
+                <Route path="/data/displayname" element={<DisplayNames theme={theme} />} >
+                  <Route path="/data/displayname/all" element={<DisplayNamesAll theme={theme} />} />
+                  <Route path="/data/displayname/:id" element={<DisplayNameIndividual theme={theme} />} />
+                </Route>
+                <Route path="/data/game" element={<Games theme={theme} />} >
+                  <Route path="/data/game/all" element={<GamesAll theme={theme} />} />
+                  <Route path="/data/game/:id" element={<GameIndividual theme={theme} />} />
+                </Route>
+              </Route>
               <Route path="/settings"
                 element={<Settings theme={theme} />}>
                 <Route path='/settings/slippiconnection' element={<SlippiConnect theme={theme} />} />

@@ -133,6 +133,7 @@ const handleSlpAnalyze = (payload) => {
 
         const game = {
             displayNames: [], //todo add id's afer adding other info
+            codeIds: [],
             settings,
             metadata,
             stats,

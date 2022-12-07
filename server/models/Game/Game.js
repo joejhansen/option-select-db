@@ -6,6 +6,7 @@ const Winner = require('./GameWinner/GameWinner')
 const dateFormat = require('../../utils/dateFormat')
 
 const gameSchema = new Schema({
+    codeIds: [{ type: Schema.Types.ObjectId, ref: 'CodeId'}],
     displayNames: [{ type: Schema.Types.ObjectId, ref: 'DisplayName' }],
     settings: {
         type: Settings,

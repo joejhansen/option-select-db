@@ -29,6 +29,7 @@ const handleSlpUpload = async (payload) => {
             continue
         }
         game.displayNames = newDisplayName_ids
+        game.codeIds = newCodeId_ids
         const newGameResponse = await Game.findOneAndUpdate(
             { 'metadata.startAt': game.startAt },
             game,

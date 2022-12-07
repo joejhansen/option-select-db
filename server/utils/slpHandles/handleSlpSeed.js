@@ -34,6 +34,7 @@ const handleSlpSeed = async (directory) => {
             if (!response) {
                 return console.log(`Error uploading analyzed .slp: ${file}`)
             }
+            console.log(`File uploaded succesfully: ${file}`)
             continue
         }
         console.log(`Upload done, closing databse`)
