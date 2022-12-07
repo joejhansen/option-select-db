@@ -15,3 +15,7 @@ Look up display names, connect codes, and individual games associated with them 
 
 ### Head-to-Head Analysis
 Compare connect codes to see match histories and analytics
+
+### Data At Your Fingertips
+
+Use the API directly for whatever you want. Currently supports searches for Users, DisplayNames, CodeIds(Connect Codes with a uuid), and Games
