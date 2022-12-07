@@ -7,7 +7,7 @@ const handleSlpUpload = async (payload) => {
         let newCodeId_ids = []
         for (codeId of codeIds) {
             const codeIdResponse = await CodeId.findOneAndUpdate(
-                { 'connectCode': { $ne: codeId.connectCode } },
+                { 'connectCode': codeId.connectCode },
                 { $setOnInsert: codeId },
                 { new: true, upsert: true, },
             )
@@ -21,8 +21,8 @@ const handleSlpUpload = async (payload) => {
         let newDisplayName_ids = []
         for (displayName of displayNames) {
             const displayNameResponse = await DisplayName.findOneAndUpdate(
-                { 'displayName': { $ne: displayName.displayName } },
-                { $setOnInsert: displayName },
+                { 'displayName': displayName.displayName },
+                displayName,
                 { new: true, upsert: true }
             )
             newDisplayName_ids.push(displayNameResponse._id)
@@ -39,20 +39,18 @@ const handleSlpUpload = async (payload) => {
         // $push, $addToSet don't work
         // F$*#$)@#%&
         for (codeId of newCodeId_ids) {
-            console.log(codeId, newGameResponse._id)
             const addGameAndDisplayNames = await CodeId.updateOne(
                 { '_id': codeId },
                 { $addToSet: { 'games': newGameResponse._id, 'displayNames': newDisplayName_ids[index] } })
             // { upsert: true }
             // displayNames: { _id: newDisplayName_ids[index] } 
 
-            console.log(`gameid added to codeid`)
             index++
             continue
         }
         return true
     } catch (err) {
-        return console.log(err)
+        return null
     }
 }
 module.exports = handleSlpUpload

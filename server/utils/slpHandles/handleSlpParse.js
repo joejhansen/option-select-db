@@ -26,7 +26,7 @@ const handleSlpParse = async (slp) => {
         // fs.writeFileSync('./testSlps/parsedTestSlpJSONs/testSlpParseWinners.json', winners)
         return payload
     } catch (err) {
-        return err
+        return null
     }
 }
 

@@ -3,16 +3,15 @@
 const handleSlpParse = require('./handleSlpParse')
 const handleSlpAnalyze = require('./handleSlpAnalyze')
 const handleSlpUpload = require('./handleSlpUpload')
+const handleSlpReaddir = require('./handleSlpReaddir')
+
 const fs = require('fs')
-const game1 = '../testSlps/seedSlps/Game_20220908T021502.slp'
-const game2 = '../testSlps/seedSlps/Game_20220908T021933.slp'
-const game3 = '../testSlps/seedSlps/Game_20220908T022022.slp'
-const game4 = '../testSlps/seedSlps/Game_20220908T022241.slp'
-const game5 = '../testSlps/seedSlps/Game_20220908T022504.slp'
+const directory = '../testSlps/seedSlps/'
 const db = require('../../config/connection');
 const { User, Game, CodeId, DisplayName } = require('../../models')
-const handleSlpSeed = async (seedFiles) => {
+const handleSlpSeed = async (directory) => {
     // DB OPEN ONCE FOR THE ENTIRE TIME, THEN CLOSE
+    files = await handleSlpReaddir(directory)
     db.once('open', async () => {
         await User.deleteMany()
         console.log(`users deleted`)
@@ -22,12 +21,18 @@ const handleSlpSeed = async (seedFiles) => {
         console.log(`codeid's deleted`)
         await DisplayName.deleteMany()
         console.log(`displaynames deleted`)
-        for (seedFile of seedFiles) {
-            const parsed = await handleSlpParse(`${seedFile}`)
+        for (file of files) {
+            const parsed = await handleSlpParse(`${directory}${file}`)
+            if (!parsed) {
+                return console.log(`Error parsing .slp: ${file}`)
+            }
             const analyzed = await handleSlpAnalyze(parsed)
+            if (!analyzed) {
+                return console.log(`Error analyzing parsed .slp: ${file}`)
+            }
             const response = await handleSlpUpload(analyzed)
-            if (response) {
-                console.log(`Success uploading ${seedFile}`)
+            if (!response) {
+                return console.log(`Error uploading analyzed .slp: ${file}`)
             }
             continue
         }
@@ -37,4 +42,4 @@ const handleSlpSeed = async (seedFiles) => {
     })
 }
 
-handleSlpSeed([game1, game2, game3, game4, game5])
+handleSlpSeed(directory)
