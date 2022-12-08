@@ -16,35 +16,53 @@ const GameIndividual = ({ theme }) => {
             backgroundColor: theme.primary,
             color: theme.text,
         },
+        damage: {
+            outline: 'dashed red 2px'
+        },
+        damageEnd: {
+            outline: 'dashed red 2px'
+
+        },
+        damageTotal: {
+            outline: 'dashed red 2px'
+
+        },
         conversionsTable: {
             outer: {
                 outline: 'dashed red 2px',
                 display: 'grid',
-                gridTeamplte: '1fr 3fr/1fr'
+                gridTeamplte: '1fr 3fr/1fr',
+                padding: '0',
+                margin: '0 1rem'
             },
             data: {
                 outer: {
                     outline: 'dashed red 2px',
                     display: 'grid',
-                    gridTemplate: '1fr 2fr/1fr'
+                    gridTemplate: '1fr 2fr/1fr',
+
                 },
                 header: {
                     outline: 'dashed red 2px',
                     display: 'grid',
-                    gridTemplate: `1fr/1fr 1fr 1fr 1fr 1fr`
+                    gridTemplate: `1fr/1fr 1fr 2fr 1fr 1fr`
                 },
                 stock: {
                     outer: {
-                        outline: 'dashed green 2px',
+                        outline: 'dashed red 2px',
                         display: 'grid',
                         gridTemplate: '1fr 1fr/1fr'
                     },
                     rows: {
                         outline: 'dashed red 2px',
                         display: 'grid',
-                        gridTemplate: `1fr/1fr 1fr 1fr 1fr 1fr`
+                        gridTemplate: `1fr/1fr 1fr 1fr 1fr 1fr 1fr`
                     },
-                    image: {},
+                    image: {
+                        outline: 'dashed red 2px',
+                        display: 'grid',
+                        gridTemplate: `1fr/1fr`
+                    },
 
                 }
             }
@@ -240,12 +258,12 @@ const GameIndividual = ({ theme }) => {
             const tableDataHeaderStyle = {
                 outline: 'red dashed 2px',
                 display: 'grid',
-                gridTemplate: `1fr / 1fr 1fr 1fr 1fr`
+                gridTemplate: `1fr / repeat(4, 1fr)`
             }
             const tableDataBodyStyle = {
                 outline: 'red dashed 2px',
                 display: 'grid',
-                gridTemplate: `repeat(${killRow.length}, 1fr) / 1fr 1fr 1fr 1fr`
+                gridTemplate: `repeat(${killRow.length}, 1fr) / repeat(4, 1fr)`
             }
             const killComponent =
                 <div className="col" style={tableOuterStyle}>
@@ -266,7 +284,7 @@ const GameIndividual = ({ theme }) => {
         }
         const conversionsStats = [[], []]
         for (let conversion of game.stats.conversions) {
-            conversionsStats[conversion.lastHitBy].push({ start: conversion.startFrame, end: conversion.endFrame, killMove: conversion.moves[conversion.moves.length - 1], direction: null, percent: Math.floor(conversion.endPercent * 100) / 100, })
+            conversionsStats[conversion.lastHitBy].push({ start: conversion.startFrame, end: conversion.endFrame, startPercent: conversion.startPercent, endPercent: conversion.endPercent, opening: conversion.openingType, didKill: conversion.didKill, opening: conversion.openingType, totalMoves: conversion.moves.length })
         }
         let renderConversionsStats = []
         for (let i = 0; i < conversionsStats.length; i++) {
@@ -275,20 +293,56 @@ const GameIndividual = ({ theme }) => {
             const { connectCode, connect_id } = playerConnectCodes[i]
             const linkToDisplayName = linkToDisplayNames[i]
             const linkToConnectCode = linkToConnectCodes[i]
-            const killRow = []
+            const conversionRow = []
+            const conversionRowStyle = {
+                display: 'grid',
+                gridTemplate: `1fr/ 1fr 1fr 1fr 2fr 1fr 2fr`
+            }
+            const conversionStockStyle = {
+                display: 'grid',
+                gridTemplate: `1fr/1fr`,
+            }
+            let stocks = 4
+            let stocksTaken = 0
             for (let conversion of conversions) {
-                // killsStats[i].kills[i]
-                killRow.push(<>
-                    <div>{renderMinutes(conversion.start)}</div>
-                    <div>{renderMinutes(conversion.end)}</div>
-                    <div>{conversion.killMove.moveId}</div>
-                    <div>{conversion.percent}%</div>
-                </>)
+
+                conversionRow.push(
+                    <>
+                        <div style={conversionRowStyle}>
+                            <div>{renderMinutes(conversion.start)}</div>
+                            <div>{renderMinutes(conversion.end)}</div>
+                            <div>{Math.floor((conversion.endPercent - conversion.startPercent) * 100) / 100}</div>
+                            <div>{Math.floor(conversion.startPercent * 100) / 100}% - {Math.floor(conversion.endPercent * 100) / 100}%</div>
+                            <div>{conversion.totalMoves}</div>
+                            <div>{conversion.opening}</div>
+                        </div>
+                    </>
+                )
+                if (conversion.didKill) {
+                    stocksTaken++
+                    conversionRow.push(
+                        <>
+                            <div style={conversionStockStyle}>
+                                <div>{stocks-stocksTaken} stocks left</div>
+                            </div>
+                        </>
+                    )
+                }
+            }
+            if (stocks > 0) {
+                console.log(stocks)
+                conversionRow.push(
+                    <>
+                        <div style={conversionStockStyle}>
+                            <div>No punishes on opponent's {stocksTaken+1} stock</div>
+                        </div>
+                    </>
+                )
             }
             const tableOuterStyle = {
                 outline: 'red dashed 2px',
                 display: 'grid',
-                gridTemplate: `1fr ${killRow.length + 1}fr / 1fr`,
+                gridTemplate: `1fr ${conversionRow.length + 1}fr / 1fr`,
                 height: 'max-content',
                 padding: '0',
                 margin: '0 1rem'
@@ -297,17 +351,17 @@ const GameIndividual = ({ theme }) => {
             const tableDataOuterStyle = {
                 outline: 'red dashed 2px',
                 display: 'grid', gridTemplate:
-                    `1fr ${killRow.length}fr / 1fr`
+                    `1fr ${conversionRow.length}fr / 1fr`
             }
             const tableDataHeaderStyle = {
                 outline: 'red dashed 2px',
                 display: 'grid',
-                gridTemplate: `1fr / 1fr 1fr 1fr 1fr`
+                gridTemplate: `1fr/1fr 1fr 3fr 1fr 2fr`
             }
             const tableDataBodyStyle = {
                 outline: 'red dashed 2px',
                 display: 'grid',
-                gridTemplate: `repeat(${killRow.length}, 1fr) / 1fr 1fr 1fr 1fr`
+                gridTemplate: `repeat(${conversionRow.length}, 1fr) / 1fr`
             }
             const conversionComponent =
                 <div className="col" style={tableOuterStyle}>
@@ -316,14 +370,45 @@ const GameIndividual = ({ theme }) => {
                         <div style={tableDataHeaderStyle}>
                             <div>Start</div>
                             <div>End</div>
-                            <div>Kill Move</div>
-                            <div>Percent</div>
+                            <div>Damage</div>
+                            <div># Moves</div>
+                            <div>Opening</div>
                         </div>
                         <div style={tableDataBodyStyle}>
-                            {killRow}
+                            {conversionRow}
                         </div>
                     </div>
                 </div>
+            // <div className="col" style={styles.conversionsTable.outer}>
+            //     {/* gridTemplate: 1fr (#Conversions+#Stockstaken+1)fr/1fr */}
+            //     <div>names header</div>
+            //     <div style={styles.conversionsTable.data.outer}>
+            //         {/* gridTemplate: 1fr (#Conversions+#Stockstaken)fr/1fr */}
+            //         <div style={styles.conversionsTable.data.header}>
+            //             <div>start</div>
+            //             <div>end</div>
+            //             <div style={styles.damage}>damage</div>
+            //             <div>moves</div>
+            //             <div>opening</div>
+            //         </div>
+            //         <div style={styles.conversionsTable.data.stock.outer}>
+            //             {/* gridTemplate: repeate(#Conversions+#Stockstaken, 1fr)/ 1fr */}
+            //             <div style={styles.conversionsTable.data.stock.rows}>
+            //                 {/* gridTemplate: repeate(#Conversions, 1fr)/ repeate(6, 1fr)*/}
+            //                 <div>start</div>
+            //                 <div>end</div>
+            //                 <div style={styles.damageEnd}>damageEnd</div>
+            //                 <div style={styles.damageTotal}>damagetotal</div>
+            //                 <div>moves</div>
+            //                 <div>opening</div>
+            //             </div>
+            //             <div style={styles.conversionsTable.data.stock.image}>
+            //                 {/* gridTeamplate: 1fr/1fr*/}
+            //                 <div>stock image</div>
+            //             </div>
+            //         </div>
+            //     </div>
+            // </div>
             renderConversionsStats.push(conversionComponent)
         }
         return (
@@ -470,31 +555,7 @@ const GameIndividual = ({ theme }) => {
                                     </div>
                                 </div>
                                 <div className="row">
-                                    <div className="col" style={styles.conversionsTable.outer}>
-                                        <div>names header</div>
-                                        <div style={styles.conversionsTable.data.outer}>
-                                            <div style={styles.conversionsTable.data.header}>
-                                                <div>start</div>
-                                                <div>end</div>
-                                                <div>damage</div>
-                                                <div>moves</div>
-                                                <div>opening</div>
-                                            </div>
-                                            <div style={styles.conversionsTable.data.stock.outer}>
-                                                <div style={styles.conversionsTable.data.stock.rows}>
-                                                    <div>start</div>
-                                                    <div>end</div>
-                                                    <div>damage</div>
-                                                    <div>moves</div>
-                                                    <div>opening</div>
-                                                </div>
-                                                <div style={styles.conversionsTable.data.stock.image}>
-                                                    <div>stock image</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {/* {renderConversionsStats} */}
+                                    {renderConversionsStats}
                                 </div>
                             </div>
                         </div>
