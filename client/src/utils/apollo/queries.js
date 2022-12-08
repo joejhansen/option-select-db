@@ -222,6 +222,7 @@ query GameById($id: ID!) {
         playerIndex
         wavedashCount
         wavelandCount
+        spotDodgeCount
         airDodgeCount
         dashDanceCount
         ledgegrabCount

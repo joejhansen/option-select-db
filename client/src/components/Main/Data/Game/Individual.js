@@ -16,39 +16,99 @@ const GameIndividual = ({ theme }) => {
             backgroundColor: theme.primary,
             color: theme.text,
         },
+        killsTable: {
+
+        },
         overallTable: {
             outer: {
                 outline: 'dashed red 2px',
                 display: 'grid',
-                gridTemplate: `2fr 10fr/1fr`,
+                gridTemplate: `1fr 19fr/1fr`,
                 color: theme.text,
+                padding: '0'
 
             },
             header: {
                 outline: 'dashed red 2px',
                 color: theme.text,
+                display: 'grid',
+                gridTemplate: '1fr /2fr 1fr 1fr'
             },
             data: {
+                // do specific ones
                 outer: {
                     outline: 'dashed red 2px',
                     color: theme.text,
                     display: 'grid',
-                    gridTemplate: `2fr 10fr/1fr`
+                    gridTemplate: `6fr 4fr 5fr 4fr/1fr`
                 },
                 header: {
                     outline: 'dashed red 2px',
                     color: theme.text,
                 },
                 body: {
-                    color: theme.text,
-                    outline: 'dashed red 2px',
-                }
+                    outer: {
+                        outline: 'dashed red 2px',
+                        display: 'grid',
+                        gridTemplate: '2fr 10fr/1fr'
+                    },
+                    offense: {
+                        outer: {
+                            outline: 'dashed red 2px',
+                            display: 'grid',
+                            gridTemplate: '1fr 5fr/1fr'
+                        },
 
+                        inner: {
+                            outline: 'dashed red 2px',
+                            display: 'grid',
+                            gridTemplate: '1fr 1fr 1fr 1fr 1fr/ 2fr 1fr 1fr'
+                        },
+                    },
+                    defense: {
+                        outer: {
+                            outline: 'dashed red 2px',
+                            display: 'grid',
+                            gridTemplate: '1fr 3fr/1fr'
+
+                        },
+                        inner: {
+                            outline: 'dashed red 2px',
+                            display: 'grid',
+                            gridTemplate: '1fr 1fr 1fr/2fr 1fr 1fr'
+                        },
+                    },
+                    neutral: {
+                        outer: {
+                            outline: 'dashed red 2px',
+                            display: 'grid',
+                            gridTemplate: '1fr 4fr/1fr'
+                        },
+                        inner: {
+                            outline: 'dashed red 2px',
+                            display: 'grid',
+                            gridTemplate: '1fr 1fr 1fr 1fr/2fr 1fr 1fr'
+                        }
+                    },
+                    general: {
+                        outer: {
+                            outline: 'dashed red 2px',
+                            display: 'grid',
+                            gridTemplate: '1fr 3fr/1fr'
+                        },
+                        inner: {
+                            outline: 'dashed red 2px',
+                            display: 'grid',
+                            gridTemplate: '1fr 1fr 1fr/2fr 1fr 1fr'
+                        },
+                    },
+                }
             }
         }
     }
     const renderGameTable = (data) => {
         const game = data.gameById
+        console.log(game)
         let render = []
         const startDate = new Date(parseInt(game.metadata.startAt))
         let playerDisplayNames = []
@@ -70,6 +130,7 @@ const GameIndividual = ({ theme }) => {
             )
         }
         let linkToGame = `../${game._id}`
+
         return (
             <>
                 <div className="row">
@@ -81,19 +142,92 @@ const GameIndividual = ({ theme }) => {
                         </div>
                         <div className="row">
                             <div className="col">
-                                <p>Overall</p>
+                                <p>Overall Stats</p>
                                 <div className="row">
                                     <div className="col" style={styles.overallTable.outer}>
-                                        <div style={styles.overallTable.data.header}>
-                                            <div>Header</div>
+                                        <div style={styles.overallTable.header}>
+                                            <div></div>
+                                            <div>{game.codeIds[0].connectCode} as {game.displayNames[0].displayName}</div>
+                                            <div>{game.codeIds[1].connectCode} as {game.displayNames[1].displayName}</div>
                                         </div>
                                         <div style={styles.overallTable.data.outer}>
-                                            <div style={styles.overallTable.header}>
-                                                Data Header
+                                            <div style={styles.overallTable.data.body.offense.outer}>
+                                                <div>Offense</div>
+                                                <div style={styles.overallTable.data.body.offense.inner}>
+                                                    <div>Kills</div>
+                                                    <div>{game.stats.overall[0].killCount}</div>
+                                                    <div>{game.stats.overall[1].killCount}</div>
+
+                                                    <div>Damage Done</div>
+                                                    <div>{Math.floor(game.stats.overall[0].totalDamage * 100) / 100}</div>
+                                                    <div>{Math.floor(game.stats.overall[1].totalDamage * 100) / 100}</div>
+
+                                                    <div>Opening Conversion Rate</div>
+                                                    <div>{Math.floor(game.stats.overall[0].successfulConversions.ratio * 10000) / 100}% ( {game.stats.overall[0].successfulConversions.count} / {game.stats.overall[0].successfulConversions.total} )</div>
+                                                    <div>{Math.floor(game.stats.overall[1].successfulConversions.ratio * 10000) / 100}% ( {game.stats.overall[1].successfulConversions.count} / {game.stats.overall[1].successfulConversions.total} )</div>
+
+                                                    <div>Openings / Kill</div>
+                                                    <div>{Math.floor(game.stats.overall[0].openingsPerKill.ratio * 1000) / 1000}</div>
+                                                    <div>{Math.floor(game.stats.overall[1].openingsPerKill.ratio * 1000) / 1000}</div>
+
+                                                    <div>Damage / Opening</div>
+                                                    <div>{Math.floor(game.stats.overall[0].damagePerOpening.ratio * 100) / 100}</div>
+                                                    <div>{Math.floor(game.stats.overall[1].damagePerOpening.ratio * 100) / 100}</div>
+                                                </div>
                                             </div>
-                                            <div style={styles.overallTable.body}>
-                                                <div>
-                                                    data
+                                            <div style={styles.overallTable.data.body.defense.outer}>
+                                                <div>Defense</div>
+                                                <div style={styles.overallTable.data.body.defense.inner}>
+                                                    <div>Rolls</div>
+                                                    <div>{game.stats.actionCounts[0].rollCount}</div>
+                                                    <div>{game.stats.actionCounts[1].rollCount}</div>
+
+                                                    <div>Air Dodges</div>
+                                                    <div>{game.stats.actionCounts[0].airDodgeCount}</div>
+                                                    <div>{game.stats.actionCounts[1].airDodgeCount}</div>
+
+                                                    <div>Spot Dodges</div>
+                                                    <div>{game.stats.actionCounts[0].spotDodgeCount}</div>
+                                                    <div>{game.stats.actionCounts[1].spotDodgeCount}</div>
+
+                                                </div>
+                                            </div>
+                                            <div style={styles.overallTable.data.body.neutral.outer}>
+                                                <div>Neutral</div>
+                                                <div style={styles.overallTable.data.body.neutral.inner}>
+                                                    <div>Neutral Wins</div>
+                                                    <div>{game.stats.overall[0].neutralWinRatio.count} ( {Math.floor(game.stats.overall[0].neutralWinRatio.ratio * 10000) / 100}% ) </div>
+                                                    <div>{game.stats.overall[1].neutralWinRatio.count} ( {Math.floor(game.stats.overall[1].neutralWinRatio.ratio * 10000) / 100}% ) </div>
+
+                                                    <div>Counter Hits</div>
+                                                    <div>{game.stats.overall[0].counterHitRatio.count} ( {Math.floor(game.stats.overall[0].counterHitRatio.ratio * 10000) / 100}% ) </div>
+                                                    <div>{game.stats.overall[1].counterHitRatio.count} ( {Math.floor(game.stats.overall[1].counterHitRatio.ratio * 10000) / 100}% ) </div>
+
+                                                    <div>Beneficial Trades</div>
+                                                    <div>{game.stats.overall[0].beneficialTradeRatio.count} ( {Math.floor(game.stats.overall[0].beneficialTradeRatio.ratio * 10000) / 100}% ) </div>
+                                                    <div>{game.stats.overall[1].beneficialTradeRatio.count} ( {Math.floor(game.stats.overall[1].beneficialTradeRatio.ratio * 10000) / 100}% ) </div>
+
+                                                    <div>Actions (WD/WL/DD/LG)</div>
+                                                    <div>{game.stats.actionCounts[0].wavedashCount} / {game.stats.actionCounts[0].wavelandCount} / {game.stats.actionCounts[0].dashDanceCount} / {game.stats.actionCounts[0].ledgegrabCount}</div>
+                                                    <div>{game.stats.actionCounts[1].wavedashCount} / {game.stats.actionCounts[1].wavelandCount} / {game.stats.actionCounts[1].dashDanceCount} / {game.stats.actionCounts[1].ledgegrabCount}</div>
+
+                                                </div>
+                                            </div>
+                                            <div style={styles.overallTable.data.body.general.outer}>
+                                                <div>General</div>
+                                                <div style={styles.overallTable.data.body.general.inner}>
+                                                    <div>Inputs / Minute</div>
+                                                    <div>{Math.floor(game.stats.overall[0].inputsPerMinute.ratio*100)/100}</div>
+                                                    <div>{Math.floor(game.stats.overall[1].inputsPerMinute.ratio*100)/100}</div>
+
+                                                    <div>Digital Inputs / Minute</div>
+                                                    <div>{Math.floor(game.stats.overall[0].digitalInputsPerMinute.ratio*100)/100}</div>
+                                                    <div>{Math.floor(game.stats.overall[1].digitalInputsPerMinute.ratio*100)/100}</div>
+
+                                                    <div>L-Cancel Success Rate</div>
+                                                    <div>{game.stats.actionCounts[0].lCancelCount.success} / {game.stats.actionCounts[0].lCancelCount.success+game.stats.actionCounts[0].lCancelCount.fail}</div>
+                                                    <div>data</div>
+
                                                 </div>
                                             </div>
                                         </div>

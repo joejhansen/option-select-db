@@ -141,6 +141,7 @@ const typeDefs = gql`
     playerIndex: Int
     wavedashCount: Int
     wavelandCount: Int
+    spotDodgeCount: Int
     airDodgeCount: Int
     dashDanceCount: Int
     ledgegrabCount: Int
