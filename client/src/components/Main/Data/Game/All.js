@@ -19,7 +19,6 @@ const Games = ({ theme }) => {
     }, [])
 
     const renderGames = (data) => {
-        console.log(data)
         let render = []
         for (let game of data.games) {
             const startDate = new Date(parseInt(game.metadata.startAt))
