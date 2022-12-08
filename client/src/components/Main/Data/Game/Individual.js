@@ -180,13 +180,18 @@ const GameIndividual = ({ theme }) => {
         }
     }
     const renderGameTable = (data) => {
+        // okay
+        // so
+        // we just call it game
         const game = data.gameById
         let render = []
         const startDate = new Date(parseInt(game.metadata.startAt))
+        // make an array and push as many displayName+_id combos there are
         let playerDisplayNames = []
         for (let displayName of game.displayNames) {
             playerDisplayNames.push({ displayName: displayName.displayName, display_id: displayName._id })
         }
+        // do the same for connect codes
         let playerConnectCodes = []
         for (let connectCode of game.codeIds) {
             playerConnectCodes.push({ connectCode: connectCode.connectCode, connect_id: connectCode._id })
@@ -194,25 +199,35 @@ const GameIndividual = ({ theme }) => {
         let renderPlayers = []
         let linkToDisplayNames = []
         let linkToConnectCodes = []
+        // for each playerConnectCode, we're going to make a link to their connectCode and displayName
         for (let i = 0; i < playerConnectCodes.length; i++) {
+            // get the displayName data
             const { displayName, display_id } = playerDisplayNames[i]
-            const { connectCode, connect_id } = playerConnectCodes[i]
+            // and make a link out of it for react-router-dom
             const linkToDisplayName = `../../displayname/${display_id}`
             linkToDisplayNames.push(linkToDisplayName)
+            // get the connectCode data
+            const { connectCode, connect_id } = playerConnectCodes[i]
+            // make the link
             const linkToConnectCode = `../../connectcode/${connect_id}`
             linkToConnectCodes.push(linkToConnectCode)
+            // push it to the renderPlayers array for rendering down the line
             renderPlayers.push(
                 <li><Link to={linkToConnectCode} style={styles.link}>{connectCode}</Link> as <Link to={linkToDisplayName} style={styles.link}>{displayName}</Link></li>
             )
         }
         let linkToGame = `../${game._id}`
         let killsStats = [[], []]
+        // an array of two arrays. should be as many arrays as there are players but doubles isn't supported otherwise
         for (let conversion of game.stats.conversions) {
+            // getting all of our kill conversions for kill stats
             if (conversion.didKill) {
                 killsStats[conversion.lastHitBy].push({ start: conversion.startFrame, end: conversion.endFrame, killMove: conversion.moves[conversion.moves.length - 1], direction: null, percent: Math.floor(conversion.endPercent * 100) / 100, })
             }
         }
         let renderKillsStats = []
+        // this converts # of frames played so far into a M:SS format.
+        // melee is played on the nintendo gamecube or emulated environment thereof at 60 frames per second
         const renderMinutes = (frames) => {
             if (Math.floor(frames / 60) > 60) {
                 let minutes = Math.floor((frames / 60) / 60)
@@ -225,26 +240,33 @@ const GameIndividual = ({ theme }) => {
                 return `0:${(Math.floor(frames / 60))}`
             }
         }
+        // for each player, traditional for to keep track of index
         for (let i = 0; i < killsStats.length; i++) {
             const kills = killsStats[i]
+            // get the display info
             const { displayName, display_id } = playerDisplayNames[i]
             const { connectCode, connect_id } = playerConnectCodes[i]
+            // get the links
             const linkToDisplayName = linkToDisplayNames[i]
             const linkToConnectCode = linkToConnectCodes[i]
-            const killRow = []
+            // now we start to keep track of kills for the individual player
+            const killRows = []
             for (let kill of kills) {
-                // killsStats[i].kills[i]
-                killRow.push(<>
+                // push the information in standard format. no need for wrapper div as in conversions since these won't be broken up
+                killRows.push(<>
                     <div>{renderMinutes(kill.start)}</div>
                     <div>{renderMinutes(kill.end)}</div>
                     <div>{kill.killMove.moveId}</div>
                     <div>{kill.percent}%</div>
                 </>)
             }
+            // this was the tricky part.
+            // we have to conditionally style each table for the ammount of rows we render
             const tableOuterStyle = {
                 outline: 'red dashed 2px',
                 display: 'grid',
-                gridTemplate: `1fr ${killRow.length + 1}fr / 1fr`,
+                gridTemplate: `1fr ${killRows.length + 1}fr / 1fr`,
+                // 1fr for the top title, killRows.length+1 for the total ammount of kills + data header in the sibling element
                 height: 'max-content',
                 padding: '0',
                 margin: '0 1rem'
@@ -252,19 +274,25 @@ const GameIndividual = ({ theme }) => {
 
             const tableDataOuterStyle = {
                 outline: 'red dashed 2px',
-                display: 'grid', gridTemplate:
-                    `1fr ${killRow.length}fr / 1fr`
+                display: 'grid',
+
+                gridTemplate: `1fr ${killRows.length}fr / 1fr`
+                // 1fr for the data header, killRows.length fr for the total ammount of rows in the sibling element
             }
             const tableDataHeaderStyle = {
                 outline: 'red dashed 2px',
                 display: 'grid',
                 gridTemplate: `1fr / repeat(4, 1fr)`
+                // as many columns as data showsn.
+                // see conversions row for shaping irregular columns
             }
             const tableDataBodyStyle = {
                 outline: 'red dashed 2px',
                 display: 'grid',
-                gridTemplate: `repeat(${killRow.length}, 1fr) / repeat(4, 1fr)`
+                gridTemplate: `repeat(${killRows.length}, 1fr) / repeat(4, 1fr)`
+                // repeate 1fr for each row we need, 4 columns
             }
+            // all together now
             const killComponent =
                 <div className="col" style={tableOuterStyle}>
                     <div><Link to={linkToConnectCode} style={styles.link}>{connectCode}</Link> as <Link to={linkToDisplayName} style={styles.link}>{displayName}</Link></div>
@@ -276,36 +304,49 @@ const GameIndividual = ({ theme }) => {
                             <div>Percent</div>
                         </div>
                         <div style={tableDataBodyStyle}>
-                            {killRow}
+                            {killRows}
                         </div>
                     </div>
                 </div>
+            // push it real good
             renderKillsStats.push(killComponent)
         }
+        // out of renderKills
+        // now conversionsStats, two arrays within an array
         const conversionsStats = [[], []]
+        // parse the conversion statistics we need as an object and put them in the correct array
         for (let conversion of game.stats.conversions) {
             conversionsStats[conversion.lastHitBy].push({ start: conversion.startFrame, end: conversion.endFrame, startPercent: conversion.startPercent, endPercent: conversion.endPercent, opening: conversion.openingType, didKill: conversion.didKill, opening: conversion.openingType, totalMoves: conversion.moves.length })
         }
         let renderConversionsStats = []
+        // for each player who has conversionStats. traditional for to keep track of index
         for (let i = 0; i < conversionsStats.length; i++) {
+            // call it conversions
             const conversions = conversionsStats[i]
+            // get the players info
             const { displayName, display_id } = playerDisplayNames[i]
             const { connectCode, connect_id } = playerConnectCodes[i]
             const linkToDisplayName = linkToDisplayNames[i]
             const linkToConnectCode = linkToConnectCodes[i]
+            // start the individual rows
             const conversionRow = []
+            // specifying the individual conversion rows BECAUSE we have to render irregular tables depending on the data
             const conversionRowStyle = {
                 display: 'grid',
                 gridTemplate: `1fr/ 1fr 1fr 1fr 2fr 1fr 2fr`
+                // the second damage entry and openingType are a little large, let's give them 2 relative lengths of row
             }
             const conversionStockStyle = {
                 display: 'grid',
                 gridTemplate: `1fr/1fr`,
+                // it's just a singular div
             }
+            // this how many stocks there be. this *could* be a different number, but the standard game of melee is 4 stocks
             let stocks = 4
+            // the ammount of stocks taken
             let stocksTaken = 0
             for (let conversion of conversions) {
-
+                // for each conversion, we're gonna push a row with this information
                 conversionRow.push(
                     <>
                         <div style={conversionRowStyle}>
@@ -319,30 +360,35 @@ const GameIndividual = ({ theme }) => {
                     </>
                 )
                 if (conversion.didKill) {
+                    // and if it killed, we're going to add to stocksTaken, then push a row with additional info
                     stocksTaken++
                     conversionRow.push(
                         <>
                             <div style={conversionStockStyle}>
-                                <div>{stocks-stocksTaken} stocks left</div>
+                                <div>{stocks - stocksTaken} stocks left</div>
                             </div>
                         </>
                     )
                 }
             }
             if (stocks > 0) {
+                // if not all stocks were taken
                 console.log(stocks)
+                // we're going to push this sad message
                 conversionRow.push(
                     <>
                         <div style={conversionStockStyle}>
-                            <div>No punishes on opponent's {stocksTaken+1} stock</div>
+                            <div>No punishes on opponent's {stocksTaken + 1} stock</div>
                         </div>
                     </>
                 )
+                // TODO: more parsing because it's possible to damage someone's stock but not take it. this will still render in that case when we just need to render nothing
             }
             const tableOuterStyle = {
                 outline: 'red dashed 2px',
                 display: 'grid',
                 gridTemplate: `1fr ${conversionRow.length + 1}fr / 1fr`,
+                // 1fr for the names header, then conversionRow.length+1fr for the total ammount of rows in our sibling component
                 height: 'max-content',
                 padding: '0',
                 margin: '0 1rem'
@@ -350,19 +396,24 @@ const GameIndividual = ({ theme }) => {
 
             const tableDataOuterStyle = {
                 outline: 'red dashed 2px',
-                display: 'grid', gridTemplate:
-                    `1fr ${conversionRow.length}fr / 1fr`
+                display: 'grid',
+                gridTemplate: `1fr ${conversionRow.length}fr / 1fr`
+                // 1fr for the data header, then conversionRow.lengthfr for the total ammount of rows in our sibling component
             }
             const tableDataHeaderStyle = {
                 outline: 'red dashed 2px',
                 display: 'grid',
+                // we have 5 columns in our data header, but 6 rows in our data body?
                 gridTemplate: `1fr/1fr 1fr 3fr 1fr 2fr`
+                // 3fr for damage stats overall (1 + 2), 2fr for the opening type string because it's long
             }
             const tableDataBodyStyle = {
                 outline: 'red dashed 2px',
                 display: 'grid',
                 gridTemplate: `repeat(${conversionRow.length}, 1fr) / 1fr`
+                // repeat rows for as many rows as we need
             }
+            // all together now
             const conversionComponent =
                 <div className="col" style={tableOuterStyle}>
                     <div><Link to={linkToConnectCode} style={styles.link}>{connectCode}</Link> as <Link to={linkToDisplayName} style={styles.link}>{displayName}</Link></div>
@@ -379,40 +430,13 @@ const GameIndividual = ({ theme }) => {
                         </div>
                     </div>
                 </div>
-            // <div className="col" style={styles.conversionsTable.outer}>
-            //     {/* gridTemplate: 1fr (#Conversions+#Stockstaken+1)fr/1fr */}
-            //     <div>names header</div>
-            //     <div style={styles.conversionsTable.data.outer}>
-            //         {/* gridTemplate: 1fr (#Conversions+#Stockstaken)fr/1fr */}
-            //         <div style={styles.conversionsTable.data.header}>
-            //             <div>start</div>
-            //             <div>end</div>
-            //             <div style={styles.damage}>damage</div>
-            //             <div>moves</div>
-            //             <div>opening</div>
-            //         </div>
-            //         <div style={styles.conversionsTable.data.stock.outer}>
-            //             {/* gridTemplate: repeate(#Conversions+#Stockstaken, 1fr)/ 1fr */}
-            //             <div style={styles.conversionsTable.data.stock.rows}>
-            //                 {/* gridTemplate: repeate(#Conversions, 1fr)/ repeate(6, 1fr)*/}
-            //                 <div>start</div>
-            //                 <div>end</div>
-            //                 <div style={styles.damageEnd}>damageEnd</div>
-            //                 <div style={styles.damageTotal}>damagetotal</div>
-            //                 <div>moves</div>
-            //                 <div>opening</div>
-            //             </div>
-            //             <div style={styles.conversionsTable.data.stock.image}>
-            //                 {/* gridTeamplate: 1fr/1fr*/}
-            //                 <div>stock image</div>
-            //             </div>
-            //         </div>
-            //     </div>
-            // </div>
+            // push it real good
             renderConversionsStats.push(conversionComponent)
         }
         return (
             <>
+                {/* the overall data table is normalized throughout all games, it will always have this information in this order */}
+                {/* god help me when i have to update it */}
                 <div className="row">
                     <div className="col">
                         <div className="row">
@@ -543,6 +567,7 @@ const GameIndividual = ({ theme }) => {
                                     </div>
                                 </div>
                                 <div className="row">
+                                    {/* render the kills stats */}
                                     {renderKillsStats}
                                 </div>
                             </div>
@@ -555,6 +580,7 @@ const GameIndividual = ({ theme }) => {
                                     </div>
                                 </div>
                                 <div className="row">
+                                    {/* render the conversions stats */}
                                     {renderConversionsStats}
                                 </div>
                             </div>
@@ -571,6 +597,7 @@ const GameIndividual = ({ theme }) => {
     });
     return (
         <>
+            {/* is it loading? show loading. if it loaded, render it */}
             {loading ? <p>loading</p> : renderGameTable(data)}
         </>
     )
