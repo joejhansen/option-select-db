@@ -1,12 +1,13 @@
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_CONNECT_CODE } from '../../../../utils/apollo/queries';
 
 const ConnectCodeIndividual = ({ theme }) => {
     let { id } = useParams();
-    const { loading, data } = useQuery(QUERY_CONNECT_CODE, {
+    const { loading, error, data } = useQuery(QUERY_CONNECT_CODE, {
         variables: { id: id },
     });
+    const navigate = useNavigate()
     const styles = {
         card: {
             backgroundColor: theme.primary,
@@ -51,7 +52,9 @@ const ConnectCodeIndividual = ({ theme }) => {
     }
     return (
         <>
-            {loading ? <p>loading</p> : renderConnectCode(data)}
+            {loading ? <p>loading</p> 
+            : error ? navigate('/404')
+            : renderConnectCode(data)}
         </>
     )
 }

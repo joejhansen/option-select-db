@@ -1,12 +1,13 @@
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_DISPLAY_NAME } from '../../../../utils/apollo/queries';
 
 const DisplayNameIndividual = ({ theme }) => {
     let { id } = useParams();
-    const { loading, data } = useQuery(QUERY_DISPLAY_NAME, {
+    const { loading, error, data } = useQuery(QUERY_DISPLAY_NAME, {
         variables: { id: id },
     });
+    const navigate = useNavigate()
     const styles = {
         card: {
             backgroundColor: theme.primary,
@@ -42,7 +43,9 @@ const DisplayNameIndividual = ({ theme }) => {
     }
     return (
         <>
-            {loading ? <p>loading</p> : renderDisplayName(data)}
+            {loading ? <p>loading</p> 
+            : error ? navigate('/404') 
+            : renderDisplayName(data)}
         </>
     )
 }

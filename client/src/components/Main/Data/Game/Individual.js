@@ -1,8 +1,9 @@
 import { useQuery } from "@apollo/client";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { QUERY_GAME_FULL } from "../../../../utils/apollo/queries";
 import Table from 'react-bootstrap/Table'
 const GameIndividual = ({ theme }) => {
+    const navigate = useNavigate()
     const styles = {
         card: {
             backgroundColor: theme.primary,
@@ -592,13 +593,15 @@ const GameIndividual = ({ theme }) => {
     }
 
     let { id } = useParams();
-    const { loading, data } = useQuery(QUERY_GAME_FULL, {
+    const { loading, error, data } = useQuery(QUERY_GAME_FULL, {
         variables: { id: id },
     });
     return (
         <>
             {/* is it loading? show loading. if it loaded, render it */}
-            {loading ? <p>loading</p> : renderGameTable(data)}
+            {loading ? <p>loading</p> 
+            : error ? navigate('/404')
+            : renderGameTable(data)}
         </>
     )
 }

@@ -192,7 +192,7 @@ function App() {
               <Route path="/overlay"
                 element={<Overlay theme={theme} />}>
               </Route>
-              <Route path={'*' || '404'}
+              <Route path={'*' || '/404'}
                 element={<NotFound theme={theme} />}
               />
             </Routes>
