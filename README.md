@@ -42,7 +42,7 @@ Apollo GraphQL for API, providing information for the front-end and anyone else 
 
 ## Future Development
 
-### *3rd Party Authentication with Slippi.gg**
+### **3rd Party Authentication with Slippi.gg**
 
 Slippi.gg is the creator and proprieter of the information identifying a Connect Code with its Unique User ID (connectCode and userId in the CodeId model). This information is available directly from the .slp files and is a one-to-one relationship. As such, it is *theoritically* possible to implement a 3rd Party Authentication feature that allows Option Select Users to verify that they are the creator and owner of the Connect Code they claim to have.
 

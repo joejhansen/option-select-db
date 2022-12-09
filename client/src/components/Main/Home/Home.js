@@ -22,10 +22,10 @@ const Home = ({ theme, setThemeHandler }) => {
     return (
         <div className='container' style={styles.container}>
             <p style={styles.text}>Home</p>
-            <form className='d-flex flex-column' onSubmit={setThemeHandler}>
-                {renderThemeChange()}
-                <button>Submit Theme</button>
-            </form>
+            {/* <form className='d-flex flex-column' onSubmit={setThemeHandler}> */}
+                {/* {renderThemeChange()} */}
+                {/* <button>Submit Theme</button> */}
+            {/* </form> */}
         </div>
     )
 }

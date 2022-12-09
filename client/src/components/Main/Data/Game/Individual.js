@@ -1,7 +1,7 @@
 import { useQuery } from "@apollo/client";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { QUERY_GAME_FULL } from "../../../../utils/apollo/queries";
-import Table from 'react-bootstrap/Table'
+import './game.css'
 const GameIndividual = ({ theme }) => {
     const navigate = useNavigate()
     const styles = {
@@ -17,84 +17,14 @@ const GameIndividual = ({ theme }) => {
             backgroundColor: theme.primary,
             color: theme.text,
         },
-        damage: {
-            outline: 'dashed red 2px'
-        },
+        damage: {        },
         damageEnd: {
-            outline: 'dashed red 2px'
-
         },
         damageTotal: {
-            outline: 'dashed red 2px'
-
-        },
-        conversionsTable: {
-            outer: {
-                outline: 'dashed red 2px',
-                display: 'grid',
-                gridTeamplte: '1fr 3fr/1fr',
-                padding: '0',
-                margin: '0 1rem'
-            },
-            data: {
-                outer: {
-                    outline: 'dashed red 2px',
-                    display: 'grid',
-                    gridTemplate: '1fr 2fr/1fr',
-
-                },
-                header: {
-                    outline: 'dashed red 2px',
-                    display: 'grid',
-                    gridTemplate: `1fr/1fr 1fr 2fr 1fr 1fr`
-                },
-                stock: {
-                    outer: {
-                        outline: 'dashed red 2px',
-                        display: 'grid',
-                        gridTemplate: '1fr 1fr/1fr'
-                    },
-                    rows: {
-                        outline: 'dashed red 2px',
-                        display: 'grid',
-                        gridTemplate: `1fr/1fr 1fr 1fr 1fr 1fr 1fr`
-                    },
-                    image: {
-                        outline: 'dashed red 2px',
-                        display: 'grid',
-                        gridTemplate: `1fr/1fr`
-                    },
-
-                }
-            }
-        },
-        killsTable: {
-            outer: {
-                outline: 'dashed red 2px',
-                display: 'grid',
-                gridTemplate: '1fr 4fr/1fr'
-            },
-            data: {
-                outer: {
-                    outline: `dashed red 2px`,
-                    display: 'grid',
-                    gridTemplate: `1fr 3fr/1fr`
-                },
-                header: {
-                    outline: `dashed red 2px`,
-                    display: `grid`,
-                    gridTemplate: `1fr/1fr 1fr 1fr 1fr`
-                },
-                body: {
-                    outline: `dashed red 2px`,
-                    display: `grid`,
-                    gridTemplate: `1fr 1fr 1fr/1fr 1fr 1fr 1fr`
-                }
-            }
         },
         overallTable: {
             outer: {
-                outline: 'dashed red 2px',
+
                 display: 'grid',
                 gridTemplate: `1fr 19fr/1fr`,
                 color: theme.text,
@@ -103,7 +33,7 @@ const GameIndividual = ({ theme }) => {
 
             },
             header: {
-                outline: 'dashed red 2px',
+
                 color: theme.text,
                 display: 'grid',
                 gridTemplate: '1fr /2fr 1fr 1fr'
@@ -111,67 +41,67 @@ const GameIndividual = ({ theme }) => {
             data: {
                 // do specific ones
                 outer: {
-                    outline: 'dashed red 2px',
+    
                     color: theme.text,
                     display: 'grid',
                     gridTemplate: `6fr 4fr 5fr 4fr/1fr`
                 },
                 header: {
-                    outline: 'dashed red 2px',
+    
                     color: theme.text,
                 },
                 body: {
                     outer: {
-                        outline: 'dashed red 2px',
+        
                         display: 'grid',
                         gridTemplate: '2fr 10fr/1fr'
                     },
                     offense: {
                         outer: {
-                            outline: 'dashed red 2px',
+            
                             display: 'grid',
                             gridTemplate: '1fr 5fr/1fr'
                         },
 
                         inner: {
-                            outline: 'dashed red 2px',
+            
                             display: 'grid',
                             gridTemplate: '1fr 1fr 1fr 1fr 1fr/ 2fr 1fr 1fr'
                         },
                     },
                     defense: {
                         outer: {
-                            outline: 'dashed red 2px',
+            
                             display: 'grid',
                             gridTemplate: '1fr 3fr/1fr'
 
                         },
                         inner: {
-                            outline: 'dashed red 2px',
+            
                             display: 'grid',
                             gridTemplate: '1fr 1fr 1fr/2fr 1fr 1fr'
                         },
                     },
                     neutral: {
                         outer: {
-                            outline: 'dashed red 2px',
+            
                             display: 'grid',
                             gridTemplate: '1fr 4fr/1fr'
                         },
                         inner: {
-                            outline: 'dashed red 2px',
+            
                             display: 'grid',
                             gridTemplate: '1fr 1fr 1fr 1fr/2fr 1fr 1fr'
                         }
                     },
                     general: {
                         outer: {
-                            outline: 'dashed red 2px',
+            
                             display: 'grid',
                             gridTemplate: '1fr 3fr/1fr'
                         },
                         inner: {
-                            outline: 'dashed red 2px',
+            
                             display: 'grid',
                             gridTemplate: '1fr 1fr 1fr/2fr 1fr 1fr'
                         },
@@ -264,7 +194,7 @@ const GameIndividual = ({ theme }) => {
             // this was the tricky part.
             // we have to conditionally style each table for the ammount of rows we render
             const tableOuterStyle = {
-                outline: 'red dashed 2px',
+
                 display: 'grid',
                 gridTemplate: `1fr ${killRows.length + 1}fr / 1fr`,
                 // 1fr for the top title, killRows.length+1 for the total ammount of kills + data header in the sibling element
@@ -274,21 +204,21 @@ const GameIndividual = ({ theme }) => {
             }
 
             const tableDataOuterStyle = {
-                outline: 'red dashed 2px',
+
                 display: 'grid',
 
                 gridTemplate: `1fr ${killRows.length}fr / 1fr`
                 // 1fr for the data header, killRows.length fr for the total ammount of rows in the sibling element
             }
             const tableDataHeaderStyle = {
-                outline: 'red dashed 2px',
+
                 display: 'grid',
                 gridTemplate: `1fr / repeat(4, 1fr)`
                 // as many columns as data showsn.
                 // see conversions row for shaping irregular columns
             }
             const tableDataBodyStyle = {
-                outline: 'red dashed 2px',
+
                 display: 'grid',
                 gridTemplate: `repeat(${killRows.length}, 1fr) / repeat(4, 1fr)`
                 // repeate 1fr for each row we need, 4 columns
@@ -304,7 +234,7 @@ const GameIndividual = ({ theme }) => {
                             <div>Kill Move</div>
                             <div>Percent</div>
                         </div>
-                        <div style={tableDataBodyStyle}>
+                        <div id="killsData" className="dataRows" style={tableDataBodyStyle}>
                             {killRows}
                         </div>
                     </div>
@@ -363,19 +293,29 @@ const GameIndividual = ({ theme }) => {
                 if (conversion.didKill) {
                     // and if it killed, we're going to add to stocksTaken, then push a row with additional info
                     stocksTaken++
-                    conversionRow.push(
-                        <>
-                            <div style={conversionStockStyle}>
-                                <div>{stocks - stocksTaken} stocks left</div>
-                            </div>
-                        </>
-                    )
+                    if (stocks - stocksTaken > 0) {
+                        conversionRow.push(
+                            <>
+                                <div style={conversionStockStyle}>
+                                    <div>{stocks - stocksTaken} stocks left</div>
+                                </div>
+                            </>
+                        )
+                    } else if (stocks - stocksTaken <= 0) {
+                        conversionRow.push(
+                            <>
+                                <div>
+                                    <div>
+                                        You killed em bro
+                                    </div>
+                                </div>
+                            </>
+                        )
+                    }
                 }
             }
-            if (stocks > 0) {
-                // if not all stocks were taken
-                console.log(stocks)
-                // we're going to push this sad message
+            if ((stocks - stocksTaken > 0) && (conversions[conversions.length - 1].didKill)) {
+                // if not all stocks were taken and the last stock had no damage
                 conversionRow.push(
                     <>
                         <div style={conversionStockStyle}>
@@ -383,10 +323,10 @@ const GameIndividual = ({ theme }) => {
                         </div>
                     </>
                 )
-                // TODO: more parsing because it's possible to damage someone's stock but not take it. this will still render in that case when we just need to render nothing
+
             }
             const tableOuterStyle = {
-                outline: 'red dashed 2px',
+
                 display: 'grid',
                 gridTemplate: `1fr ${conversionRow.length + 1}fr / 1fr`,
                 // 1fr for the names header, then conversionRow.length+1fr for the total ammount of rows in our sibling component
@@ -396,20 +336,20 @@ const GameIndividual = ({ theme }) => {
             }
 
             const tableDataOuterStyle = {
-                outline: 'red dashed 2px',
+
                 display: 'grid',
                 gridTemplate: `1fr ${conversionRow.length}fr / 1fr`
                 // 1fr for the data header, then conversionRow.lengthfr for the total ammount of rows in our sibling component
             }
             const tableDataHeaderStyle = {
-                outline: 'red dashed 2px',
+
                 display: 'grid',
                 // we have 5 columns in our data header, but 6 rows in our data body?
                 gridTemplate: `1fr/1fr 1fr 3fr 1fr 2fr`
                 // 3fr for damage stats overall (1 + 2), 2fr for the opening type string because it's long
             }
             const tableDataBodyStyle = {
-                outline: 'red dashed 2px',
+
                 display: 'grid',
                 gridTemplate: `repeat(${conversionRow.length}, 1fr) / 1fr`
                 // repeat rows for as many rows as we need
@@ -426,7 +366,7 @@ const GameIndividual = ({ theme }) => {
                             <div># Moves</div>
                             <div>Opening</div>
                         </div>
-                        <div style={tableDataBodyStyle}>
+                        <div id="conversionsData" className="dataRows" style={tableDataBodyStyle}>
                             {conversionRow}
                         </div>
                     </div>
@@ -469,7 +409,7 @@ const GameIndividual = ({ theme }) => {
                                         <div style={styles.overallTable.data.outer}>
                                             <div style={styles.overallTable.data.body.offense.outer}>
                                                 <div>Offense</div>
-                                                <div style={styles.overallTable.data.body.offense.inner}>
+                                                <div id="overallOffense" className="overallTable" style={styles.overallTable.data.body.offense.inner}>
                                                     <div>Kills</div>
                                                     <div>{game.stats.overall[0].killCount}</div>
                                                     <div>{game.stats.overall[1].killCount}</div>
@@ -499,7 +439,7 @@ const GameIndividual = ({ theme }) => {
                                             </div>
                                             <div style={styles.overallTable.data.body.defense.outer}>
                                                 <div>Defense</div>
-                                                <div style={styles.overallTable.data.body.defense.inner}>
+                                                <div id="overallDefense" className="overallTable" style={styles.overallTable.data.body.defense.inner}>
                                                     <div>Rolls</div>
                                                     <div>{game.stats.actionCounts[0].rollCount}</div>
                                                     <div>{game.stats.actionCounts[1].rollCount}</div>
@@ -516,7 +456,7 @@ const GameIndividual = ({ theme }) => {
                                             </div>
                                             <div style={styles.overallTable.data.body.neutral.outer}>
                                                 <div>Neutral</div>
-                                                <div style={styles.overallTable.data.body.neutral.inner}>
+                                                <div id="overallNeutral" className="overallTable" style={styles.overallTable.data.body.neutral.inner}>
                                                     <div>Neutral Wins</div>
                                                     <div>{game.stats.overall[0].neutralWinRatio.count} ( {Math.floor(game.stats.overall[0].neutralWinRatio.ratio * 10000) / 100}% ) </div>
                                                     <div>{game.stats.overall[1].neutralWinRatio.count} ( {Math.floor(game.stats.overall[1].neutralWinRatio.ratio * 10000) / 100}% ) </div>
@@ -537,7 +477,7 @@ const GameIndividual = ({ theme }) => {
                                             </div>
                                             <div style={styles.overallTable.data.body.general.outer}>
                                                 <div>General</div>
-                                                <div style={styles.overallTable.data.body.general.inner}>
+                                                <div id="overallGeneral" className="overallTable" style={styles.overallTable.data.body.general.inner}>
                                                     <div>Inputs / Minute</div>
                                                     <div>{Math.floor(game.stats.overall[0].inputsPerMinute.ratio * 100) / 100}</div>
                                                     <div>{Math.floor(game.stats.overall[1].inputsPerMinute.ratio * 100) / 100}</div>
@@ -599,9 +539,9 @@ const GameIndividual = ({ theme }) => {
     return (
         <>
             {/* is it loading? show loading. if it loaded, render it */}
-            {loading ? <p>loading</p> 
-            : error ? navigate('/404')
-            : renderGameTable(data)}
+            {loading ? <p>loading</p>
+                : error ? navigate('/404')
+                    : renderGameTable(data)}
         </>
     )
 }

@@ -6,6 +6,7 @@ const handleSlpUpload = require('./handleSlpUpload')
 const handleSlpReaddir = require('./handleSlpReaddir')
 
 const db = require('../../config/connection');
+const { CodeId, DisplayName, Game } = require('../../models');
 
 const tempDir = `../../upload/_tempSlps/`
 
@@ -18,6 +19,10 @@ const files = [
 ]
 const handleSlpSeed = async (directory, files) => {
     return new Promise(async (resolve, reject) => {
+        await CodeId.deleteMany()
+        await DisplayName.deleteMany()
+        await Game.deleteMany()
+        console.log(`documents deleted`)
         try {
             for (let file of files) {
                 const parsed = await handleSlpParse(`${directory}${file.filename}`)

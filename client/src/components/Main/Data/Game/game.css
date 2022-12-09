@@ -1,0 +1,69 @@
+.overallTable>div:nth-child(6n-3) {
+    background-color: #111111;
+}
+
+.overallTable>div:nth-child(6n-4) {
+    background-color: #111111;
+}
+
+.overallTable>div:nth-child(6n-5) {
+    background-color: #111111;
+}
+
+.overallTable>div:nth-child(3n-1) {
+    box-shadow: -2px 0px 0px 0px gray;
+    text-align: end;
+    padding-right: .5rem;
+}
+
+.overallTable>div:nth-child(3n) {
+    box-shadow: -2px 0px 0px 0px gray;
+    text-align: end;
+    padding-right: .5rem;
+}
+
+
+#killsData>div:nth-child(8n-4) {
+    background-color: #111111;
+}
+
+#killsData>div:nth-child(8n-5) {
+    background-color: #111111;
+}
+
+#killsData>div:nth-child(8n-6) {
+    background-color: #111111;
+}
+#killsData>div:nth-child(8n-7) {
+    background-color: #111111;
+}
+
+#killsData>div:nth-child(4n-3) {
+    text-align: end;
+    padding-right: .5rem;
+}
+#killsData>div:nth-child(4n-2) {
+    box-shadow: -2px 0px 0px 0px gray;
+    text-align: end;
+    padding-right: .5rem;
+}
+#killsData>div:nth-child(4n-1) {
+    box-shadow: -2px 0px 0px 0px gray;
+    text-align: end;
+    padding-right: .5rem;
+}
+#killsData>div:nth-child(4n) {
+    box-shadow: -2px 0px 0px 0px gray;
+    text-align: end;
+    padding-right: .5rem;
+}
+
+
+#conversionsData>div:nth-child(odd) {
+    background-color: #111111;
+}
+#conversionsData>div>div:nth-child(n+2) {
+    box-shadow: -2px 0px 0px 0px gray;
+    text-align: end;
+    padding-right: .5rem;
+}

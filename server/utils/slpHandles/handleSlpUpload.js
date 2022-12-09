@@ -4,6 +4,7 @@ const { CodeId, DisplayName, User, Game } = require('../../models')
 const handleSlpUpload = async (payload) => {
     let { game, codeIds, displayNames } = payload
     try {
+        
         let newCodeId_ids = []
         for (codeId of codeIds) {
             const codeIdResponse = await CodeId.findOneAndUpdate(

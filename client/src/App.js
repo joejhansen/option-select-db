@@ -137,7 +137,6 @@ function App() {
   const pages = [
     'home',
     'about',
-    'overlay',
     'data',
     'settings',
   ]
