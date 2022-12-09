@@ -5,42 +5,55 @@ const handleSlpAnalyze = require('./handleSlpAnalyze')
 const handleSlpUpload = require('./handleSlpUpload')
 const handleSlpReaddir = require('./handleSlpReaddir')
 
-const fs = require('fs')
-const directory = '../testSlps/seedSlps/'
 const db = require('../../config/connection');
-const { User, Game, CodeId, DisplayName } = require('../../models')
-const handleSlpSeed = async (directory) => {
-    // DB OPEN ONCE FOR THE ENTIRE TIME, THEN CLOSE
-    files = await handleSlpReaddir(directory)
-    db.once('open', async () => {
-        await User.deleteMany()
-        console.log(`users deleted`)
-        await Game.deleteMany()
-        console.log(`games deleted`)
-        await CodeId.deleteMany()
-        console.log(`codeid's deleted`)
-        await DisplayName.deleteMany()
-        console.log(`displaynames deleted`)
-        for (file of files) {
-            const parsed = await handleSlpParse(`${directory}${file}`)
-            if (!parsed) {
-                return console.log(`Error parsing .slp: ${file}`)
+
+const tempDir = `../../upload/_tempSlps/`
+
+const files = [
+    'game_20211021t004801.slp',
+    'game_20211021t004816.slp',
+    'game_20211021t005029.slp',
+    'game_20211021t005037.slp',
+    'game_20211021t005404.slp',
+]
+const handleSlpSeed = async (directory, files) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            for (let file of files) {
+                const parsed = await handleSlpParse(`${directory}${file.filename}`)
+                if (!parsed) {
+                    console.log(`Error parsing .slp: ${file.filename}`)
+                    continue
+                }
+                const analyzed = await handleSlpAnalyze(parsed)
+                if (!analyzed) {
+                    console.log(`Error analyzing parsed .slp: ${file.filename}`)
+                    continue
+                }
+                const response = await handleSlpUpload(analyzed)
+                if (!response) {
+                    console.log(`Error uploading analyzed .slp: ${file.filename}`)
+                    continue
+                }
+                console.log(`File uploaded succesfully: ${file.filename}`)
+                continue
             }
-            const analyzed = await handleSlpAnalyze(parsed)
-            if (!analyzed) {
-                return console.log(`Error analyzing parsed .slp: ${file}`)
-            }
-            const response = await handleSlpUpload(analyzed)
-            if (!response) {
-                return console.log(`Error uploading analyzed .slp: ${file}`)
-            }
-            console.log(`File uploaded succesfully: ${file}`)
-            continue
+            console.log(`Upload done, closing databse`)
+            resolve(`Databse closed, ending program`)
+        } catch (err) {
+            console.log(err)
+            reject(err)
         }
-        console.log(`Upload done, closing databse`)
-        db.close()
-        return console.log(`Databse closed, ending program`)
     })
+
 }
 
-handleSlpSeed(directory)
+// const init = async () => {
+//     response = await handleSlpSeed(tempDir, files)
+//     console.log(response)
+// }
+
+// init()
+
+
+module.exports = handleSlpSeed

@@ -2,10 +2,36 @@ const express = require('express');
 const { ApolloServer } = require('apollo-server-express');
 const path = require('path');
 const { authMiddleware } = require('./utils/auth');
-const { handleSlpParse, handleSlpAnalyze, handleSlpUpload } = require('./utils/slpHandles/')
+const handleSlpSeed = require('./utils/slpHandles/handleSlpSeed')
+const handleMoveSlps = require('./utils/slpHandles/handleMoveSlps')
 const { typeDefs, resolvers } = require('./schemas');
 const db = require('./config/connection');
+const multer = require('multer');
+const handleSlpParse = require('./utils/slpHandles/handleSlpParse');
+const handleSlpAnalyze = require('./utils/slpHandles/handleSlpAnalyze');
+const handleSlpUpload = require('./utils/slpHandles/handleSlpUpload');
 
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, './upload/_tempSlps');
+  },
+  filename: (req, file, cb) => {
+    const fileName = file.originalname.toLowerCase().split(' ').join('-');
+    cb(null, fileName)
+  }
+});
+var upload = multer({
+  storage: storage,
+  fileFilter: (req, file, cb) => {
+    const slpRegex = /^.*\.(slp)$/
+    if (file.originalname.match(slpRegex)) {
+      cb(null, true);
+    } else {
+      cb(null, false);
+      return cb(new Error('Only .slp files allowed!'));
+    }
+  }
+});
 // const handleSlpUpload  = require('./utils/handleSlpUpload')
 
 const PORT = process.env.PORT || 3001;
@@ -27,10 +53,54 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/build/index.html'));
 });
 
-app.post('/data/upload', function (req, res) {
-  console.log(`it's routing`)
-  res.status(200).json({ message: `it's routing` })
+app.post('/data/upload', upload.array('slpFiles'), async function (req, res) {
+  const directory = `./upload/_tempSlps/`
+  const response = await handleSlpSeed(directory, req.files)
+  if(!response){
+    return res.status(500).send(`Error uploading files`)
+  } else{
+    return res.status(200).send(`Success!`)
+  }
+
+  // console.log(`it's opening`)
+  // for (let file of req.files.slpFiles) {
+  //   console.log(file)
+  //   const parsed = await handleSlpParse(`${directory}${file}`)
+  //   if (!parsed) {
+  //     console.log(`Error parsing .slp: ${file.filename}`)
+  //     continue
+  //   }
+  //   const analyzed = await handleSlpAnalyze(parsed)
+  //   if (!analyzed) {
+  //     console.log(`Error analyzing parsed .slp: ${file}`)
+  //     continue
+  //   }
+  //   const response = await handleSlpUpload(analyzed)
+  //   if (!response) {
+  //     console.log(`Error uploading analyzed .slp: ${file}`)
+  //     continue
+  //   }
+  //   console.log(`File uploaded succesfully: ${file}`)
+  //   continue
+  // }
+  // console.log(`Upload done, closing databse`)
+  // res.status(200).send(`Success!`)
 })
+// if (!req.files || Object.keys(req.files).length === 0) {
+//   return res.status(400).send(`No files wer uploaded`)
+// }
+
+// let uploadDir = `${__dirname}/utils/testSlps/_tempSlps/`
+
+// const uploaded = await handleMoveSlps(uploadDir, req.files.slpFiles)
+// if(!uploaded){
+//   return res.status(500).send(`No files uploaded`)
+// }
+// const toDatabase = await handleSlpSeed(uploadDir)
+// if(!toDatabase){
+//   return res.status(500).send(`Error uploading to DB`)
+// }
+// return res.status(200).send(`Files uploaded succesfully!`)
 
 // Create a new instance of an Apollo server with the GraphQL schema
 const startApolloServer = async (typeDefs, resolvers) => {
@@ -47,4 +117,3 @@ const startApolloServer = async (typeDefs, resolvers) => {
 
 // Call the async function to start the server
 startApolloServer(typeDefs, resolvers);
-

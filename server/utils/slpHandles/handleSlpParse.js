@@ -5,6 +5,7 @@ const slp = './testSlps/testRealGame.slp'
 
 const handleSlpParse = async (slp) => {
     try {
+        console.log(slp)
         // instantiating a new SlippiGame class for parsing
         const game = new SlippiGame(slp)
         // parsing the new SlippiGame = game
