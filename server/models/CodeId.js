@@ -7,6 +7,7 @@ const codeIdSchema = new Schema({
     connectCode: {
         type: String,
         required: true,
+        minLength: 3,
     },
     userId: {
         type: String,

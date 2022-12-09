@@ -9,7 +9,7 @@ const handleSlpAnalyze = (payload) => {
             stats,                              //object
             // frames,                          //object
             // rollbackFrames,                     //object
-            winners                             //object
+            winners                             //array of objects
         } = payload
         //players is an array of at least 2 objects
         //keep as const immutability
@@ -59,6 +59,10 @@ const handleSlpAnalyze = (payload) => {
         // for some reason, players.characters is "characterNum": "someRandomNumIDKWhatIt'sFor", so let's get rid of the value and just use the key as a number
         const playersMetadata = []
         for (let [player, data] of Object.entries(playersMetadataObject)) {
+            // a netplay name and code in the game metadata component is required
+            if (!data.names.netplay || !data.names.code) {
+                return null
+            }
             let characters = []
             for (let [character, innerData] of Object.entries(data.characters)) {
                 characters.push(character)
@@ -108,6 +112,9 @@ const handleSlpAnalyze = (payload) => {
 
         let displayNames = []
         for (let i = 0; i < playersSettings.length; i++) {
+            if (!playersSettings[i].displayName) {
+                return null
+            }
             const displayName = {
                 displayName: playersSettings[i].displayName,
                 codeIds: [] //add id's after adding other info
@@ -117,6 +124,9 @@ const handleSlpAnalyze = (payload) => {
 
         const codeIds = []
         for (let i = 0; i < playersSettings.length; i++) {
+            if (!playersSettings[i].connectCode) {
+                return null
+            }
             const codeId = {
                 appUser: null,
                 connectCode: playersSettings[i].connectCode,

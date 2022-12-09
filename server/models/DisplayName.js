@@ -5,7 +5,8 @@ const displayNameSchema = new Schema({
         type: String,
         required: true,
         unique: true,
-        maxLength: 15,
+        maxLength: [15, "Display name can't be more than 15 character"],
+        minLength: [1, "A display name is required"]
     },
     codeIds: [{ type: Schema.Types.ObjectId, ref: 'CodeId' }],
 })
