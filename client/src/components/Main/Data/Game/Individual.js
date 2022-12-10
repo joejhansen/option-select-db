@@ -2,6 +2,9 @@ import { useQuery } from "@apollo/client";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { QUERY_GAME_FULL } from "../../../../utils/apollo/queries";
 import './game.css'
+// TODO: make individual componenents of each table passing in the correct props for eas of use/refactoring if needed
+// TODO: afix two-column tables design at 1022px for readability, if<1022px then make one column for conversions since it's like 7 columns
+
 const GameIndividual = ({ theme }) => {
     const navigate = useNavigate()
     const styles = {
@@ -153,7 +156,7 @@ const GameIndividual = ({ theme }) => {
         for (let conversion of game.stats.conversions) {
             // getting all of our kill conversions for kill stats
             if (conversion.didKill) {
-                killsStats[conversion.lastHitBy].push({ start: conversion.startFrame, end: conversion.endFrame, killMove: conversion.moves[conversion.moves.length - 1], direction: null, percent: Math.floor(conversion.endPercent * 100) / 100, })
+                killsStats[conversion.lastHitBy].push({ start: conversion.startFrame, end: conversion.endFrame, killMove: conversion.moves.length?conversion.moves[conversion.moves.length - 1]: `Error!`, direction: null, percent: Math.floor(conversion.endPercent * 100) / 100, })
             }
         }
         let renderKillsStats = []
@@ -283,7 +286,7 @@ const GameIndividual = ({ theme }) => {
                         <div style={conversionRowStyle}>
                             <div>{renderMinutes(conversion.start)}</div>
                             <div>{renderMinutes(conversion.end)}</div>
-                            <div>{Math.floor((conversion.endPercent - conversion.startPercent) * 100) / 100}</div>
+                            <div>{Math.floor((conversion.endPercent - conversion.startPercent) * 100) / 100}%</div>
                             <div>{Math.floor(conversion.startPercent * 100) / 100}% - {Math.floor(conversion.endPercent * 100) / 100}%</div>
                             <div>{conversion.totalMoves}</div>
                             <div>{conversion.opening}</div>
@@ -363,7 +366,7 @@ const GameIndividual = ({ theme }) => {
                             <div>Start</div>
                             <div>End</div>
                             <div>Damage</div>
-                            <div># Moves</div>
+                            <div>Moves</div>
                             <div>Opening</div>
                         </div>
                         <div id="conversionsData" className="dataRows" style={tableDataBodyStyle}>
@@ -397,13 +400,9 @@ const GameIndividual = ({ theme }) => {
                                         <div style={styles.overallTable.header}>
                                             <div></div>
                                             <div>
-                                                <Link to={linkToConnectCodes[0]} style={styles.link}>{game.codeIds[0].connectCode}</Link>
-                                                as
-                                                <Link to={linkToDisplayNames[0]} style={styles.link}>{game.displayNames[0].displayName}</Link></div>
+                                                <Link to={linkToConnectCodes[0]} style={styles.link}>{game.codeIds[0].connectCode}</Link> as <Link to={linkToDisplayNames[0]} style={styles.link}>{game.displayNames[0].displayName}</Link></div>
                                             <div>
-                                                <Link to={linkToConnectCodes[1]} style={styles.link}>{game.codeIds[1].connectCode}</Link>
-                                                as
-                                                <Link to={linkToDisplayNames[1]} style={styles.link}>{game.displayNames[1].displayName}</Link>
+                                                <Link to={linkToConnectCodes[1]} style={styles.link}>{game.codeIds[1].connectCode}</Link> as <Link to={linkToDisplayNames[1]} style={styles.link}> {game.displayNames[1].displayName}</Link>
                                             </div>
                                         </div>
                                         <div style={styles.overallTable.data.outer}>
@@ -415,8 +414,8 @@ const GameIndividual = ({ theme }) => {
                                                     <div>{game.stats.overall[1].killCount}</div>
 
                                                     <div>Damage Done</div>
-                                                    <div>{Math.floor(game.stats.overall[0].totalDamage * 100) / 100}</div>
-                                                    <div>{Math.floor(game.stats.overall[1].totalDamage * 100) / 100}</div>
+                                                    <div>{Math.floor(game.stats.overall[0].totalDamage * 100) / 100}%</div>
+                                                    <div>{Math.floor(game.stats.overall[1].totalDamage * 100) / 100}%</div>
 
                                                     <div>Opening Conversion Rate</div>
                                                     <div>

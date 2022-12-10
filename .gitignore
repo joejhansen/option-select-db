@@ -24,4 +24,4 @@ yarn-error.log*
 # use the handleSlpParse.js with the test.slp provided in the server/utils/testSlps folder
 /server/utils/testSlps/parsedTestSlpJSONs
 # used for upload
-/server/utils/upload/_tempSlps/
+/server/upload/_tempSlps/

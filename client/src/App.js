@@ -138,7 +138,6 @@ function App() {
     'home',
     'about',
     'data',
-    'settings',
   ]
 
 
@@ -160,11 +159,7 @@ function App() {
                 index
                 element={<Home theme={theme} />}
               />
-              <Route
-                // quick hack to handle the nav
-                path="/home"
-                element={<Home theme={theme} setThemeHandler={setThemeHandler} />}
-              />
+              
               <Route path="/about"
                 element={<About theme={theme} />}
               />

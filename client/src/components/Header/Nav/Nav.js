@@ -35,13 +35,13 @@ const Nav = ({ pages, theme }) => {
                         <li id={page} key={page}>
                             <NavLink
                                 style={({ isActive }) => {
-                                    return(
+                                    return (
                                         isActive
-                                        ? styles.active
-                                        : styles.inactive
+                                            ? styles.active
+                                            : styles.inactive
                                     )
                                 }}
-                                to={`/${page}`}>
+                                to={page === 'home' ? '/' : `/${page}`}>
                                 {pageTitle}
                             </NavLink>
                         </li>

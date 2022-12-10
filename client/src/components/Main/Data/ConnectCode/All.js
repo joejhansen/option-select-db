@@ -29,7 +29,9 @@ const ConnectCodeAll = ({ theme }) => {
             for (let game of codeId.games) {
                 const linkToGame = `../../game/${game._id}`
                 const date = new Date(parseInt(game.metadata.startAt))
-                games.push(<li>Game Played on <Link to={linkToGame} style={styles.link}>{JSON.stringify(date)}</Link></li>)
+                const localDate = date.toLocaleDateString()
+                const localTime = date.toLocaleTimeString()
+                games.push(<li>Played on <Link to={linkToGame} style={styles.link}>{localDate} at {localTime}</Link></li>)
             }
             const linkToConnectCode = `../${codeId._id}`
             render.push(

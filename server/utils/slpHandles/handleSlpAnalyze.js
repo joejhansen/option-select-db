@@ -1,6 +1,11 @@
 // in this function, we take the parsed slp file using slippi-js and parse it further for our primary models
 // Game, CodeId, DisplayName, and User
 
+// TODO: add hate speech filter for display names. 
+// you can still upload as "fuck nintento" and other curse words but the *other* stuff, uh, no
+// TODO: MAYBE: allow the game data but censor with generic '****' when necessary
+
+
 const handleSlpAnalyze = (payload) => {
     try {
         let {
@@ -11,6 +16,7 @@ const handleSlpAnalyze = (payload) => {
             // rollbackFrames,                     //object
             winners                             //array of objects
         } = payload
+        console.log(winners)
         //players is an array of at least 2 objects
         //keep as const immutability
         const {
@@ -74,19 +80,24 @@ const handleSlpAnalyze = (payload) => {
         metadata = { startAt, lastFrame, players: playersMetadata, playedOn }
         // console.log(metadata.players)
 
-        // const {
-        //     lastFrames,                         //num
-        //     playableFrameCount,                 //num
-        //     stocks,                             //array of objects in chronological order by the frame the stock was lost.
-        //     conversions,                        //array of objects in chronological order by the frame the combo->kill starts
-        //     combos,                             //array of objects in chronological order by the frame the combo starts. will include everything in array in line above
-        //     actionCounts,                       //array of objects equal to the ammount of players in that game, ordered by playerindex
-        //     overall,                            //array of objects equal to the ammount of players in that game, ordered by playerindex
-        //     gameComplete                        //boolean. checking for quit-outs(LRAStart)
-        // } = stats
+        const {
+            //     lastFrames,                         //num
+            //     playableFrameCount,                 //num
+            // we have to check if the following three exist
+            stocks,                             //array of objects in chronological order by the frame the stock was lost.
+            conversions,                        //array of objects in chronological order by the frame the combo->kill starts
+            combos,                             //array of objects in chronological order by the frame the combo starts. will include everything in array in line above
+            //     actionCounts,                       //array of objects equal to the ammount of players in that game, ordered by playerindex
+            //     overall,                            //array of objects equal to the ammount of players in that game, ordered by playerindex
+            //     gameComplete                        //boolean. checking for quit-outs(LRAStart)
+        } = stats
         // requires no unpacking
         // stats does not include any reference to the DisplayName or ConnectCode, only the playerIndex/port#
-
+        if (stocks.length <= 2 || !conversions.length || !combos.length) {
+            // if no stocks were lost by either player, if no conversions were made, or if no combos were made, reject the game
+            // TODO: be more sophisticated about this for edge cases such as JV5s
+            return null
+        }
         //all of these may be 0 if played on a local connection, therefore no lag and no need for rollback
         // const {
         //     frames: framesRollback,             //object

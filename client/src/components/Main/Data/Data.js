@@ -1,5 +1,7 @@
 import { Outlet, NavLink } from "react-router-dom"
 
+// TODO: ADD LEADERBOARDS FOR STUFF LIKE # GAMES PLAYED, TOTAL DAMAGE TAKEN/GIVEN, LOWEST OPENING/KILL RATIO, ETC
+
 const Data = ({ theme }) => {
     const styles = {
         ul: {
@@ -18,10 +20,13 @@ const Data = ({ theme }) => {
         inactive: {
             color: theme.text,
             textDecoration: 'none',
+        },
+        dataWrappe: {
+            padding: '0',
         }
     }
     return (
-        <div className="container">
+        <div className="container-fluid" style={styles.dataWrappe}>
             <p>Data</p>
             <div className="row">
                 <div className="col">

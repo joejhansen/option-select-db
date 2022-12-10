@@ -26,6 +26,7 @@ const handleSlpSeed = async (directory, files) => {
         try {
             for (let file of files) {
                 const parsed = await handleSlpParse(`${directory}${file.filename}`)
+                // :( promisify the stats getting process?
                 if (!parsed) {
                     console.log(`Error parsing .slp: ${file.filename}`)
                     continue

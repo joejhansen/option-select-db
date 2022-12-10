@@ -21,7 +21,6 @@ const Games = ({ theme }) => {
     const renderGames = (data) => {
         let render = []
         for (let game of data.games) {
-            const startDate = new Date(parseInt(game.metadata.startAt))
             let playerDisplayNames = []
             for (let displayName of game.displayNames) {
                 playerDisplayNames.push({ displayName: displayName.displayName, display_id: displayName._id })
@@ -40,12 +39,15 @@ const Games = ({ theme }) => {
                     <li><Link to={linkToConnectCode} style={styles.link}>{connectCode}</Link> as <Link to={linkToDisplayName} style={styles.link}>{displayName}</Link></li>
                 )
             }
+            const startDate = new Date(parseInt(game.metadata.startAt))
             let linkToGame = `../${game._id}`
+            const localDate = startDate.toLocaleDateString()
+            const localTime = startDate.toLocaleTimeString()
             render.push(
                 <div className='row'>
                     <div className="col">
                         <div className="card" style={styles.card}>
-                            <p>Played on <Link to={linkToGame} style={styles.link}>{JSON.stringify(startDate)}</Link></p>
+                            <p>Played on <Link to={linkToGame} style={styles.link}>{localDate} at {localTime}</Link></p>
                             <p>Played By</p>
                             <ul>{renderPlayers}</ul>
                         </div>

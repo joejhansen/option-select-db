@@ -1,11 +1,9 @@
 const { SlippiGame } = require('@slippi/slippi-js')
-const fs = require('fs')
 
 const slp = './testSlps/testRealGame.slp'
 
 const handleSlpParse = async (slp) => {
     try {
-        console.log(slp)
         // instantiating a new SlippiGame class for parsing
         const game = new SlippiGame(slp)
         // parsing the new SlippiGame = game
@@ -13,6 +11,10 @@ const handleSlpParse = async (slp) => {
         const metadata = game.getMetadata()
         const stats = game.getStats()
         const winners = game.getWinners()
+        // okay, SO
+        // getWinners() is a relatively new method (as of 11/05/22) and so is apparently not supported on older generate .slps
+        // as such, we're gonna have to fill this object ourselves for if !winners.length
+
         // const frames = JSON.stringify(game.getFrames(), null, 2)
         // const rollbackFrames = JSON.stringify(game.getRollbackFrames(), null, 2)
         // const payload = JSON.stringify({ settings, metadata, stats, frames, rollbackFrames, winners }, null, 2)

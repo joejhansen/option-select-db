@@ -1,69 +1,130 @@
+/* this stylesheet describes the tables used on the /data/game/:id uri and ./Individual.js component*/
+
+/* the overall data table */
+/* every odd row */
 .overallTable>div:nth-child(6n-3) {
-    background-color: #111111;
+    background-color: #090A0B;
 }
 
 .overallTable>div:nth-child(6n-4) {
-    background-color: #111111;
+    background-color: #090A0B;
 }
 
 .overallTable>div:nth-child(6n-5) {
-    background-color: #111111;
+    background-color: #090A0B;
+    padding-left: .5rem;
 }
 
+/* every even row */
+.overallTable>div:nth-child(6n) {
+    background-color: #131416;
+}
+
+.overallTable>div:nth-child(6n-1) {
+    background-color: #131416;
+}
+
+.overallTable>div:nth-child(6n-2) {
+    background-color: #131416;
+    padding-left: .5rem;
+}
+
+/* every column after the first */
 .overallTable>div:nth-child(3n-1) {
     box-shadow: -2px 0px 0px 0px gray;
-    text-align: end;
-    padding-right: .5rem;
+    text-align: start;
+    padding-left: .5rem;
 }
 
 .overallTable>div:nth-child(3n) {
     box-shadow: -2px 0px 0px 0px gray;
-    text-align: end;
-    padding-right: .5rem;
+    text-align: start;
+    padding-left: .5rem;
 }
 
-
+/* every odd row */
 #killsData>div:nth-child(8n-4) {
-    background-color: #111111;
+    background-color: #090A0B;
 }
 
 #killsData>div:nth-child(8n-5) {
-    background-color: #111111;
+    background-color: #090A0B;
 }
 
 #killsData>div:nth-child(8n-6) {
-    background-color: #111111;
-}
-#killsData>div:nth-child(8n-7) {
-    background-color: #111111;
+    background-color: #090A0B;
 }
 
-#killsData>div:nth-child(4n-3) {
-    text-align: end;
-    padding-right: .5rem;
+#killsData>div:nth-child(8n-7) {
+    background-color: #090A0B;
 }
+/* every even row */
+#killsData>div:nth-child(8n) {
+    background-color: #131416;
+}
+
+#killsData>div:nth-child(8n-1) {
+    background-color: #131416;
+}
+
+#killsData>div:nth-child(8n-2) {
+    background-color: #131416;
+}
+
+#killsData>div:nth-child(8n-3) {
+    background-color: #131416;
+}
+
+/* every column */
+#killsData>div:nth-child(4n-3) {
+    text-align: start;
+    padding-left: .5rem;
+}
+
+/* every column but the first */
 #killsData>div:nth-child(4n-2) {
     box-shadow: -2px 0px 0px 0px gray;
-    text-align: end;
-    padding-right: .5rem;
+    text-align: start;
+    padding-left: .5rem;
 }
+
 #killsData>div:nth-child(4n-1) {
     box-shadow: -2px 0px 0px 0px gray;
-    text-align: end;
-    padding-right: .5rem;
+    text-align: start;
+    padding-left: .5rem;
 }
+
 #killsData>div:nth-child(4n) {
     box-shadow: -2px 0px 0px 0px gray;
-    text-align: end;
-    padding-right: .5rem;
+    text-align: start;
+    padding-left: .5rem;
 }
 
-
+/* every odd row */
 #conversionsData>div:nth-child(odd) {
-    background-color: #111111;
+    background-color: #090A0B;
 }
+/* every... even row */
+#conversionsData>div:nth-child(even) {
+    background-color: #131416;
+}
+
+/* every row that itself only has a single child element */
+/* this is for the "# stocks left" messages are */
+#conversionsData>div>div:only-child {
+    background: #202124;
+    padding-left: .5rem
+}
+
+/* every row that has more than one children, each column after the first*/
 #conversionsData>div>div:nth-child(n+2) {
     box-shadow: -2px 0px 0px 0px gray;
-    text-align: end;
-    padding-right: .5rem;
+    text-align: start;
+    padding-left: .5rem;
+}
+/* every row that has more than one child, the first one tho. */
+/* this would *seem* to be the same as the one before the last, but it's not somehow */
+#conversionsData>div>div:nth-child(1) {
+    text-align: start;
+    padding-left: .5rem;
 }
