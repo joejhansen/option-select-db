@@ -10,13 +10,6 @@ const { CodeId, DisplayName, Game } = require('../../models');
 
 const tempDir = `../../upload/_tempSlps/`
 
-const files = [
-    'game_20211021t004801.slp',
-    'game_20211021t004816.slp',
-    'game_20211021t005029.slp',
-    'game_20211021t005037.slp',
-    'game_20211021t005404.slp',
-]
 const handleSlpSeed = async (directory, files) => {
     return new Promise(async (resolve, reject) => {
         await CodeId.deleteMany()

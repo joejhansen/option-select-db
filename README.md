@@ -1,34 +1,34 @@
-# Option Select Database
+# **Option Select Database**
 
-Search, track, and analyze your greatest moments in Melee with the Option Select Database
+ Search, track, and analyze your greatest moments in Melee with the Option Select Database
 
-## Current Scope
+# **Current Scope**
 
-Upload your .slp files to a searchable compendium using the site or its integrated API. 
+Upload your .slp files to a free and open-source, searchable compendium using the site or its integrated API. 
 
-### **Search Functionality**
+## **Search Functionality**
 
 Look up display names, connect codes, and individual games associated with them to analyze combos, conversions, and anything else slippi-js provides.
 
-### **Head-to-Head Analysis**
-
-Compare connect codes to see match histories and analytics such as win/loss ratio, average damage and stocks taken per game, and more.
-
-### **Data At Your Fingertips**
+## **Data At Your Fingertips**
 
 Use the API directly for whatever you want. Currently supports searches for Users, DisplayNames, CodeIds(Connect Codes with a uuid), and Games
 
-## Technologies Used
+# **Technologies Used**
 
-Option Select's is built with the MERN stack but would not be possible without Slippi-JS
+Option Select's is built with the MERN stack but would not be possible let alone conceivable without the dedicated work of Jas "Fizzi" Laferriere, Vince Au, Nikhil "Nikki" Narayana, and all the other contributors to [Slippi-JS](https://github.com/project-slippi/slippi-js).
 
-### **Front End**
+## **Front End**
 
 React conditional rendering
 
 Bootstrap CSS styling
 
-### **Back End**
+A *lot* of css grid
+
+## **Back End**
+
+Slippi-JS for .slp file parsing and anlysis
 
 Node Express server
 
@@ -36,29 +36,27 @@ Multer for file uploads
 
 Mongoose library for MongoDB
 
-Slippi-JS for .slp file parsing and anlysis
-
 Apollo GraphQL for API, providing information for the front-end and anyone else who may want to connect using a URI (deployment TBD)
 
-## Future Development
+# **Future Development**
 
-### **Head-to-Head Analysis**
+## **Head-to-Head Analysis**
 
 Search two Connect Codes and get their uploaded stats in a head to head analysis against all games played.
 
-### **Leaderboards**
+## **Leaderboards**
 
-A central board to track players with the lowest openings-per-kill ratio, 
+A central board to track players with superlatives in anything slippi-js might provide. Lowest openings-per-kill ratio, most average inputs per minute, highest succesfull L-cancel percentage, and more. 
 
-### **3rd Party Authentication with Slippi.gg**
+## **3rd Party Authentication with Slippi.gg**
 
 Slippi.gg is the creator and proprieter of the information identifying a Connect Code with its Unique User ID (connectCode and userId in the CodeId model). This information is available directly from the .slp files and is a one-to-one relationship. As such, it is *theoritically* possible to implement a 3rd Party Authentication feature that allows Option Select Users to verify that they are the creator and owner of the Connect Code they claim to have.
 
 However, Slippi.gg currently has no OAuth standard and functionality on 3rd Party Authentication in general would have to be expanded significantly in order for there to be a safe and secure connection between Option Select and Slippi.gg. As such, User creation has been left out of current development considering I want to avoid a scenario where a user impersonates someone for malicious intent.
 
-## Original Scope
+# **Original Scope**
 
-### Option Select Overlay
+## **Option Select Overlay**
 
 The original intent of this project was for an overlay that uses slp-realtime in order to cast information to a stream, but CORS makes that difficult so would be better suited for a fork with electron.
 

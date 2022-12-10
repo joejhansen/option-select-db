@@ -59,7 +59,11 @@ const handleSlpAnalyze = (payload) => {
             playedOn                            //string. usually 'dolphin'
         } = metadata
 
-
+        // if the game length is less than 30 seconds (1800 frames), skip it
+        // will filter out most auto quit-outs
+        if (lastFrame <= 1800) {
+            return null
+        }
         // TODO: convert PlayersMetadata to an array in the order of the playerindex or else the mongoose model wont work
         // TODO: convert players.characters to an array where the values are numbers equal to the keyvalues of the original object. see below
         // for some reason, players.characters is "characterNum": "someRandomNumIDKWhatIt'sFor", so let's get rid of the value and just use the key as a number
