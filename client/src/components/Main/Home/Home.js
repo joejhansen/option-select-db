@@ -1,7 +1,7 @@
 import React, { useReducer, useState } from 'react'
 import './Home.css'
 // TODO: MAKE ACTIONS AND IMPORT THEM
-
+import Info from './Info/Info'
 
 
 const Home = ({ theme }) => {
@@ -55,95 +55,7 @@ const Home = ({ theme }) => {
         }
     }
     return (
-        <div className='container' style={styles.container}>
-            <div className="row" style={styles.row}>
-                <div className='col'>
-                    <div className='row'>
-                        <div className='col'>
-                            <div className='card' style={styles.card}>
-                                <div style={styles.header}>
-                                    <p style={styles.header.text}>Welcome to the</p>
-                                    <p style={styles.header.text}>Option Select Database</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className='row'>
-                        <div className='col'>
-                            <div className='card' style={styles.card}>
-                                <div className='row'>
-                                    <div className='col' style={styles.cardHeader}>
-                                        <p style={styles.cardHeader.text}>Info Header</p>
-                                    </div>
-                                </div>
-                                <div className='row'>
-                                    <div className='col-md-6 leftColumn' >
-                                        <div className='leftColumnWrapper'>
-                                            <p>One column</p>
-                                            <p>One column</p>
-                                            <p>One column</p>
-                                            <p>One column</p>
-                                            <p>One column</p>
-                                        </div>
-                                    </div>
-                                    <div className='col-md-6 rightColumn'>
-                                        <div className='row rightColumnWrapper'>
-                                            <div className='col-xl-6'>
-                                                <p>two column top</p>
-                                                <p>two column top</p>
-                                                <p>two column top</p>
-                                                <p>two column top</p>
-                                                <p>two column top</p>
-                                            </div>
-                                            <div className='col-xl-6'>
-                                                <p>two column bottom</p>
-                                                <p>two column bottom</p>
-                                                <p>two column bottom</p>
-                                                <p>two column bottom</p>
-                                                <p>two column bottom</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className='row'>
-                        <div className='col'>
-                            <div className='card' style={styles.card}>
-                                <div className='row'>
-                                    <div className='col-6'>
-                                        <p>One column</p>
-                                        <p>One column</p>
-                                        <p>One column</p>
-                                        <p>One column</p>
-                                        <p>One column</p>
-                                    </div>
-                                    <div className='col-6'>
-                                        <div className='row'>
-                                            <div className='col-xl-6'>
-                                                <p>two column top</p>
-                                                <p>two column top</p>
-                                                <p>two column top</p>
-                                                <p>two column top</p>
-                                                <p>two column top</p>
-                                            </div>
-                                            <div className='col-xl-6'>
-                                                <p>two column bottom</p>
-                                                <p>two column bottom</p>
-                                                <p>two column bottom</p>
-                                                <p>two column bottom</p>
-                                                <p>two column bottom</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                <Info />
 
     )
 }
