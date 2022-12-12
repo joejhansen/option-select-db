@@ -1,0 +1,14 @@
+.col{
+    margin: 0;
+    padding: 0
+}
+.row{
+    margin: 0;
+    padding: 0
+}
+
+.leftColumnWrapper{
+    margin: .25rem;
+    border-right: solid gray 2px;
+    height: 100% 
+}

@@ -19,10 +19,10 @@ const Header = ({ children, theme }) => {
         <>
             <header className='container-fluid' style={styles.container}>
                 <div className='row'>
-                    <div className='col-md-3 d-flex justify-content-center'>
-                        <h1>Logo/Title</h1>
+                    <div className='col-md-4 d-flex justify-content-center'>
+                        <h1>Option Select</h1>
                     </div>
-                    <div className='col-md-9'>
+                    <div className='col-md-8'>
                         {children}
                     </div>
                 </div>

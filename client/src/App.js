@@ -29,9 +29,9 @@ import Games from './components/Main/Data/Game/Search'
 import GamesAll from './components/Main/Data/Game/All'
 import GameIndividual from './components/Main/Data/Game/Individual'
 import Home from './components/Main/Home/Home'
-import Overlay from './components/Main/Overlay/Overlay';
-import Settings from './components/Main/Settings/Settings';
-import SlippiConnect from './components/Main/Settings/SlippiConnection';
+// import Overlay from './components/Main/Overlay/Overlay';
+// import Settings from './components/Main/Settings/Settings';
+// import SlippiConnect from './components/Main/Settings/SlippiConnection';
 //    Footer
 import Footer from './components/Footer/Footer'
 //    Errors
@@ -62,59 +62,66 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-// context or composition... https://reactjs.org/docs/context.html#before-you-use-context
-// this too => https://reactrouter.com/en/main/components/link
+
+
 function App() {
-  let defaultPreferences = {
-    user: {
-      _id: '',
-      email: '',
-      username: '',
-    },
-    theme: {
-      // dark
-      // generously provided by google
-      primary: '#303134',
-      secondary: '#202124',
-      tertiary: '#303134',
-      accent: '#f88a8a',
-      text: '#bdc1c6',
-    },
-    session: {
-      games: [],
-    },
+  const defaultTheme = {
+    primary: '#303134',
+    secondary: '#202124',
+    tertiary: '#303134',
+    accent: '#f88a8a',
+    text: '#bdc1c6',
   }
+  // let defaultPreferences = {
+  //   user: {
+  //     _id: '',
+  //     email: '',
+  //     username: '',
+  //   },
+  //   theme: {
+  //     // dark
+  //     // generously provided by google
+  //     primary: '#303134',
+  //     secondary: '#202124',
+  //     tertiary: '#303134',
+  //     accent: '#f88a8a',
+  //     text: '#bdc1c6',
+  //   },
+  //   session: {
+  //     games: [],
+  //   },
+  // }
 
-  let savedPreferences = JSON.parse(localStorage.getItem('savedPreferences'))
-  if (!savedPreferences) {
-    localStorage.setItem('savedPreferences', JSON.stringify(defaultPreferences))
-    savedPreferences = defaultPreferences
-  }
+  // let savedPreferences = JSON.parse(localStorage.getItem('savedPreferences'))
+  // if (!savedPreferences) {
+  //   localStorage.setItem('savedPreferences', JSON.stringify(defaultPreferences))
+  //   savedPreferences = defaultPreferences
+  // }
 
-  const [preferences, setPreferences] = useState(savedPreferences)
+  // const [preferences, setPreferences] = useState(savedPreferences)
 
-  const [theme, setTheme] = useState(savedPreferences.theme)
+  const [theme, setTheme] = useState(defaultTheme)
 
   // functionality for theme/overlay change
-  const setThemeHandler = (e) => {
-    e.preventDefault()
-    let newTheme = {}
-    for (let i = 0; i < e.target.children.length - 1; i++) {
-      const id = e.target.children[i].id
-      const value = e.target.children[i].value.trim()
-      if (!value || !id) {
-        continue
-      }
-      newTheme[id] = value
-    }
-    const oldTheme = preferences.theme
-    newTheme = { ...oldTheme, ...newTheme }
-    preferences.theme = newTheme
-    console.log(preferences.theme)
-    localStorage.setItem('savedPreferences', JSON.stringify(preferences))
-    setTheme(preferences.theme)
-    return
-  }
+  // const setThemeHandler = (e) => {
+  //   e.preventDefault()
+  //   let newTheme = {}
+  //   for (let i = 0; i < e.target.children.length - 1; i++) {
+  //     const id = e.target.children[i].id
+  //     const value = e.target.children[i].value.trim()
+  //     if (!value || !id) {
+  //       continue
+  //     }
+  //     newTheme[id] = value
+  //   }
+  //   const oldTheme = preferences.theme
+  //   newTheme = { ...oldTheme, ...newTheme }
+  //   preferences.theme = newTheme
+  //   console.log(preferences.theme)
+  //   localStorage.setItem('savedPreferences', JSON.stringify(preferences))
+  //   setTheme(preferences.theme)
+  //   return
+  // }
 
   const styles = {
     // the app render will fill the entire screen
@@ -159,7 +166,7 @@ function App() {
                 index
                 element={<Home theme={theme} />}
               />
-              
+
               <Route path="/about"
                 element={<About theme={theme} />}
               />
@@ -179,13 +186,13 @@ function App() {
                   <Route path="/data/game/:id" element={<GameIndividual theme={theme} />} />
                 </Route>
               </Route>
-              <Route path="/settings"
+              {/* <Route path="/settings"
                 element={<Settings theme={theme} />}>
                 <Route path='/settings/slippiconnection' element={<SlippiConnect theme={theme} />} />
-              </Route>
-              <Route path="/overlay"
+              </Route> */}
+              {/* <Route path="/overlay"
                 element={<Overlay theme={theme} />}>
-              </Route>
+              </Route> */}
               <Route path={'*' || '/404'}
                 element={<NotFound theme={theme} />}
               />
