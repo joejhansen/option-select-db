@@ -13,6 +13,8 @@ const Nav = ({ pages, theme }) => {
             width: '100%',
             justifyContent: 'space-evenly',
             padding: '0',
+            alignSelf: 'center',
+            margin: '0'
             // color: theme ? theme.text : 'black',
         },
         active: {

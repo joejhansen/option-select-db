@@ -16,7 +16,6 @@ const handleSlpAnalyze = (payload) => {
             // rollbackFrames,                     //object
             winners                             //array of objects
         } = payload
-        console.log(winners)
         //players is an array of at least 2 objects
         //keep as const immutability
         const {

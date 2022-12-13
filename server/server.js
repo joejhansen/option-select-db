@@ -1,15 +1,13 @@
 const express = require('express');
 const { ApolloServer } = require('apollo-server-express');
 const path = require('path');
+const multer = require('multer');
 const { authMiddleware } = require('./utils/auth');
 const handleSlpSeed = require('./utils/slpHandles/handleSlpSeed')
-const handleMoveSlps = require('./utils/slpHandles/handleMoveSlps')
 const { typeDefs, resolvers } = require('./schemas');
 const db = require('./config/connection');
-const multer = require('multer');
-const handleSlpParse = require('./utils/slpHandles/handleSlpParse');
-const handleSlpAnalyze = require('./utils/slpHandles/handleSlpAnalyze');
-const handleSlpUpload = require('./utils/slpHandles/handleSlpUpload');
+const fs = require('fs').promises
+
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -54,13 +52,21 @@ app.get('/', (req, res) => {
 });
 
 app.post('/data/upload', upload.array('slpFiles'), async function (req, res) {
+  if(!req.files.length){
+    return res.status(400).send(`No files selected`)
+  }
+  console.log(req.files)
   const directory = `./upload/_tempSlps/`
   const response = await handleSlpSeed(directory, req.files)
-  if(!response){
+  if (!response) {
     return res.status(500).send(`Error uploading files`)
-  } else{
-    return res.status(200).send(`Success!`)
+  } else {
+    // for (let file of req.files) {
+    //   await fs.unlink(file.path)
+    // }
+    return res.status(200).redirect('/data/upload')
   }
+
 
   // console.log(`it's opening`)
   // for (let file of req.files.slpFiles) {
