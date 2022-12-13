@@ -7,6 +7,12 @@ import { QUERY_CONNECT_CODE_BY_CODE, QUERY_DISPLAY_NAME_BY_NAME } from '../../..
 
 
 const ConnectCodesLanding = () => {
+   const styles = {
+      searchForm: {
+         display: 'flex',
+         justifyContent: 'center'
+      }
+   }
    const navigate = useNavigate()
    const [query, setQuery] = useState(``)
    const [getConnectCode, { loading, error, data }] = useLazyQuery(QUERY_CONNECT_CODE_BY_CODE, {
@@ -40,11 +46,9 @@ const ConnectCodesLanding = () => {
       <div className='row'>
          <div className='col'>
             <div className='row'>
+
                <div className='col-12'>
-                  <p>Connect Codes Landing</p>
-               </div>
-               <div className='col-12'>
-                  <form type='submit' onSubmit={handleMakeQuery}>
+                  <form type='submit' onSubmit={handleMakeQuery} style={styles.searchForm}>
                      <input type="search" onChange={handleSetQuery} placeholder="Searchy by Connect Code"></input>
                      <button>search</button>
                   </form>

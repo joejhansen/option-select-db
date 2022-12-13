@@ -16,6 +16,10 @@ const Data = ({ theme }) => {
         active: {
             color: theme.accent,
             textDecoration: 'none',
+            backgroundColor: theme.primary,
+            padding: '.5rem',
+            borderRadius: '.25rem',
+            boxShadow: 'inset -.2rem .2rem 0 0'
         },
         inactive: {
             color: theme.text,
@@ -23,16 +27,17 @@ const Data = ({ theme }) => {
         },
         dataWrappe: {
             padding: '0',
+        },
+        navWrapper: {
+            margin: '1rem 0'
         }
     }
     return (
         <div className="container-fluid" style={styles.dataWrappe}>
-            <p>Data</p>
             <div className="row">
-                <div className="col">
+                <div className="col" style={styles.navWrapper}>
                     <ul style={styles.ul}>
                         <li>
-
                             <NavLink
                                 style={({ isActive }) => {
                                     return (
@@ -71,7 +76,19 @@ const Data = ({ theme }) => {
                                 to={`/data/game`}>
                                 Games
                             </NavLink>
-
+                        </li>
+                        <li>
+                            <NavLink
+                                style={({ isActive }) => {
+                                    return (
+                                        isActive
+                                            ? styles.active
+                                            : styles.inactive
+                                    )
+                                }}
+                                to={`/data/upload`}>
+                                Upload
+                            </NavLink>
                         </li>
                     </ul>
                 </div>

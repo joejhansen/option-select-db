@@ -13,16 +13,24 @@ const Header = ({ children, theme }) => {
         container: {
             backgroundColor: theme.primary,
             color: theme.text
+        },
+        navWrapper: {
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center'
+        },
+        headerWrapper: {
+            margin: '.25rem'
         }
     }
     return (
         <>
             <header className='container-fluid' style={styles.container}>
-                <div className='row'>
+                <div className='row' style={styles.headerWrapper}>
                     <div className='col-md-4 d-flex justify-content-center'>
                         <h1>Option Select</h1>
                     </div>
-                    <div className='col-md-8'>
+                    <div className='col-md-8' style={styles.navWrapper}>
                         {children}
                     </div>
                 </div>

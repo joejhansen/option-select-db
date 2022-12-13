@@ -4,6 +4,12 @@ import { useEffect, useRef, useState } from "react";
 
 // const {SlippiGame} = require('@slippi/slippi-js')
 const Upload = ({ theme }) => {
+    const styles = {
+        uploadForm: {
+            display: 'flex',
+            justifyContent: 'center'
+        }
+    }
     const [selectedFiles, setSelectedFile] = useState([]);
     const [isFilePicked, setIsFilePicked] = useState(false);
     // useEffect(()=>{
@@ -54,8 +60,8 @@ const Upload = ({ theme }) => {
     // }
     return (
         <>
-            <form ref={fileInput} id="uploadSlp" action="/data/upload" method="post" encType="multipart/form-data">
-                <input type="file" name="slpFiles" multiple/>
+            <form ref={fileInput} id="uploadSlp" action="/data/upload" method="post" encType="multipart/form-data" style={styles.uploadForm}>
+                <input type="file" name="slpFiles" multiple />
                 <input type="submit" value="Upload .slp!" />
             </form>
             {/* {selectedFiles.length ?

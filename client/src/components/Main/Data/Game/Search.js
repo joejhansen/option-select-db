@@ -7,6 +7,12 @@ import { QUERY_GAME_BY_ID, QUERY_GAME_FULL } from '../../../../utils/apollo/quer
 
 
 const GamesLanding = () => {
+    const styles = {
+        searchForm: {
+            display: 'flex',
+            justifyContent: 'center'
+        }
+    }
     const navigate = useNavigate()
     const [query, setQuery] = useState(``)
     const [getGame, { loading, error, data }] = useLazyQuery(QUERY_GAME_BY_ID, {
@@ -38,8 +44,7 @@ const GamesLanding = () => {
     }
     return (
         <>
-            <p>Games Landing</p>
-            <form type='submit' onSubmit={handleMakeQuery}>
+            <form type='submit' onSubmit={handleMakeQuery} style={styles.searchForm}>
                 <input type="search" onChange={handleSetQuery} placeholder="Search by Game ID"></input>
                 <button>search</button>
             </form>

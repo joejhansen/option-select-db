@@ -7,6 +7,12 @@ import { QUERY_CONNECT_CODE_BY_CODE, QUERY_DISPLAY_NAME_BY_NAME } from '../../..
 
 
 const DisplayNamesLanding = () => {
+   const styles = {
+      searchForm: {
+         display: 'flex',
+         justifyContent: 'center'
+      }
+   }
    const navigate = useNavigate()
    const [query, setQuery] = useState(``)
    const [getDisplayName, { loading, error, data }] = useLazyQuery(QUERY_DISPLAY_NAME_BY_NAME, {
@@ -38,8 +44,7 @@ const DisplayNamesLanding = () => {
    }
    return (
       <>
-         <p>Display Names Landing</p>
-         <form type='submit' onSubmit={handleMakeQuery}>
+         <form type='submit' onSubmit={handleMakeQuery} style={styles.searchForm}>
             <input type="search" onChange={handleSetQuery} placeholder="Search by Display Name"></input>
             <button>search</button>
          </form>

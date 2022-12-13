@@ -8,11 +8,20 @@ const Games = ({ theme }) => {
     const styles = {
         card: {
             backgroundColor: theme.primary,
-            color: theme.text
+            color: theme.text,
+            position: 'relative',
+            backgroundColor: `${theme.primary}`,
+            border: `solid ${theme.text} 2px`,
+            bordeRadius: '.333rem',
+            boxShadow: `-5px 5px 0px 3px ${theme.accent}`,
+            margin: `1rem 0`
         },
         link: {
             textDecoration: 'none',
             color: theme.accent
+        },
+        entryWrapper: {
+            padding: '.5rem'
         }
     }
     useEffect(() => {
@@ -47,9 +56,11 @@ const Games = ({ theme }) => {
                 <div className='row'>
                     <div className="col">
                         <div className="card" style={styles.card}>
-                            <p>Played on <Link to={linkToGame} style={styles.link}>{localDate} at {localTime}</Link></p>
-                            <p>Played By</p>
-                            <ul>{renderPlayers}</ul>
+                            <div style={styles.entryWrapper}>
+                                <p>Played on <Link to={linkToGame} style={styles.link}>{localDate} at {localTime}</Link></p>
+                                <p>Played By</p>
+                                <ul>{renderPlayers}</ul>
+                            </div>
                         </div>
                     </div>
                 </div>

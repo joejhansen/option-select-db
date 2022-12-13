@@ -8,11 +8,20 @@ const DisplayName = ({ theme }) => {
     const styles = {
         card: {
             backgroundColor: theme.primary,
-            color: theme.text
+            color: theme.text,
+            position: 'relative',
+            backgroundColor: `${theme.primary}`,
+            border: `solid ${theme.text} 2px`,
+            bordeRadius: '.333rem',
+            boxShadow: `-5px 5px 0px 3px ${theme.accent}`,
+            margin: `1rem 0`
         },
         link: {
             textDecoration: 'none',
             color: theme.accent
+        },
+        entryWrapper: {
+            padding: '.5rem'
         }
     }
     useEffect(() => {
@@ -32,9 +41,11 @@ const DisplayName = ({ theme }) => {
                 <div className='row'>
                     <div className="col">
                         <div className="card" style={styles.card}>
-                            <p><Link to={linkToDisplayName} style={styles.link}>{name.displayName}</Link></p>
-                            <p>Connect Codes</p>
-                            <ul>{renderConnectCodes}</ul>
+                            <div style={styles.entryWrapper}>
+                                <p><Link to={linkToDisplayName} style={styles.link}>{name.displayName}</Link></p>
+                                <p>Connect Codes</p>
+                                <ul>{renderConnectCodes}</ul>
+                            </div>
                         </div>
                     </div>
                 </div>

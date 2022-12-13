@@ -76,8 +76,6 @@ const About = () => {
                                         <p className="info-column-head">The FGC</p>
                                         <div className="info-column-content">
                                             <p>&emsp;If this can be done with a 20 year old game, who's to say it can't be done for the latest releases and their own legacy titles?</p>
-                                            <p>&emsp;</p>
-                                            <p>&emsp;</p>
                                         </div>
                                     </div>
                                 </div>

@@ -10,15 +10,18 @@ const Nav = ({ pages, theme }) => {
         ul: {
             listStyle: 'none',
             display: 'flex',
-            flexDirection: 'row',
+            width: '100%',
             justifyContent: 'space-evenly',
-            alignSelf: 'center',
             padding: '0',
             // color: theme ? theme.text : 'black',
         },
         active: {
             color: theme.accent,
             textDecoration: 'none',
+            backgroundColor: theme.secondary,
+            padding: '.5rem',
+            borderRadius: '.25rem',
+            boxShadow: 'inset -.2rem .2rem 0 0'
         },
         inactive: {
             color: theme.text,
