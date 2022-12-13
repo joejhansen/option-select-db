@@ -23,7 +23,9 @@
 /* #info-section{
     height: 80vh;
 } */
-.info-columns{}
+.info-column-content>p{
+    margin: .5rem
+}
 
 .column-wrapper{
     padding: 0;
@@ -122,9 +124,6 @@ span>ul>li {
 
 #yet {
     text-align: end;
-}
-#tldr{
-    text-align: center;
 }
 
 
