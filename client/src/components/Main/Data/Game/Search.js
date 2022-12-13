@@ -16,7 +16,7 @@ const GamesLanding = () => {
     const navigate = useNavigate()
     const [query, setQuery] = useState(``)
     const [getGame, { loading, error, data }] = useLazyQuery(QUERY_GAME_BY_ID, {
-        variables: { id: query }
+        variables: { 'id': query }
     })
     const [notFound, setNotFound] = useState(false)
     const handleSetQuery = (e) => {
@@ -29,16 +29,13 @@ const GamesLanding = () => {
         if (!query) {
             return navigate('/data/game/all')
         }
-        await getGame()
-        while (loading) {
-            console.log(`loading`)
-        }
-        if (error || !data) {
+        const exists = await getGame()
+        if (error || !exists.data.gameById) {
             setNotFound(true)
-            return console.log(`error! ${error}`)
+            return
         }
         setNotFound(false)
-        return navigate(`/data/game/${data.gameById._id}`)
+        return navigate(`/data/game/${exists.data.gameById._id}`)
         // const { loading, data } = useQuery(QUERY_CONNECT_CODE_BY_CODE)
 
     }

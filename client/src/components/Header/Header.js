@@ -20,7 +20,7 @@ const Header = ({ children, theme }) => {
             alignItems: 'center'
         },
         headerWrapper: {
-            margin: '.25rem'
+            margin: '.5rem'
         }
     }
     return (

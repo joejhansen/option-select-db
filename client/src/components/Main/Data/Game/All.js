@@ -10,7 +10,6 @@ const Games = ({ theme }) => {
             backgroundColor: theme.primary,
             color: theme.text,
             position: 'relative',
-            backgroundColor: `${theme.primary}`,
             border: `solid ${theme.text} 2px`,
             bordeRadius: '.333rem',
             boxShadow: `-5px 5px 0px 3px ${theme.accent}`,
@@ -45,7 +44,7 @@ const Games = ({ theme }) => {
                 const linkToDisplayName = `../../displayname/${display_id}`
                 const linkToConnectCode = `../../connectcode/${connect_id}`
                 renderPlayers.push(
-                    <li><Link to={linkToConnectCode} style={styles.link}>{connectCode}</Link> as <Link to={linkToDisplayName} style={styles.link}>{displayName}</Link></li>
+                    <li key={connectCode}><Link to={linkToConnectCode} style={styles.link}>{connectCode}</Link> as <Link to={linkToDisplayName} style={styles.link}>{displayName}</Link></li>
                 )
             }
             const startDate = new Date(parseInt(game.metadata.startAt))
@@ -53,7 +52,7 @@ const Games = ({ theme }) => {
             const localDate = startDate.toLocaleDateString()
             const localTime = startDate.toLocaleTimeString()
             render.push(
-                <div className='row'>
+                <div className='row' key={game._id}>
                     <div className="col">
                         <div className="card" style={styles.card}>
                             <div style={styles.entryWrapper}>

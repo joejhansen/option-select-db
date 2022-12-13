@@ -30,7 +30,7 @@ const Info = () => {
                                         <div className="info-column-content">
                                             <p>&emsp;I grew up playing fighting games with my friends, having a blast while executing combos and kicking ass. As I got older, my appreciation of these games grew and I wanted to improve my gameplay and results at local tournaments.</p>
                                             <p>&emsp;However, it's hard to get a sense of your holistic improvement as a player without data to back up your perceptions. Each game has its own UX that makes it difficult to compare data, if it even has that data in the first place.</p>
-                                            <p>&emsp;My goal with the Option Select Database is to create a semi-centralized, open-source database for fighting game replays and analytics available through the we app or its API, starting with Super Smash Bros: Melee.</p>
+                                            <p>&emsp;My goal with the Option Select Database is to create a semi-centralized, open-source database for fighting game replays and analytics available through the web app or its API, starting with Super Smash Bros: Melee.</p>
                                         </div>
 
                                     </div>
@@ -49,7 +49,7 @@ const Info = () => {
                                             <div className="col info-column popout">
                                                 <p className="info-column-head">Search</p>
                                                 <div className="info-column-content">
-                                                    <p>&emsp;Search individual Connect Codes, Display Names, and games or get a full list of everything. There's no red tape or secrets: iff the file has it, the database has it too.</p>
+                                                    <p>&emsp;Search individual Connect Codes, Display Names, and games or get a full list of everything. There's no red tape or secrets: if the file has it, the database has it too.</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -57,7 +57,7 @@ const Info = () => {
                                             <div className="col info-column popout">
                                                 <p className="info-column-head">Analyze</p>
                                                 <div className="info-column-content">
-                                                    <p>&emsp;Analyze stats available through the Slippi Launcher with more analytics such as Head-to-Head matchups coming soon.</p>
+                                                    <p>&emsp;Analyze stats available through the Slippi Launcher with more options such as Head-to-Head matchups coming soon.</p>
                                                 </div>
                                             </div>
                                         </div>

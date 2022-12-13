@@ -2,6 +2,9 @@ import { useQuery } from "@apollo/client";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { QUERY_GAME_FULL } from "../../../../utils/apollo/queries";
 import './game.css'
+import movesList from '../../../../utils/game-info/moves.json'
+import charactersList from '../../../../utils/game-info/characters.json'
+import stagesList from '../../../../utils/game-info/stages.json'
 // TODO: make individual componenents of each table passing in the correct props for eas of use/refactoring if needed
 // TODO: afix two-column tables design at 1022px for readability, if<1022px then make one column for conversions since it's like 7 columns
 
@@ -20,7 +23,7 @@ const GameIndividual = ({ theme }) => {
             backgroundColor: theme.primary,
             color: theme.text,
         },
-        damage: {        },
+        damage: {},
         damageEnd: {
         },
         damageTotal: {
@@ -44,67 +47,67 @@ const GameIndividual = ({ theme }) => {
             data: {
                 // do specific ones
                 outer: {
-    
+
                     color: theme.text,
                     display: 'grid',
                     gridTemplate: `6fr 4fr 5fr 4fr/1fr`
                 },
                 header: {
-    
+
                     color: theme.text,
                 },
                 body: {
                     outer: {
-        
+
                         display: 'grid',
                         gridTemplate: '2fr 10fr/1fr'
                     },
                     offense: {
                         outer: {
-            
+
                             display: 'grid',
                             gridTemplate: '1fr 5fr/1fr'
                         },
 
                         inner: {
-            
+
                             display: 'grid',
                             gridTemplate: '1fr 1fr 1fr 1fr 1fr/ 2fr 1fr 1fr'
                         },
                     },
                     defense: {
                         outer: {
-            
+
                             display: 'grid',
                             gridTemplate: '1fr 3fr/1fr'
 
                         },
                         inner: {
-            
+
                             display: 'grid',
                             gridTemplate: '1fr 1fr 1fr/2fr 1fr 1fr'
                         },
                     },
                     neutral: {
                         outer: {
-            
+
                             display: 'grid',
                             gridTemplate: '1fr 4fr/1fr'
                         },
                         inner: {
-            
+
                             display: 'grid',
                             gridTemplate: '1fr 1fr 1fr 1fr/2fr 1fr 1fr'
                         }
                     },
                     general: {
                         outer: {
-            
+
                             display: 'grid',
                             gridTemplate: '1fr 3fr/1fr'
                         },
                         inner: {
-            
+
                             display: 'grid',
                             gridTemplate: '1fr 1fr 1fr/2fr 1fr 1fr'
                         },
@@ -114,10 +117,12 @@ const GameIndividual = ({ theme }) => {
         }
     }
     const renderGameTable = (data) => {
+        // TODO: Fix models or upload to get stageID !null
         // okay
         // so
         // we just call it game
         const game = data.gameById
+        console.log(game)
         let render = []
         const startDate = new Date(parseInt(game.metadata.startAt))
         // make an array and push as many displayName+_id combos there are
@@ -147,7 +152,9 @@ const GameIndividual = ({ theme }) => {
             linkToConnectCodes.push(linkToConnectCode)
             // push it to the renderPlayers array for rendering down the line
             renderPlayers.push(
-                <li><Link to={linkToConnectCode} style={styles.link}>{connectCode}</Link> as <Link to={linkToDisplayName} style={styles.link}>{displayName}</Link></li>
+                <>
+                    <li key={connectCode}><Link to={linkToConnectCode} style={styles.link}>{connectCode}</Link> as <Link to={linkToDisplayName} style={styles.link}>{displayName}</Link></li>
+                </>
             )
         }
         let linkToGame = `../${game._id}`
@@ -156,7 +163,7 @@ const GameIndividual = ({ theme }) => {
         for (let conversion of game.stats.conversions) {
             // getting all of our kill conversions for kill stats
             if (conversion.didKill) {
-                killsStats[conversion.lastHitBy].push({ start: conversion.startFrame, end: conversion.endFrame, killMove: conversion.moves.length?conversion.moves[conversion.moves.length - 1]: `Error!`, direction: null, percent: Math.floor(conversion.endPercent * 100) / 100, })
+                killsStats[conversion.lastHitBy].push({ start: conversion.startFrame, end: conversion.endFrame, killMove: conversion.moves.length ? conversion.moves[conversion.moves.length - 1] : `Error!`, direction: null, percent: Math.floor(conversion.endPercent * 100) / 100, })
             }
         }
         let renderKillsStats = []
@@ -190,7 +197,7 @@ const GameIndividual = ({ theme }) => {
                 killRows.push(<>
                     <div>{renderMinutes(kill.start)}</div>
                     <div>{renderMinutes(kill.end)}</div>
-                    <div>{kill.killMove.moveId}</div>
+                    <div>{kill.killMove.moveId ? movesList[kill.killMove.moveId].name : 'Error!'}</div>
                     <div>{kill.percent}%</div>
                 </>)
             }
@@ -385,7 +392,7 @@ const GameIndividual = ({ theme }) => {
                     <div className="col">
                         <div className="row">
                             <div className="col">
-                                Header
+                                <p>Played on {stagesList[game.settings.stageId]} at {startDate.toLocaleString()}</p>
                             </div>
                         </div>
                         <div className="row">
@@ -400,9 +407,13 @@ const GameIndividual = ({ theme }) => {
                                         <div style={styles.overallTable.header}>
                                             <div></div>
                                             <div>
-                                                <Link to={linkToConnectCodes[0]} style={styles.link}>{game.codeIds[0].connectCode}</Link> as <Link to={linkToDisplayNames[0]} style={styles.link}>{game.displayNames[0].displayName}</Link></div>
+                                                <Link to={linkToConnectCodes[0]} style={styles.link}>{game.codeIds[0].connectCode}</Link> as <Link to={linkToDisplayNames[0]} style={styles.link}>{game.displayNames[0].displayName}</Link>
+                                                <p>{game.metadata.players[0].characters.length > 1 ? `Ice Climbers` : charactersList[game.metadata.players[0].characters[0]].name}</p>
+                                            </div>
                                             <div>
                                                 <Link to={linkToConnectCodes[1]} style={styles.link}>{game.codeIds[1].connectCode}</Link> as <Link to={linkToDisplayNames[1]} style={styles.link}> {game.displayNames[1].displayName}</Link>
+                                                <p>{game.metadata.players[1].characters.length > 1 ? `Ice Climbers` : charactersList[game.metadata.players[1].characters[0]].name}</p>
+
                                             </div>
                                         </div>
                                         <div style={styles.overallTable.data.outer}>

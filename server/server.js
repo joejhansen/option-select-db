@@ -51,9 +51,9 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/build/index.html'));
 });
 
-app.post('/data/upload', upload.array('slpFiles'), async function (req, res) {
+app.post('/data/upload', upload.array('slpFiles', 20), async function (req, res) {
   if(!req.files.length){
-    return res.status(400).send(`No files selected`)
+    return res.status(400).redirect('/data/upload')
   }
   console.log(req.files)
   const directory = `./upload/_tempSlps/`

@@ -9,7 +9,6 @@ const ConnectCodeAll = ({ theme }) => {
             backgroundColor: theme.primary,
             color: theme.text,
             position: 'relative',
-            backgroundColor: `${theme.primary}`,
             border: `solid ${theme.text} 2px`,
             bordeRadius: '.333rem',
             boxShadow: `-5px 5px 0px 3px ${theme.accent}`,
@@ -31,7 +30,7 @@ const ConnectCodeAll = ({ theme }) => {
             for (let displayName of codeId.displayNames) {
                 const linkToDisplayName = `../../displayname/${displayName._id}`
                 displayNames.push(
-                    <li><Link to={linkToDisplayName} style={styles.link}>{displayName.displayName}</Link></li>
+                    <li key={displayName.displayName}><Link to={linkToDisplayName} style={styles.link}>{displayName.displayName}</Link></li>
                 )
             }
             let games = []
@@ -40,11 +39,11 @@ const ConnectCodeAll = ({ theme }) => {
                 const date = new Date(parseInt(game.metadata.startAt))
                 const localDate = date.toLocaleDateString()
                 const localTime = date.toLocaleTimeString()
-                games.push(<li>Played on <Link to={linkToGame} style={styles.link}>{localDate} at {localTime}</Link></li>)
+                games.push(<li key={game._id}>Played on <Link to={linkToGame} style={styles.link}>{localDate} at {localTime}</Link></li>)
             }
             const linkToConnectCode = `../${codeId._id}`
             render.push(
-                <div className='row'>
+                <div className='row' key={codeId.connectCode}>
                     <div className="col">
                         <div className="card" style={styles.card}>
                             <div style={styles.entryWrapper}>

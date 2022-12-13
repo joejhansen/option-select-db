@@ -1,6 +1,6 @@
 // import { SlippiGame } from '@slippi/slippi-js'
 
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 
 // const {SlippiGame} = require('@slippi/slippi-js')
 const Upload = ({ theme }) => {
@@ -10,20 +10,23 @@ const Upload = ({ theme }) => {
             justifyContent: 'center'
         }
     }
-    const [selectedFiles, setSelectedFile] = useState([]);
-    const [isFilePicked, setIsFilePicked] = useState(false);
+    // const [selectedFiles, setSelectedFile] = useState([]);
+    // const [isFilePicked, setIsFilePicked] = useState(false);
     // useEffect(()=>{
     //     console.log('something')
     // })
     const fileInput = useRef(null)
-    const changeHandler = (event) => {
-        setSelectedFile(event.target.files);
-    };
-    let slpUploadURI
-    const handleSubmission = () => {
-        const formData = new FormData();
-        formData.append('File', selectedFiles);
-    };
+    const showData = () =>{
+        console.log(fileInput)
+    }
+    // const changeHandler = (event) => {
+    //     setSelectedFile(event.target.files);
+    // };
+    // let slpUploadURI
+    // const handleSubmission = () => {
+    //     const formData = new FormData();
+    //     formData.append('File', selectedFiles);
+    // };
     // const readFile = (file) => {
     //     let response
     //     console.log(file)
@@ -60,20 +63,10 @@ const Upload = ({ theme }) => {
     // }
     return (
         <>
-            <form ref={fileInput} id="uploadSlp" action="/data/upload" method="post" encType="multipart/form-data" style={styles.uploadForm}>
+            <form ref={fileInput} id="uploadSlp" action="/data/upload" method="post" encType="multipart/form-data" style={styles.uploadForm} onClick={showData}>
                 <input type="file" name="slpFiles" multiple />
                 <input type="submit" value="Upload .slp!" />
             </form>
-            {/* {selectedFiles.length ?
-                <>
-                    {renderFilesInfo(selectedFiles)}
-                </>
-                :
-                <p>Select a file to show details</p>
-            } */}
-            <div>
-                {/* <button onClick={handleSubmission}>Submit</button> */}
-            </div>
         </>
     )
 }

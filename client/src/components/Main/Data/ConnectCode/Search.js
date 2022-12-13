@@ -29,16 +29,13 @@ const ConnectCodesLanding = () => {
       if (!query) {
          return navigate('/data/connectcode/all')
       }
-      await getConnectCode()
-      while (loading) {
-         console.log(`loading`)
-      }
-      if (error || !data) {
+      const exists = await getConnectCode()
+      if (error || !exists.data.codeIdByCode) {
          setNotFound(true)
-         return console.log(`error! ${error}`)
+         return
       }
       setNotFound(false)
-      return navigate(`/data/connectcode/${data.codeIdByCode._id}`)
+      return navigate(`/data/connectcode/${exists.data.codeIdByCode._id}`)
       // const { loading, data } = useQuery(QUERY_CONNECT_CODE_BY_CODE)
 
    }
@@ -54,7 +51,7 @@ const ConnectCodesLanding = () => {
                   </form>
                </div>
             </div>
-            {notFound ? <p>Game not found!</p> : <></>}
+            {notFound ? <p>Connect Code Not Found!</p> : <></>}
             <div className='row'>
                <div className='col'>
                   <Outlet />

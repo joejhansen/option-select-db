@@ -10,7 +10,6 @@ const DisplayName = ({ theme }) => {
             backgroundColor: theme.primary,
             color: theme.text,
             position: 'relative',
-            backgroundColor: `${theme.primary}`,
             border: `solid ${theme.text} 2px`,
             bordeRadius: '.333rem',
             boxShadow: `-5px 5px 0px 3px ${theme.accent}`,
@@ -35,10 +34,10 @@ const DisplayName = ({ theme }) => {
             const renderConnectCodes = []
             for (let code of name.codeIds) {
                 const linkToConnectCode = `../../connectcode/${code._id}`
-                renderConnectCodes.push(<li><Link to={linkToConnectCode} style={styles.link}>{code.connectCode}</Link></li>)
+                renderConnectCodes.push(<li key={code.connectCode}><Link to={linkToConnectCode} style={styles.link}>{code.connectCode}</Link></li>)
             }
             render.push(
-                <div className='row'>
+                <div className='row' key={name.displayName}>
                     <div className="col">
                         <div className="card" style={styles.card}>
                             <div style={styles.entryWrapper}>

@@ -149,7 +149,7 @@ query GameById($id: ID!) {
       slpVersion
       isTeams
       isPAL
-      stageID
+      stageId
       players {
         playerIndex
         port

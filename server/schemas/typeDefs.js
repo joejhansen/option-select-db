@@ -25,7 +25,7 @@ const typeDefs = gql`
     slpVersion: String
     isTeams: Boolean
     isPAL: Boolean
-    stageID: Int
+    stageId: Int
     players: [SettingsPlayer]
   }
   type MetadataName {

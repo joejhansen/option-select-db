@@ -29,16 +29,13 @@ const DisplayNamesLanding = () => {
       if (!query) {
          return navigate('/data/displayname/all')
       }
-      await getDisplayName()
-      while (loading) {
-         console.log(`loading`)
-      }
-      if (error || !data) {
+      const exists = await getDisplayName()
+      if (error || !exists.data.displayNameByName) {
          setNotFound(true)
-         return console.log(`error! ${error}`)
+         return
       }
       setNotFound(false)
-      return navigate(`/data/displayname/${data.displayNameByName._id}`)
+      return navigate(`/data/displayname/${exists.data.displayNameByName._id}`)
       // const { loading, data } = useQuery(QUERY_CONNECT_CODE_BY_CODE)
 
    }
@@ -48,7 +45,7 @@ const DisplayNamesLanding = () => {
             <input type="search" onChange={handleSetQuery} placeholder="Search by Display Name"></input>
             <button>search</button>
          </form>
-         {notFound ? <p>Game not found!</p> : <></>}
+         {notFound ? <p>Display Name Not Found!</p> : <></>}
 
          <Outlet />
       </>
