@@ -16,6 +16,7 @@ const resolvers = {
       return games
     },
     gameById: async (parent, { _id }) => {
+
       const game = await Game.findById(_id).populate('displayNames').populate('codeIds')
       return game
     },
@@ -30,9 +31,16 @@ const resolvers = {
       return displayNameByName
     },
     displayNameById: async (parent, { _id }) => {
-      const displayName = await DisplayName.findById(_id).populate({
-        path: 'codeIds'
-      })
+      const displayNameRegex = /^([ぁ-んァ-ンA-Za-z\d!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/? ]{1,15})$/
+      // allows for Hiragana and Katakana as well as special characters
+      let displayName
+      if (_id.match(displayNameRegex)) {
+        displayName = await DisplayName.findOne({ 'displayName': _id }).populate('codeIds')
+      } else {
+        displayName = await DisplayName.findById(_id).populate({
+          path: 'codeIds'
+        })
+      }
       return displayName
     },
     codeIds: async () => {
@@ -44,11 +52,27 @@ const resolvers = {
       return codeId
     },
     codeIdById: async (parent, { _id }) => {
-      const codeId = await CodeId.findById(_id).populate('displayNames').populate('games')
+      const codeRegex = /^([A-Z]{1,4})\-(\d{1,3})$/i
+      let codeId
+      if (_id.match(codeRegex)) {
+        _id = _id.replace(/-/g, '#')
+        codeId = await CodeId.findOne({ 'connectCode': _id }).populate('displayNames').populate('games')
+      } else {
+        codeId = await CodeId.findById(_id).populate('displayNames').populate('games')
+      }
       return codeId
     },
     matchup: async (parent, { id1, id2 }) => {
-      const games = await Game.find({ codeIds: {$all: [id1, id2]}})
+      const codeRegex = /^([A-Z]{1,4})\-(\d{1,3})$/i
+      let games
+      if (id1.match(codeRegex) && id2.match(codeRegex)) {
+        id1 = id1.replace(/-/g, '#')
+        id2 = id2.replace(/-/g, '#')
+        console.log(id1, id2)
+        games = await Game.find({ 'settings.players.connectCode': { $all: [id1, id2] } }).populate('codeIds')
+      } else {
+        games = await Game.find({ codeIds: { $all: [id1, id2] } }).populate('codeIds')
+      }
       return games
     }
   },

@@ -20,6 +20,10 @@ const ConnectCodeAll = ({ theme }) => {
         },
         entryWrapper: {
             padding: '.5rem'
+        },
+        gameScroll: {
+            maxHeight: '15rem',
+            overflow: 'auto'
         }
     }
 
@@ -52,7 +56,7 @@ const ConnectCodeAll = ({ theme }) => {
                                 <p>Display Names</p>
                                 <ul>{displayNames}</ul>
                                 <p>Games</p>
-                                <ul>{games}</ul>
+                                <ul style={styles.gameScroll}>{games}</ul>
                             </div>
                         </div>
                     </div>

@@ -342,6 +342,13 @@ export const QUERY_MATCHUP = gql`
 query Matchup($id1: ID!, $id2: ID!) {
   matchup(id1: $id1, id2: $id2) {
     _id
+    codeIds {
+      _id
+      appUser
+      connectCode
+      userId
+      createdAt
+    }
     settings {
       slpVersion
       isTeams
@@ -528,4 +535,5 @@ query Matchup($id1: ID!, $id2: ID!) {
     }
     createdAt
   }
-}`
+}
+`

@@ -11,7 +11,15 @@ const DisplayNameIndividual = ({ theme }) => {
     const styles = {
         card: {
             backgroundColor: theme.primary,
-            color: theme.text
+            color: theme.text,
+            position: 'relative',
+            border: `solid ${theme.text} 2px`,
+            bordeRadius: '.333rem',
+            boxShadow: `-5px 5px 0px 3px ${theme.accent}`,
+            margin: `1rem 0`
+        },
+        entryWrapper: {
+            padding: '.5rem'
         },
         link: {
             textDecoration: 'none',
@@ -28,24 +36,29 @@ const DisplayNameIndividual = ({ theme }) => {
             renderConnectCodes.push(<li><Link to={linkToConnectCode} style={styles.link}>{code.connectCode}</Link></li>)
         }
         render.push(
-            <div className='row'>
-                <div className="col">
-                    <div className="card" style={styles.card}>
-                        <p>{name.displayName}</p>
-                        <p>Connect Codes</p>
-                        <ul>{renderConnectCodes}</ul>
+            <div className='container'>
+                <div className='row'>
+                    <div className="col">
+                        <div className="card" style={styles.card}>
+                            <div style={styles.entryWrapper}>
+                                <p>{name.displayName}</p>
+                                <p>Connect Codes</p>
+                                <ul>{renderConnectCodes}</ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-
         )
         return render
     }
     return (
         <>
-            {loading ? <p>loading</p> 
-            : error ? navigate('/404') 
-            : renderDisplayName(data)}
+            {loading
+                ? <p>loading</p>
+                : error || !data.displayNameById
+                    ? navigate('/404')
+                    : renderDisplayName(data)}
         </>
     )
 }
