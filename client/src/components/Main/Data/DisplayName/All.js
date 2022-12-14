@@ -30,7 +30,7 @@ const DisplayName = ({ theme }) => {
         const names = data.displayNames
         let render = []
         for (let name of names) {
-            const linkToDisplayName = `../${name._id}`
+            const linkToDisplayName = `../${name.displayName}`
             const renderConnectCodes = []
             for (let code of name.codeIds) {
                 const linkToConnectCode = `../../connectcode/${code._id}`

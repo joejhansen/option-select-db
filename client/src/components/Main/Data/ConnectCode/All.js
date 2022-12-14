@@ -45,7 +45,8 @@ const ConnectCodeAll = ({ theme }) => {
                 const localTime = date.toLocaleTimeString()
                 games.push(<li key={game._id}>Played on <Link to={linkToGame} style={styles.link}>{localDate} at {localTime}</Link></li>)
             }
-            const linkToConnectCode = `../${codeId._id}`
+            const codeIdLink = codeId.connectCode.replace('#','-')
+            const linkToConnectCode = `../${codeIdLink}`
             render.push(
                 <div className='row' key={codeId.connectCode}>
                     <div className="col">

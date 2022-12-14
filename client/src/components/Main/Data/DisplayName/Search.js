@@ -35,7 +35,7 @@ const DisplayNamesLanding = () => {
          return
       }
       setNotFound(false)
-      return navigate(`/data/displayname/${exists.data.displayNameByName._id}`)
+      return navigate(`/data/displayname/${query}`)
       // const { loading, data } = useQuery(QUERY_CONNECT_CODE_BY_CODE)
 
    }

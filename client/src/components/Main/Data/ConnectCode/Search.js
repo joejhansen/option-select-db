@@ -35,7 +35,8 @@ const ConnectCodesLanding = () => {
          return
       }
       setNotFound(false)
-      return navigate(`/data/connectcode/${exists.data.codeIdByCode._id}`)
+      const codeIdLink = query.replace('#','-')
+      return navigate(`/data/connectcode/${codeIdLink}`)
       // const { loading, data } = useQuery(QUERY_CONNECT_CODE_BY_CODE)
 
    }

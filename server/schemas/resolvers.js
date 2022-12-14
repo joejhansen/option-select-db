@@ -12,7 +12,7 @@ const resolvers = {
       return user
     },
     games: async () => {
-      const games = await Game.find({}).populate(`displayNames`).populate(`codeIds`)
+      const games = await Game.find({}).populate(`displayNames`).populate(`codeIds`).select('-settings -stats')
       return games
     },
     gameById: async (parent, { _id }) => {
@@ -44,15 +44,15 @@ const resolvers = {
       return displayName
     },
     codeIds: async () => {
-      const codeIds = await CodeId.find({}).populate('displayNames').populate('games')
+      const codeIds = await CodeId.find({}).populate('displayNames').populate({path: 'games', select: '-stats -settings'})
       return codeIds
     },
     codeIdByCode: async (parent, { connectCode }) => {
-      const codeId = await CodeId.findOne({ 'connectCode': connectCode }).populate('displayNames').populate('games')
+      const codeId = await CodeId.findOne({ 'connectCode': connectCode }).populate('displayNames').populate({path: 'games', select: '-stats -settings'})
       return codeId
     },
     codeIdById: async (parent, { _id }) => {
-      const codeRegex = /^([A-Z]{1,4})\-(\d{1,3})$/i
+      const codeRegex = /^(?=.{1,8}$)[A-Z]*\-\d*$/i
       let codeId
       if (_id.match(codeRegex)) {
         _id = _id.replace(/-/g, '#')
@@ -63,12 +63,11 @@ const resolvers = {
       return codeId
     },
     matchup: async (parent, { id1, id2 }) => {
-      const codeRegex = /^([A-Z]{1,4})\-(\d{1,3})$/i
+      const codeRegex = /^([A-Z]{1,5})\-(\d{1,3})$/i
       let games
       if (id1.match(codeRegex) && id2.match(codeRegex)) {
         id1 = id1.replace(/-/g, '#')
         id2 = id2.replace(/-/g, '#')
-        console.log(id1, id2)
         games = await Game.find({ 'settings.players.connectCode': { $all: [id1, id2] } }).populate('codeIds')
       } else {
         games = await Game.find({ codeIds: { $all: [id1, id2] } }).populate('codeIds')

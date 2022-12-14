@@ -28,11 +28,13 @@ const DisplayNameIndividual = ({ theme }) => {
     }
     const renderDisplayName = (data) => {
         const name = data.displayNameById
+        console.log(name)
         let render = []
         const linkToDisplayName = `../${name._id}`
         const renderConnectCodes = []
         for (let code of name.codeIds) {
-            const linkToConnectCode = `../../connectcode/${code._id}`
+            const codeIdLink = code.connectCode.replace('#','-')
+            const linkToConnectCode = `../../connectcode/${codeIdLink}`
             renderConnectCodes.push(<li><Link to={linkToConnectCode} style={styles.link}>{code.connectCode}</Link></li>)
         }
         render.push(

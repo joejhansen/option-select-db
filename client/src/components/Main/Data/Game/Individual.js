@@ -11,6 +11,12 @@ import stagesList from '../../../../utils/game-info/stages.json'
 const GameIndividual = ({ theme }) => {
     const navigate = useNavigate()
     const styles = {
+        winner: {
+            color: theme.accent
+        },
+        dq: {
+            color: 'red'
+        },
         card: {
             backgroundColor: theme.primary,
             color: theme.text
@@ -42,7 +48,7 @@ const GameIndividual = ({ theme }) => {
 
                 color: theme.text,
                 display: 'grid',
-                gridTemplate: '1fr /2fr 1fr 1fr'
+                gridTemplate: '1fr /1fr 1fr 1fr 1fr'
             },
             data: {
                 // do specific ones
@@ -117,12 +123,10 @@ const GameIndividual = ({ theme }) => {
         }
     }
     const renderGameTable = (data) => {
-        // TODO: Fix models or upload to get stageID !null
         // okay
         // so
         // we just call it game
         const game = data.gameById
-        console.log(game)
         let render = []
         const startDate = new Date(parseInt(game.metadata.startAt))
         // make an array and push as many displayName+_id combos there are
@@ -143,12 +147,13 @@ const GameIndividual = ({ theme }) => {
             // get the displayName data
             const { displayName, display_id } = playerDisplayNames[i]
             // and make a link out of it for react-router-dom
-            const linkToDisplayName = `../../displayname/${display_id}`
+            const linkToDisplayName = `../../displayname/${displayName}`
             linkToDisplayNames.push(linkToDisplayName)
             // get the connectCode data
             const { connectCode, connect_id } = playerConnectCodes[i]
             // make the link
-            const linkToConnectCode = `../../connectcode/${connect_id}`
+            const codeIdLink = connectCode.replace('#','-')
+            const linkToConnectCode = `../../connectcode/${codeIdLink}`
             linkToConnectCodes.push(linkToConnectCode)
             // push it to the renderPlayers array for rendering down the line
             renderPlayers.push(
@@ -163,7 +168,7 @@ const GameIndividual = ({ theme }) => {
         for (let conversion of game.stats.conversions) {
             // getting all of our kill conversions for kill stats
             if (conversion.didKill) {
-                killsStats[conversion.lastHitBy].push({ start: conversion.startFrame, end: conversion.endFrame, killMove: conversion.moves.length ? conversion.moves[conversion.moves.length - 1] : `Error!`, direction: null, percent: Math.floor(conversion.endPercent * 100) / 100, })
+                killsStats[conversion.lastHitBy].push({ start: conversion.startFrame, end: conversion.endFrame, killMove: conversion.moves.length ? conversion.moves[conversion.moves.length - 1] : `Error!`, direction: null, percent: Math.floor(conversion.currentPercent * 100) / 100, })
             }
         }
         let renderKillsStats = []
@@ -257,7 +262,7 @@ const GameIndividual = ({ theme }) => {
         const conversionsStats = [[], []]
         // parse the conversion statistics we need as an object and put them in the correct array
         for (let conversion of game.stats.conversions) {
-            conversionsStats[conversion.lastHitBy].push({ start: conversion.startFrame, end: conversion.endFrame, startPercent: conversion.startPercent, endPercent: conversion.endPercent, opening: conversion.openingType, didKill: conversion.didKill, opening: conversion.openingType, totalMoves: conversion.moves.length })
+            conversionsStats[conversion.lastHitBy].push({ start: conversion.startFrame, end: conversion.endFrame, startPercent: conversion.startPercent, currentPercent: conversion.currentPercent, opening: conversion.openingType, didKill: conversion.didKill, opening: conversion.openingType, totalMoves: conversion.moves.length })
         }
         let renderConversionsStats = []
         // for each player who has conversionStats. traditional for to keep track of index
@@ -293,8 +298,8 @@ const GameIndividual = ({ theme }) => {
                         <div style={conversionRowStyle}>
                             <div>{renderMinutes(conversion.start)}</div>
                             <div>{renderMinutes(conversion.end)}</div>
-                            <div>{Math.floor((conversion.endPercent - conversion.startPercent) * 100) / 100}%</div>
-                            <div>{Math.floor(conversion.startPercent * 100) / 100}% - {Math.floor(conversion.endPercent * 100) / 100}%</div>
+                            <div>{Math.floor((conversion.currentPercent - conversion.startPercent) * 100) / 100}%</div>
+                            <div>{Math.floor(conversion.startPercent * 100) / 100}% - {Math.floor(conversion.currentPercent * 100) / 100}%</div>
                             <div>{conversion.totalMoves}</div>
                             <div>{conversion.opening}</div>
                         </div>
@@ -384,6 +389,10 @@ const GameIndividual = ({ theme }) => {
             // push it real good
             renderConversionsStats.push(conversionComponent)
         }
+        const gameWinnerIndex = game.stats.conversions[game.stats.conversions.length-1].lastHitBy
+        const code1Link = game.codeIds[0].connectCode.replace('#','-')
+        const code2Link = game.codeIds[1].connectCode.replace('#','-')
+        const linkToH2H = `../../connectcode/${code1Link}/vs/${code2Link}`
         return (
             <>
                 {/* the overall data table is normalized throughout all games, it will always have this information in this order */}
@@ -397,6 +406,11 @@ const GameIndividual = ({ theme }) => {
                         </div>
                         <div className="row">
                             <div className="col">
+                                <p>Winner: {game.codeIds[gameWinnerIndex].connectCode} as "{game.displayNames[gameWinnerIndex].displayName}" playing {game.metadata.players[gameWinnerIndex].characters.length > 1 ? `Ice Climbers` : charactersList[game.metadata.players[gameWinnerIndex].characters[0]].name}</p>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col">
                                 <div className="row">
                                     <div className="col">
                                         <p>Overall Stats</p>
@@ -406,6 +420,7 @@ const GameIndividual = ({ theme }) => {
                                     <div className="col" style={styles.overallTable.outer}>
                                         <div style={styles.overallTable.header}>
                                             <div></div>
+                                            <div><p><Link to={linkToH2H} style={styles.link} >GO TO HEAD-2-HEAD</Link></p></div>
                                             <div>
                                                 <Link to={linkToConnectCodes[0]} style={styles.link}>{game.codeIds[0].connectCode}</Link> as <Link to={linkToDisplayNames[0]} style={styles.link}>{game.displayNames[0].displayName}</Link>
                                                 <p>{game.metadata.players[0].characters.length > 1 ? `Ice Climbers` : charactersList[game.metadata.players[0].characters[0]].name}</p>
@@ -421,46 +436,46 @@ const GameIndividual = ({ theme }) => {
                                                 <div>Offense</div>
                                                 <div id="overallOffense" className="overallTable" style={styles.overallTable.data.body.offense.inner}>
                                                     <div>Kills</div>
-                                                    <div>{game.stats.overall[0].killCount}</div>
-                                                    <div>{game.stats.overall[1].killCount}</div>
+                                                    <div style={game.stats.overall[0].killCount > game.stats.overall[1].killCount ? styles.winner : null}>{game.stats.overall[0].killCount}</div>
+                                                    <div style={game.stats.overall[0].killCount < game.stats.overall[1].killCount ? styles.winner : null}>{game.stats.overall[1].killCount}</div>
 
                                                     <div>Damage Done</div>
-                                                    <div>{Math.floor(game.stats.overall[0].totalDamage * 100) / 100}%</div>
-                                                    <div>{Math.floor(game.stats.overall[1].totalDamage * 100) / 100}%</div>
+                                                    <div style={game.stats.overall[0].totalDamage > game.stats.overall[1].totalDamage ? styles.winner : null}>{Math.floor(game.stats.overall[0].totalDamage * 100) / 100}%</div>
+                                                    <div style={game.stats.overall[0].totalDamage < game.stats.overall[1].totalDamage ? styles.winner : null}>{Math.floor(game.stats.overall[1].totalDamage * 100) / 100}%</div>
 
                                                     <div>Opening Conversion Rate</div>
-                                                    <div>
+                                                    <div style={game.stats.overall[0].successfulConversions.ratio > game.stats.overall[1].successfulConversions.ratio ? styles.winner : null}>
                                                         {Math.floor(game.stats.overall[0].successfulConversions.ratio * 10000) / 100}%
                                                         ( {game.stats.overall[0].successfulConversions.count} / {game.stats.overall[0].successfulConversions.total} )
                                                     </div>
-                                                    <div>
+                                                    <div style={game.stats.overall[0].successfulConversions.ratio < game.stats.overall[1].successfulConversions.ratio ? styles.winner : null}>
                                                         {Math.floor(game.stats.overall[1].successfulConversions.ratio * 10000) / 100}%
                                                         ( {game.stats.overall[1].successfulConversions.count} / {game.stats.overall[1].successfulConversions.total} )
                                                     </div>
 
                                                     <div>Openings / Kill</div>
-                                                    <div>{Math.floor(game.stats.overall[0].openingsPerKill.ratio * 1000) / 1000}</div>
-                                                    <div>{Math.floor(game.stats.overall[1].openingsPerKill.ratio * 1000) / 1000}</div>
+                                                    <div style={game.stats.overall[0].openingsPerKill.ratio < game.stats.overall[1].openingsPerKill.ratio ? styles.winner : null}>{Math.floor(game.stats.overall[0].openingsPerKill.ratio * 1000) / 1000}</div>
+                                                    <div style={game.stats.overall[0].openingsPerKill.ratio > game.stats.overall[1].openingsPerKill.ratio ? styles.winner : null}>{Math.floor(game.stats.overall[1].openingsPerKill.ratio * 1000) / 1000}</div>
 
                                                     <div>Damage / Opening</div>
-                                                    <div>{Math.floor(game.stats.overall[0].damagePerOpening.ratio * 100) / 100}</div>
-                                                    <div>{Math.floor(game.stats.overall[1].damagePerOpening.ratio * 100) / 100}</div>
+                                                    <div style={game.stats.overall[0].damagePerOpening.ratio > game.stats.overall[1].damagePerOpening.ratio ? styles.winner : null}>{Math.floor(game.stats.overall[0].damagePerOpening.ratio * 100) / 100}</div>
+                                                    <div style={game.stats.overall[0].damagePerOpening.ratio < game.stats.overall[1].damagePerOpening.ratio ? styles.winner : null}>{Math.floor(game.stats.overall[1].damagePerOpening.ratio * 100) / 100}</div>
                                                 </div>
                                             </div>
                                             <div style={styles.overallTable.data.body.defense.outer}>
                                                 <div>Defense</div>
                                                 <div id="overallDefense" className="overallTable" style={styles.overallTable.data.body.defense.inner}>
                                                     <div>Rolls</div>
-                                                    <div>{game.stats.actionCounts[0].rollCount}</div>
-                                                    <div>{game.stats.actionCounts[1].rollCount}</div>
+                                                    <div style={game.stats.actionCounts[0].rollCount > game.stats.actionCounts[1].rollcount ? styles.winner : null}>{game.stats.actionCounts[0].rollCount}</div>
+                                                    <div style={game.stats.actionCounts[0].rollCount < game.stats.actionCounts[1].rollCount ? styles.winner : null}>{game.stats.actionCounts[1].rollCount}</div>
 
                                                     <div>Air Dodges</div>
-                                                    <div>{game.stats.actionCounts[0].airDodgeCount}</div>
-                                                    <div>{game.stats.actionCounts[1].airDodgeCount}</div>
+                                                    <div style={game.stats.actionCounts[0].airDodgeCount > game.stats.actionCounts[1].airDodgeCount ? styles.winner : null}>{game.stats.actionCounts[0].airDodgeCount}</div>
+                                                    <div style={game.stats.actionCounts[0].airDodgeCount < game.stats.actionCounts[1].airDodgeCount ? styles.winner : null}>{game.stats.actionCounts[1].airDodgeCount}</div>
 
                                                     <div>Spot Dodges</div>
-                                                    <div>{game.stats.actionCounts[0].spotDodgeCount}</div>
-                                                    <div>{game.stats.actionCounts[1].spotDodgeCount}</div>
+                                                    <div style={game.stats.actionCounts[0].spotDodgeCount > game.stats.actionCounts[1].spotDodgeCount ? styles.winner : null}>{game.stats.actionCounts[0].spotDodgeCount}</div>
+                                                    <div style={game.stats.actionCounts[0].spotDodgeCount < game.stats.actionCounts[1].spotDodgeCount ? styles.winner : null}>{game.stats.actionCounts[1].spotDodgeCount}</div>
 
                                                 </div>
                                             </div>
@@ -468,16 +483,16 @@ const GameIndividual = ({ theme }) => {
                                                 <div>Neutral</div>
                                                 <div id="overallNeutral" className="overallTable" style={styles.overallTable.data.body.neutral.inner}>
                                                     <div>Neutral Wins</div>
-                                                    <div>{game.stats.overall[0].neutralWinRatio.count} ( {Math.floor(game.stats.overall[0].neutralWinRatio.ratio * 10000) / 100}% ) </div>
-                                                    <div>{game.stats.overall[1].neutralWinRatio.count} ( {Math.floor(game.stats.overall[1].neutralWinRatio.ratio * 10000) / 100}% ) </div>
+                                                    <div style={game.stats.overall[0].neutralWinRatio.ratio > game.stats.overall[1].neutralWinRatio.ratio ? styles.winner : null}>{game.stats.overall[0].neutralWinRatio.count} ( {Math.floor(game.stats.overall[0].neutralWinRatio.ratio * 10000) / 100}% ) </div>
+                                                    <div style={game.stats.overall[0].neutralWinRatio.ratio < game.stats.overall[1].neutralWinRatio.ratio ? styles.winner : null}>{game.stats.overall[1].neutralWinRatio.count} ( {Math.floor(game.stats.overall[1].neutralWinRatio.ratio * 10000) / 100}% ) </div>
 
                                                     <div>Counter Hits</div>
-                                                    <div>{game.stats.overall[0].counterHitRatio.count} ( {Math.floor(game.stats.overall[0].counterHitRatio.ratio * 10000) / 100}% ) </div>
-                                                    <div>{game.stats.overall[1].counterHitRatio.count} ( {Math.floor(game.stats.overall[1].counterHitRatio.ratio * 10000) / 100}% ) </div>
+                                                    <div style={game.stats.overall[0].counterHitRatio.ratio > game.stats.overall[1].counterHitRatio.ratio ? styles.winner : null}>{game.stats.overall[0].counterHitRatio.count} ( {Math.floor(game.stats.overall[0].counterHitRatio.ratio * 10000) / 100}% ) </div>
+                                                    <div style={game.stats.overall[0].counterHitRatio.ratio < game.stats.overall[1].counterHitRatio.ratio ? styles.winner : null}>{game.stats.overall[1].counterHitRatio.count} ( {Math.floor(game.stats.overall[1].counterHitRatio.ratio * 10000) / 100}% ) </div>
 
                                                     <div>Beneficial Trades</div>
-                                                    <div>{game.stats.overall[0].beneficialTradeRatio.count} ( {Math.floor(game.stats.overall[0].beneficialTradeRatio.ratio * 10000) / 100}% ) </div>
-                                                    <div>{game.stats.overall[1].beneficialTradeRatio.count} ( {Math.floor(game.stats.overall[1].beneficialTradeRatio.ratio * 10000) / 100}% ) </div>
+                                                    <div style={game.stats.overall[0].beneficialTradeRatio.ratio > game.stats.overall[1].beneficialTradeRatio.ratio ? styles.winner : null}>{game.stats.overall[0].beneficialTradeRatio.count} ( {Math.floor(game.stats.overall[0].beneficialTradeRatio.ratio * 10000) / 100}% ) </div>
+                                                    <div style={game.stats.overall[0].beneficialTradeRatio.ratio < game.stats.overall[1].beneficialTradeRatio.ratio ? styles.winner : null}>{game.stats.overall[1].beneficialTradeRatio.count} ( {Math.floor(game.stats.overall[1].beneficialTradeRatio.ratio * 10000) / 100}% ) </div>
 
                                                     <div>Actions (WD/WL/DD/LG)</div>
                                                     <div>{game.stats.actionCounts[0].wavedashCount} / {game.stats.actionCounts[0].wavelandCount} / {game.stats.actionCounts[0].dashDanceCount} / {game.stats.actionCounts[0].ledgegrabCount}</div>
@@ -489,18 +504,18 @@ const GameIndividual = ({ theme }) => {
                                                 <div>General</div>
                                                 <div id="overallGeneral" className="overallTable" style={styles.overallTable.data.body.general.inner}>
                                                     <div>Inputs / Minute</div>
-                                                    <div>{Math.floor(game.stats.overall[0].inputsPerMinute.ratio * 100) / 100}</div>
-                                                    <div>{Math.floor(game.stats.overall[1].inputsPerMinute.ratio * 100) / 100}</div>
+                                                    <div style={game.stats.overall[0].inputsPerMinute.ratio > game.stats.overall[1].inputsPerMinute.ratio ? styles.winner : null}>{Math.floor(game.stats.overall[0].inputsPerMinute.ratio * 100) / 100}</div>
+                                                    <div style={game.stats.overall[0].inputsPerMinute.ratio < game.stats.overall[1].inputsPerMinute.ratio ? styles.winner : null}>{Math.floor(game.stats.overall[1].inputsPerMinute.ratio * 100) / 100}</div>
 
                                                     <div>Digital Inputs / Minute</div>
-                                                    <div>{Math.floor(game.stats.overall[0].digitalInputsPerMinute.ratio * 100) / 100}</div>
-                                                    <div>{Math.floor(game.stats.overall[1].digitalInputsPerMinute.ratio * 100) / 100}</div>
+                                                    <div style={game.stats.overall[0].digitalInputsPerMinute.ratio > game.stats.overall[1].digitalInputsPerMinute.ratio ? styles.winner : null}>{Math.floor(game.stats.overall[0].digitalInputsPerMinute.ratio * 100) / 100}</div>
+                                                    <div style={game.stats.overall[0].digitalInputsPerMinute.ratio < game.stats.overall[1].digitalInputsPerMinute.ratio ? styles.winner : null}>{Math.floor(game.stats.overall[1].digitalInputsPerMinute.ratio * 100) / 100}</div>
 
                                                     <div>L-Cancel Success Rate</div>
-                                                    <div>
+                                                    <div style={(game.stats.actionCounts[0].lCancelCount.success) / (game.stats.actionCounts[0].lCancelCount.success + game.stats.actionCounts[0].lCancelCount.fail) > (game.stats.actionCounts[1].lCancelCount.success) / (game.stats.actionCounts[1].lCancelCount.success + game.stats.actionCounts[1].lCancelCount.fail) ? styles.winner : null}>
                                                         {Math.floor((game.stats.actionCounts[0].lCancelCount.success) / (game.stats.actionCounts[0].lCancelCount.success + game.stats.actionCounts[0].lCancelCount.fail) * 10000) / 100}%
                                                         ( {game.stats.actionCounts[0].lCancelCount.success} / {game.stats.actionCounts[0].lCancelCount.success + game.stats.actionCounts[0].lCancelCount.fail} )</div>
-                                                    <div>
+                                                    <div style={(game.stats.actionCounts[0].lCancelCount.success) / (game.stats.actionCounts[0].lCancelCount.success + game.stats.actionCounts[0].lCancelCount.fail) < (game.stats.actionCounts[1].lCancelCount.success) / (game.stats.actionCounts[1].lCancelCount.success + game.stats.actionCounts[1].lCancelCount.fail) ? styles.winner : null}>
                                                         {Math.floor((game.stats.actionCounts[1].lCancelCount.success) / (game.stats.actionCounts[1].lCancelCount.success + game.stats.actionCounts[1].lCancelCount.fail) * 10000) / 100}%
                                                         ( {game.stats.actionCounts[1].lCancelCount.success} / {game.stats.actionCounts[1].lCancelCount.success + game.stats.actionCounts[1].lCancelCount.fail} )</div>
                                                 </div>

@@ -41,8 +41,9 @@ const Games = ({ theme }) => {
             for (let i = 0; i < playerConnectCodes.length; i++) {
                 const { displayName, display_id } = playerDisplayNames[i]
                 const { connectCode, connect_id } = playerConnectCodes[i]
-                const linkToDisplayName = `../../displayname/${display_id}`
-                const linkToConnectCode = `../../connectcode/${connect_id}`
+                const linkToDisplayName = `../../displayname/${displayName}`
+                const codeIdLink = connectCode.replace('#','-')
+                const linkToConnectCode = `../../connectcode/${codeIdLink}`
                 renderPlayers.push(
                     <li key={connectCode}><Link to={linkToConnectCode} style={styles.link}>{connectCode}</Link> as <Link to={linkToDisplayName} style={styles.link}>{displayName}</Link></li>
                 )

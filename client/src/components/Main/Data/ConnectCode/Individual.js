@@ -38,7 +38,7 @@ const ConnectCodeIndividual = ({ theme }) => {
         let render = []
         let displayNames = []
         for (let displayName of individual.displayNames) {
-            const linkToDisplayName = `../../displayname/${displayName._id}`
+            const linkToDisplayName = `../../displayname/${displayName.displayName}`
             displayNames.push(
                 <li><Link to={linkToDisplayName} style={styles.link}>{displayName.displayName}</Link></li>
             )

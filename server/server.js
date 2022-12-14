@@ -55,7 +55,6 @@ app.post('/data/upload', upload.array('slpFiles', 20), async function (req, res)
   if(!req.files.length){
     return res.status(400).redirect('/data/upload')
   }
-  console.log(req.files)
   const directory = `./upload/_tempSlps/`
   const response = await handleSlpSeed(directory, req.files)
   if (!response) {

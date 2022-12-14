@@ -48,6 +48,7 @@ const Head2Head = ({ theme }) => {
             playersInfo[player2].push(game.stats.overall[player2Index])
         }
         let playersInfoAvg = {}
+        // TODO: make this a class with methods to make it easier, passing in the PlayerInfo[playerIndex] object
         playersInfoAvg[player1] = {
             beneficialTradeRatio: [],
             conversionCount: [],
@@ -76,7 +77,6 @@ const Head2Head = ({ theme }) => {
             successfulConversions: [],
             totalDamage: []
         }
-        console.log(playersInfoAvg)
         for (let stats of playersInfo[player1]) {
             // playersInfoAvg[player1].push()
             playersInfoAvg[player1].beneficialTradeRatio.push(stats.beneficialTradeRatio)
@@ -107,27 +107,99 @@ const Head2Head = ({ theme }) => {
             playersInfoAvg[player2].successfulConversions.push(stats.successfulConversions)
             playersInfoAvg[player2].totalDamage.push(stats.totalDamage)
         }
-        console.log(playersInfoAvg[player1])
         return (
             <>
                 <p>{player1} vs {player2}</p>
-                <ul>{player1} stats:
-                    <li>
-                        Average Conversions = {playersInfoAvg[player1].conversionCount.reduce((a, v) => {
-                            return (a + v)
-                        }) / playersInfo[player1].length}
-                    </li>
-                    <li>
-                        Average Damage Per Opening = {playersInfoAvg[player1].damagePerOpening.reduce((a, v) => {
-                            return a+v.ratio
-                        }, 0)}
-                    </li>
-                </ul>
-                <ul>{player2} stats:
-                    <li>Average Conversions = {playersInfoAvg[player2].conversionCount.reduce((a, v) => {
-                        return (a + v)
-                    }) / playersInfo[player2].length}</li>
-                </ul>
+                <div className='row'>
+                    <div className='col-6'>
+                        <ul>{player1} Overall stats:
+                            <li>
+                                Average Conversions Per Game= {Math.floor((playersInfoAvg[player1].conversionCount.reduce((a, v) => {
+                                    return (a + v)
+                                }) / playersInfo[player1].length) * 100) / 100}
+                            </li>
+                            <li>
+                                Average Damage Per Opening= {Math.floor((playersInfoAvg[player1].damagePerOpening.reduce((a, v) => {
+                                    return a + v.ratio
+                                }, 0) / playersInfo[player1].length) * 100) / 100}%
+                            </li>
+                            <li>
+                                Average Inputs Per Minute = {Math.floor((playersInfoAvg[player1].inputsPerMinute.reduce((a, v) => {
+                                    return a + v.ratio
+                                }, 0) / playersInfo[player1].length) * 100) / 100}
+                            </li>
+                            <li>
+                                Average Kills Per Game = {Math.floor((playersInfoAvg[player1].killCount.reduce((a, v) => {
+                                    return a + v
+                                }, 0) / playersInfo[player1].length) * 100) / 100}
+                            </li>
+                            <li>
+                                Average Neutral Win Percentage = {Math.floor((playersInfoAvg[player1].neutralWinRatio.reduce((a, v) => {
+                                    return a + v.ratio
+                                }, 0) / playersInfo[player1].length) * 10000) / 100}%
+                            </li>
+                            <li>
+                                Average Openings Per Kill = {Math.floor((playersInfoAvg[player1].openingsPerKill.reduce((a, v) => {
+                                    return a + v.ratio
+                                }, 0) / playersInfo[player1].length) * 100) / 100}
+                            </li>
+                            <li>
+                                Average Successful Conversions = {Math.floor((playersInfoAvg[player1].successfulConversions.reduce((a, v) => {
+                                    return a + v.ratio
+                                }, 0) / playersInfo[player1].length) * 10000) / 100}%
+                            </li>
+                            <li>
+                                Average Damage per game = {Math.floor((playersInfoAvg[player1].totalDamage.reduce((a, v) => {
+                                    return a + v
+                                }, 0) / playersInfo[player1].length) * 100) / 100}%
+                            </li>
+                        </ul>
+                    </div>
+                    <div className='col-6'>
+                        <ul>{player2} Overall stats:
+                            <li>
+                                Average Conversions Per Game= {Math.floor((playersInfoAvg[player2].conversionCount.reduce((a, v) => {
+                                    return (a + v)
+                                }) / playersInfo[player2].length) * 100) / 100}
+                            </li>
+                            <li>
+                                Average Damage Per Opening= {Math.floor((playersInfoAvg[player2].damagePerOpening.reduce((a, v) => {
+                                    return a + v.ratio
+                                }, 0) / playersInfo[player2].length) * 100) / 100}%
+                            </li>
+                            <li>
+                                Average Inputs Per Minute = {Math.floor((playersInfoAvg[player2].inputsPerMinute.reduce((a, v) => {
+                                    return a + v.ratio
+                                }, 0) / playersInfo[player2].length) * 100) / 100}
+                            </li>
+                            <li>
+                                Average Kills Per Game = {Math.floor((playersInfoAvg[player2].killCount.reduce((a, v) => {
+                                    return a + v
+                                }, 0) / playersInfo[player2].length) * 100) / 100}
+                            </li>
+                            <li>
+                                Average Neutral Win Percentage = {Math.floor((playersInfoAvg[player2].neutralWinRatio.reduce((a, v) => {
+                                    return a + v.ratio
+                                }, 0) / playersInfo[player2].length) * 10000) / 100}%
+                            </li>
+                            <li>
+                                Average Openings Per Kill = {Math.floor((playersInfoAvg[player2].openingsPerKill.reduce((a, v) => {
+                                    return a + v.ratio
+                                }, 0) / playersInfo[player2].length) * 100) / 100}
+                            </li>
+                            <li>
+                                Average Successful Conversions = {Math.floor((playersInfoAvg[player2].successfulConversions.reduce((a, v) => {
+                                    return a + v.ratio
+                                }, 0) / playersInfo[player2].length) * 10000) / 100}%
+                            </li>
+                            <li>
+                                Average Damage per game = {Math.floor((playersInfoAvg[player2].totalDamage.reduce((a, v) => {
+                                    return a + v
+                                }, 0) / playersInfo[player2].length) * 100) / 100}%
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </>
         )
     }
