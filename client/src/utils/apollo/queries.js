@@ -337,3 +337,195 @@ query GameById($id: ID!) {
   }
 }
 `
+
+export const QUERY_MATCHUP = gql`
+query Matchup($id1: ID!, $id2: ID!) {
+  matchup(id1: $id1, id2: $id2) {
+    _id
+    settings {
+      slpVersion
+      isTeams
+      isPAL
+      stageId
+      players {
+        playerIndex
+        port
+        characterId
+        characterColor
+        startStocks
+        type
+        teamId
+        controllerFix
+        nametag
+        displayName
+        connectCode
+        userId
+      }
+    }
+    metadata {
+      startAt
+      lastFrame
+      players {
+        names {
+          netplay
+          code
+        }
+        characters
+      }
+      playedOn
+    }
+    stats {
+      lastFrame
+      playableFrameCount
+      stocks {
+        playerIndex
+        startFrame
+        endFrame
+        startPercent
+        endPercent
+        currentPercent
+        count
+        deathAnimation
+      }
+      conversions {
+        playerIndex
+        lastHitBy
+        startFrame
+        endFrame
+        startPercent
+        currentPercent
+        endPercent
+        moves {
+          playerIndex
+          frame
+          moveId
+          hitCount
+          damage
+        }
+        didKill
+        openingType
+      }
+      combos {
+        playerIndex
+        startFrame
+        endFrame
+        startPercent
+        currentPercent
+        endPercent
+        didKill
+        lastHitBy
+      }
+      actionCounts {
+        playerIndex
+        wavedashCount
+        wavelandCount
+        spotDodgeCount
+        airDodgeCount
+        dashDanceCount
+        ledgegrabCount
+        rollCount
+        lCancelCount {
+          success
+          fail
+        }
+        attackCount {
+          jab1
+          jab2
+          jab3
+          jabm
+          dash
+          ftilt
+          utilt
+          dtilt
+          fsmash
+          usmash
+          dsmash
+          nair
+          fair
+          bair
+          uair
+          dair
+        }
+        grabCount {
+          succes
+          fail
+        }
+        throwCount {
+          up
+          forward
+          back
+          down
+        }
+        groundTechCount {
+          away
+          in
+          neutral
+          fail
+        }
+        wallTechCount {
+          success
+          fail
+        }
+      }
+      overall {
+        playerIndex
+        inputCounts {
+          buttons
+          triggers
+          cstick
+          joystick
+          total
+        }
+        conversionCount
+        totalDamage
+        killCount
+        successfulConversions {
+          count
+          total
+          ratio
+        }
+        inputsPerMinute {
+          count
+          total
+          ratio
+        }
+        digitalInputsPerMinute {
+          count
+          total
+          ratio
+        }
+        openingsPerKill {
+          count
+          total
+          ratio
+        }
+        damagePerOpening {
+          count
+          total
+          ratio
+        }
+        neutralWinRatio {
+          count
+          total
+          ratio
+        }
+        counterHitRatio {
+          count
+          total
+          ratio
+        }
+        beneficialTradeRatio {
+          count
+          total
+          ratio
+        }
+      }
+      gameComplete
+    }
+    winners {
+      playerIndex
+      position
+    }
+    createdAt
+  }
+}`

@@ -5,7 +5,9 @@ const typeDefs = gql`
     token: ID!
     user: User
   }
-
+  type Matchup {
+    games: [Game]
+  }
   type SettingsPlayer {
     playerIndex: Int
     port: Int
@@ -248,6 +250,7 @@ const typeDefs = gql`
     codeIds: [CodeId]
     codeIdByCode(connectCode: String!): CodeId
     codeIdById(_id: ID!): CodeId
+    matchup(id1: ID!, id2: ID!): [Game] 
   }
   # type Query {
     # codeIds: [CodeId]

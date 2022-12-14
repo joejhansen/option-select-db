@@ -4,6 +4,7 @@ import { QUERY_CONNECT_CODE } from '../../../../utils/apollo/queries';
 
 const ConnectCodeIndividual = ({ theme }) => {
     let { id } = useParams();
+    
     const { loading, error, data } = useQuery(QUERY_CONNECT_CODE, {
         variables: { id: id },
     });

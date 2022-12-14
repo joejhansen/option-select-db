@@ -46,6 +46,10 @@ const resolvers = {
     codeIdById: async (parent, { _id }) => {
       const codeId = await CodeId.findById(_id).populate('displayNames').populate('games')
       return codeId
+    },
+    matchup: async (parent, { id1, id2 }) => {
+      const games = await Game.find({ codeIds: {$all: [id1, id2]}})
+      return games
     }
   },
   Mutation: {

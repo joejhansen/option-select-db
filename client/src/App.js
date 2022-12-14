@@ -22,6 +22,7 @@ import Data from './components/Main/Data/Data';
 import ConnectCodes from './components/Main/Data/ConnectCode/Search'
 import ConnectCodesAll from './components/Main/Data/ConnectCode/All'
 import ConnectCodeIndividual from './components/Main/Data/ConnectCode/Individual';
+import ConnectCodeH2H from './components/Main/Data/ConnectCode/Head2Head'
 import DisplayNames from './components/Main/Data/DisplayName/Search'
 import DisplayNamesAll from './components/Main/Data/DisplayName/All';
 import DisplayNameIndividual from './components/Main/Data/DisplayName/Individual';
@@ -176,6 +177,7 @@ function App() {
                 <Route path="/data/connectcode" element={<ConnectCodes theme={theme} />} >
                   <Route path="/data/connectcode/all" element={<ConnectCodesAll theme={theme} />} />
                   <Route path="/data/connectcode/:id" element={<ConnectCodeIndividual theme={theme} />} />
+                  <Route path="/data/connectcode/:id1/vs/:id2" element={<ConnectCodeH2H theme={theme} />} />
                 </Route>
                 <Route path="/data/displayname" element={<DisplayNames theme={theme} />} >
                   <Route path="/data/displayname/all" element={<DisplayNamesAll theme={theme} />} />
