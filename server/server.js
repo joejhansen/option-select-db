@@ -8,9 +8,21 @@ const { typeDefs, resolvers } = require('./schemas');
 const db = require('./config/connection');
 
 
+const PORT = process.env.PORT || 3001;
+const app = express();
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: authMiddleware,
+});
+
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(express.static('upload'))
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, './upload/_tempSlps');
+    cb(null, path.join(__dirname, './upload/_tempSlps'));
   },
   filename: (req, file, cb) => {
     const fileName = file.originalname.toLowerCase().split(' ').join('-');
@@ -30,16 +42,6 @@ var upload = multer({
   }
 });
 
-const PORT = process.env.PORT || 3001;
-const app = express();
-const server = new ApolloServer({
-  typeDefs,
-  resolvers,
-  context: authMiddleware,
-});
-
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../client/build')));
