@@ -1,0 +1,34 @@
+:root {
+    --dark: #131416;
+    --darker: #090A0B;
+}
+
+#overallh2h>div:nth-child(6n-5) {
+    background-color: var(--darker);
+}
+#overallh2h>div:nth-child(6n-4) {
+    background-color: var(--darker);
+}
+#overallh2h>div:nth-child(6n-3) {
+    background-color: var(--darker);
+}
+#overallh2h>div:nth-child(6n-2) {
+    background-color: var(--dark);
+}
+#overallh2h>div:nth-child(6n-1) {
+    background-color: var(--dark);
+}
+#overallh2h>div:nth-child(6n-0) {
+    background-color: var(--dark);
+}
+
+#overallh2h>div:nth-child(3n){
+    box-shadow: -2px 0px 0px 0px gray;
+}
+#overallh2h>div:nth-child(3n-1){
+    box-shadow: -2px 0px 0px 0px gray;
+}
+
+#overallh2h>div{
+    padding-left: .5rem;
+}

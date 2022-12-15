@@ -144,8 +144,8 @@ function App() {
   // see utils/capitalizeLocal
   const pages = [
     'home',
-    'about',
     'data',
+    'about',
   ]
 
 

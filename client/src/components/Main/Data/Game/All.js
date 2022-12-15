@@ -42,7 +42,7 @@ const Games = ({ theme }) => {
                 const { displayName, display_id } = playerDisplayNames[i]
                 const { connectCode, connect_id } = playerConnectCodes[i]
                 const linkToDisplayName = `../../displayname/${displayName}`
-                const codeIdLink = connectCode.replace('#','-')
+                const codeIdLink = connectCode.replace('#', '-')
                 const linkToConnectCode = `../../connectcode/${codeIdLink}`
                 renderPlayers.push(
                     <li key={connectCode}><Link to={linkToConnectCode} style={styles.link}>{connectCode}</Link> as <Link to={linkToDisplayName} style={styles.link}>{displayName}</Link></li>
@@ -53,14 +53,12 @@ const Games = ({ theme }) => {
             const localDate = startDate.toLocaleDateString()
             const localTime = startDate.toLocaleTimeString()
             render.push(
-                <div className='row' key={game._id}>
-                    <div className="col">
-                        <div className="card" style={styles.card}>
-                            <div style={styles.entryWrapper}>
-                                <p>Played on <Link to={linkToGame} style={styles.link}>{localDate} at {localTime}</Link></p>
-                                <p>Played By</p>
-                                <ul>{renderPlayers}</ul>
-                            </div>
+                <div className="col-xl-3 col-lg-4 col-md-6">
+                    <div className="card" style={styles.card}>
+                        <div style={styles.entryWrapper}>
+                            <p>Played on <Link to={linkToGame} style={styles.link}>{localDate} at {localTime}</Link></p>
+                            <p>Played By</p>
+                            <ul>{renderPlayers}</ul>
                         </div>
                     </div>
                 </div>
@@ -72,7 +70,10 @@ const Games = ({ theme }) => {
 
     return (
         <div className="container">
-            {loading ? <p>loading</p> : renderGames(data)}
+            <div className='row'>
+                {loading ? <p>loading</p> : renderGames(data)}
+            </div>
+
 
         </div>
     )

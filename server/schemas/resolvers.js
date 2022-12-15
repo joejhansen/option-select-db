@@ -56,9 +56,9 @@ const resolvers = {
       let codeId
       if (_id.match(codeRegex)) {
         _id = _id.replace(/-/g, '#')
-        codeId = await CodeId.findOne({ 'connectCode': _id }).populate('displayNames').populate('games')
+        codeId = await CodeId.findOne({ 'connectCode': _id }).populate('displayNames').populate({path: 'games', select: '-stats'})
       } else {
-        codeId = await CodeId.findById(_id).populate('displayNames').populate('games')
+        codeId = await CodeId.findById(_id).populate('displayNames').populate({path: 'games', select: '-stats'})
       }
       return codeId
     },

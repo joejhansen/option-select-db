@@ -2,8 +2,53 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_MATCHUP } from '../../../../utils/apollo/queries';
 import { useEffect } from 'react';
+import './h2h.css'
 
 const Head2Head = ({ theme }) => {
+    const styles = {
+        card: {
+            backgroundColor: theme.primary,
+            color: theme.text,
+            position: 'relative',
+            border: `solid ${theme.text} 2px`,
+            bordeRadius: '.333rem',
+            boxShadow: `-5px 5px 0px 3px ${theme.accent}`,
+            margin: `1rem 0`
+        },
+        cardWrapper: {
+            padding: '.5rem'
+        },
+        winner: {
+            color: theme.accent
+        },
+        link: {
+            textDecoration: 'none',
+            color: theme.accent
+        },
+        matchupTable: {
+            outer: {
+                display: 'grid',
+                gridTemplate: '1fr 9fr/1fr'
+            },
+            header: {
+
+            },
+            body: {
+                outer: {
+                    display: 'grid',
+                    gridTemplate: '1fr 8fr /1fr'
+                },
+                header: {
+                    display: 'grid',
+                    gridTemplate: '1fr/1fr 1fr 1fr'
+                },
+                data: {
+                    display: 'grid',
+                    gridTemplate: 'repeat(8, 1fr)/1fr 1fr 1fr'
+                },
+            },
+        }
+    }
     let { id1, id2 } = useParams();
     const navigate = useNavigate()
 
@@ -18,17 +63,24 @@ const Head2Head = ({ theme }) => {
     const renderH2H = (data) => {
         const codeRegex = /^([A-Z]{1,4})\-(\d{1,3})$/i
         let player1, player2
+        let linkToP1, linkToP2
         if (id1.match(codeRegex) && id2.match(codeRegex)) {
             player1 = id1.replace(/-/g, '#')
+            linkToP1 = `../${id1}`
             player2 = id2.replace(/-/g, '#')
+            linkToP2 = `../${id2}`
+
         } else {
             if (data.matchup[0].codeIds[0]._id === id1) {
                 player1 = data.matchup[0].codeIds[0].connectCode
+                linkToP1 = `../${id1}`
                 player2 = data.matchup[0].codeIds[1].connectCode
+                linkToP2 = `../${id2}`
             } else {
                 player1 = data.matchup[0].codeIds[1].connectCode
+                linkToP1 = `../${id2}`
                 player2 = data.matchup[0].codeIds[0].connectCode
-
+                linkToP2 = `../${id1}`
             }
         }
         let playersInfo = {}
@@ -107,97 +159,107 @@ const Head2Head = ({ theme }) => {
             playersInfoAvg[player2].successfulConversions.push(stats.successfulConversions)
             playersInfoAvg[player2].totalDamage.push(stats.totalDamage)
         }
+        const player1Overall = {
+            conversionsPerGame: Math.floor((playersInfoAvg[player1].conversionCount.reduce((a, v) => {
+                return (a + v)
+            }) / playersInfo[player1].length) * 100) / 100,
+            damagePerOpening: Math.floor((playersInfoAvg[player1].damagePerOpening.reduce((a, v) => {
+                return a + v.ratio
+            }, 0) / playersInfo[player1].length) * 100) / 100,
+            inputsPerMinute: Math.floor((playersInfoAvg[player1].inputsPerMinute.reduce((a, v) => {
+                return a + v.ratio
+            }, 0) / playersInfo[player1].length) * 100) / 100,
+            killsPerGame: Math.floor((playersInfoAvg[player1].killCount.reduce((a, v) => {
+                return a + v
+            }, 0) / playersInfo[player1].length) * 100) / 100,
+            neutralWinsPer: Math.floor((playersInfoAvg[player1].neutralWinRatio.reduce((a, v) => {
+                return a + v.ratio
+            }, 0) / playersInfo[player1].length) * 10000) / 100,
+            openingsPerKill: Math.floor((playersInfoAvg[player1].openingsPerKill.reduce((a, v) => {
+                return a + v.ratio
+            }, 0) / playersInfo[player1].length) * 100) / 100,
+            conversionSuccess: Math.floor((playersInfoAvg[player1].successfulConversions.reduce((a, v) => {
+                return a + v.ratio
+            }, 0) / playersInfo[player1].length) * 10000) / 100,
+            damagePerGame: Math.floor((playersInfoAvg[player1].totalDamage.reduce((a, v) => {
+                return a + v
+            }, 0) / playersInfo[player1].length) * 100) / 100,
+        }
+        const player2Overall = {
+            conversionsPerGame: Math.floor((playersInfoAvg[player2].conversionCount.reduce((a, v) => {
+                return (a + v)
+            }) / playersInfo[player2].length) * 100) / 100,
+            damagePerOpening: Math.floor((playersInfoAvg[player2].damagePerOpening.reduce((a, v) => {
+                return a + v.ratio
+            }, 0) / playersInfo[player2].length) * 100) / 100,
+            inputsPerMinute: Math.floor((playersInfoAvg[player2].inputsPerMinute.reduce((a, v) => {
+                return a + v.ratio
+            }, 0) / playersInfo[player2].length) * 100) / 100,
+            killsPerGame: Math.floor((playersInfoAvg[player2].killCount.reduce((a, v) => {
+                return a + v
+            }, 0) / playersInfo[player2].length) * 100) / 100,
+            neutralWinsPer: Math.floor((playersInfoAvg[player2].neutralWinRatio.reduce((a, v) => {
+                return a + v.ratio
+            }, 0) / playersInfo[player2].length) * 10000) / 100,
+            openingsPerKill: Math.floor((playersInfoAvg[player2].openingsPerKill.reduce((a, v) => {
+                return a + v.ratio
+            }, 0) / playersInfo[player2].length) * 100) / 100,
+            conversionSuccess: Math.floor((playersInfoAvg[player2].successfulConversions.reduce((a, v) => {
+                return a + v.ratio
+            }, 0) / playersInfo[player2].length) * 10000) / 100,
+            damagePerGame: Math.floor((playersInfoAvg[player2].totalDamage.reduce((a, v) => {
+                return a + v
+            }, 0) / playersInfo[player2].length) * 100) / 100,
+        }
         return (
             <>
-                <p>{player1} vs {player2}</p>
-                <div className='row'>
-                    <div className='col-6'>
-                        <ul>{player1} Overall stats:
-                            <li>
-                                Average Conversions Per Game= {Math.floor((playersInfoAvg[player1].conversionCount.reduce((a, v) => {
-                                    return (a + v)
-                                }) / playersInfo[player1].length) * 100) / 100}
-                            </li>
-                            <li>
-                                Average Damage Per Opening= {Math.floor((playersInfoAvg[player1].damagePerOpening.reduce((a, v) => {
-                                    return a + v.ratio
-                                }, 0) / playersInfo[player1].length) * 100) / 100}%
-                            </li>
-                            <li>
-                                Average Inputs Per Minute = {Math.floor((playersInfoAvg[player1].inputsPerMinute.reduce((a, v) => {
-                                    return a + v.ratio
-                                }, 0) / playersInfo[player1].length) * 100) / 100}
-                            </li>
-                            <li>
-                                Average Kills Per Game = {Math.floor((playersInfoAvg[player1].killCount.reduce((a, v) => {
-                                    return a + v
-                                }, 0) / playersInfo[player1].length) * 100) / 100}
-                            </li>
-                            <li>
-                                Average Neutral Win Percentage = {Math.floor((playersInfoAvg[player1].neutralWinRatio.reduce((a, v) => {
-                                    return a + v.ratio
-                                }, 0) / playersInfo[player1].length) * 10000) / 100}%
-                            </li>
-                            <li>
-                                Average Openings Per Kill = {Math.floor((playersInfoAvg[player1].openingsPerKill.reduce((a, v) => {
-                                    return a + v.ratio
-                                }, 0) / playersInfo[player1].length) * 100) / 100}
-                            </li>
-                            <li>
-                                Average Successful Conversions = {Math.floor((playersInfoAvg[player1].successfulConversions.reduce((a, v) => {
-                                    return a + v.ratio
-                                }, 0) / playersInfo[player1].length) * 10000) / 100}%
-                            </li>
-                            <li>
-                                Average Damage per game = {Math.floor((playersInfoAvg[player1].totalDamage.reduce((a, v) => {
-                                    return a + v
-                                }, 0) / playersInfo[player1].length) * 100) / 100}%
-                            </li>
-                        </ul>
-                    </div>
-                    <div className='col-6'>
-                        <ul>{player2} Overall stats:
-                            <li>
-                                Average Conversions Per Game= {Math.floor((playersInfoAvg[player2].conversionCount.reduce((a, v) => {
-                                    return (a + v)
-                                }) / playersInfo[player2].length) * 100) / 100}
-                            </li>
-                            <li>
-                                Average Damage Per Opening= {Math.floor((playersInfoAvg[player2].damagePerOpening.reduce((a, v) => {
-                                    return a + v.ratio
-                                }, 0) / playersInfo[player2].length) * 100) / 100}%
-                            </li>
-                            <li>
-                                Average Inputs Per Minute = {Math.floor((playersInfoAvg[player2].inputsPerMinute.reduce((a, v) => {
-                                    return a + v.ratio
-                                }, 0) / playersInfo[player2].length) * 100) / 100}
-                            </li>
-                            <li>
-                                Average Kills Per Game = {Math.floor((playersInfoAvg[player2].killCount.reduce((a, v) => {
-                                    return a + v
-                                }, 0) / playersInfo[player2].length) * 100) / 100}
-                            </li>
-                            <li>
-                                Average Neutral Win Percentage = {Math.floor((playersInfoAvg[player2].neutralWinRatio.reduce((a, v) => {
-                                    return a + v.ratio
-                                }, 0) / playersInfo[player2].length) * 10000) / 100}%
-                            </li>
-                            <li>
-                                Average Openings Per Kill = {Math.floor((playersInfoAvg[player2].openingsPerKill.reduce((a, v) => {
-                                    return a + v.ratio
-                                }, 0) / playersInfo[player2].length) * 100) / 100}
-                            </li>
-                            <li>
-                                Average Successful Conversions = {Math.floor((playersInfoAvg[player2].successfulConversions.reduce((a, v) => {
-                                    return a + v.ratio
-                                }, 0) / playersInfo[player2].length) * 10000) / 100}%
-                            </li>
-                            <li>
-                                Average Damage per game = {Math.floor((playersInfoAvg[player2].totalDamage.reduce((a, v) => {
-                                    return a + v
-                                }, 0) / playersInfo[player2].length) * 100) / 100}%
-                            </li>
-                        </ul>
+                <div className='container'>
+                    <p>{player1} vs {player2}</p>
+                    <div className='row'>
+                        <div className='col'>
+                            <div className='card' style={styles.card}>
+                                <div style={styles.cardWrapper}>
+                                    <div style={styles.matchupTable.outer}>
+                                        <div>
+                                            Matchup Statistics Over {playersInfo[player1].length} Games
+                                        </div>
+                                        <div style={styles.matchupTable.body.outer}>
+                                            <div style={styles.matchupTable.body.header}>
+                                                <div>H2H Averages</div>
+                                                <div><Link to={linkToP1} style={styles.link}>{player1}</Link></div>
+                                                <div><Link to={linkToP2} style={styles.link}>{player2}</Link></div>
+                                            </div>
+                                            <div id="overallh2h" style={styles.matchupTable.body.data}>
+                                                <div>Conversions / Game</div>
+                                                <div style={player1Overall.conversionsPerGame > player2Overall.conversionsPerGame ? styles.winner : null}>{player1Overall.conversionsPerGame}</div>
+                                                <div style={player1Overall.conversionsPerGame < player2Overall.conversionsPerGame ? styles.winner : null}>{player2Overall.conversionsPerGame}</div>
+                                                <div>Damage / Opening</div>
+                                                <div style={player1Overall.damagePerOpening > player2Overall.damagePerOpening ? styles.winner : null}>{player1Overall.damagePerOpening}%</div>
+                                                <div style={player1Overall.damagePerOpening < player2Overall.damagePerOpening ? styles.winner : null}>{player2Overall.damagePerOpening}%</div>
+                                                <div>Inputs / Minute</div>
+                                                <div style={player1Overall.inputsPerMinute > player2Overall.inputsPerMinute ? styles.winner : null}>{player1Overall.inputsPerMinute}</div>
+                                                <div style={player1Overall.inputsPerMinute < player2Overall.inputsPerMinute ? styles.winner : null}>{player2Overall.inputsPerMinute}</div>
+                                                <div>Kills / Game</div>
+                                                <div style={player1Overall.killsPerGame > player2Overall.killsPerGame ? styles.winner : null}>{player1Overall.killsPerGame}</div>
+                                                <div style={player1Overall.killsPerGame < player2Overall.killsPerGame ? styles.winner : null}>{player2Overall.killsPerGame}</div>
+                                                <div>Neutral Win %</div>
+                                                <div style={player1Overall.neutralWinsPer > player2Overall.neutralWinsPer ? styles.winner : null}>{player1Overall.neutralWinsPer}%</div>
+                                                <div style={player1Overall.neutralWinsPer < player2Overall.neutralWinsPer ? styles.winner : null}>{player2Overall.neutralWinsPer}%</div>
+                                                <div>Openings / Kill</div>
+                                                <div style={player1Overall.openingsPerKill < player2Overall.openingsPerKill ? styles.winner : null}>{player1Overall.openingsPerKill}</div>
+                                                <div style={player1Overall.openingsPerKill > player2Overall.openingsPerKill ? styles.winner : null}>{player2Overall.openingsPerKill}</div>
+                                                <div>Successful Conversions %</div>
+                                                <div style={player1Overall.conversionSuccess > player2Overall.conversionSuccess ? styles.winner : null}>{player1Overall.conversionSuccess}%</div>
+                                                <div style={player1Overall.conversionSuccess < player2Overall.conversionSuccess ? styles.winner : null}>{player2Overall.conversionSuccess}%</div>
+                                                <div>Damage / Game</div>
+                                                <div style={player1Overall.damagePerGame > player2Overall.damagePerGame ? styles.winner : null}>{player1Overall.damagePerGame}%</div>
+                                                <div style={player1Overall.damagePerGame < player2Overall.damagePerGame ? styles.winner : null}>{player2Overall.damagePerGame}%</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </>

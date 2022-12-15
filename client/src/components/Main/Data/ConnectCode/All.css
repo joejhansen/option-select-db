@@ -1,0 +1,12 @@
+:root {
+    --dark: #131416;
+    --darker: #090A0B;
+}
+
+
+#gameList>li:nth-child(2n-1){
+    background-color: var(--darker);
+}
+#gameList>li:nth-child(2n){
+    background-color: var(--dark);
+}

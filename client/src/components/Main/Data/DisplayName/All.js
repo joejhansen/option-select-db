@@ -37,14 +37,12 @@ const DisplayName = ({ theme }) => {
                 renderConnectCodes.push(<li key={code.connectCode}><Link to={linkToConnectCode} style={styles.link}>{code.connectCode}</Link></li>)
             }
             render.push(
-                <div className='row' key={name.displayName}>
-                    <div className="col">
-                        <div className="card" style={styles.card}>
-                            <div style={styles.entryWrapper}>
-                                <p><Link to={linkToDisplayName} style={styles.link}>{name.displayName}</Link></p>
-                                <p>Connect Codes</p>
-                                <ul>{renderConnectCodes}</ul>
-                            </div>
+                <div className="col-xl-3 col-lg-4 col-md-6">
+                    <div className="card" style={styles.card}>
+                        <div style={styles.entryWrapper}>
+                            <p><Link to={linkToDisplayName} style={styles.link}>{name.displayName}</Link></p>
+                            <p>Connect Codes</p>
+                            <ul>{renderConnectCodes}</ul>
                         </div>
                     </div>
                 </div>
@@ -56,7 +54,10 @@ const DisplayName = ({ theme }) => {
 
     return (
         <div className="container">
-            {loading ? <p>loading</p> : renderDisplayNames(data)}
+            <div className='row'>
+                {loading ? <p>loading</p> : renderDisplayNames(data)}
+            </div>
+
 
         </div>
     )
