@@ -42,6 +42,7 @@ const handleSlpSeed = async (directory, files) => {
             console.log(`Upload done, closing databse`)
             resolve(`Databse closed, ending program`)
         } catch (err) {
+            console.log(`Error caught in handleSlpSeed.js`)
             console.log(err)
             reject(err)
         }
