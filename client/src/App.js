@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 // importing CSS
 import 'bootstrap/dist/css/bootstrap.min.css'
-import './App.css';
+// import './App.css';
 import {
   ApolloClient,
   InMemoryCache,

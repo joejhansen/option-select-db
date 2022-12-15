@@ -6,6 +6,7 @@ const { authMiddleware } = require('./utils/auth');
 const handleSlpSeed = require('./utils/slpHandles/handleSlpSeed')
 const { typeDefs, resolvers } = require('./schemas');
 const db = require('./config/connection');
+const fs = require('fs').promises
 
 
 const PORT = process.env.PORT || 3001;
@@ -56,6 +57,7 @@ app.post('/data/upload', upload.array('slpFiles', 10), async function (req, res)
   if (!req.files.length) {
     return res.status(400).redirect('/data/upload')
   }
+  
   const directory = path.join(__dirname, './upload/_tempSlps/')
   const response = await handleSlpSeed(directory, req.files)
   if (!response) {
