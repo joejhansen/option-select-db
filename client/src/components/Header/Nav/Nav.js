@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from 'react'
+import React from 'react'
 import { NavLink } from 'react-router-dom'
 import capitalizeLocal from '../../../utils/helpers/capitalizeLocal'
 // TODO: MAKE ACTIONS AND IMPORT THEM

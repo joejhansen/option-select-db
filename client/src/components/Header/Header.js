@@ -1,11 +1,7 @@
-import React, { useReducer, useState } from 'react'
-// TODO: MAKE ACTIONS AND IMPORT THEM
-import reducer from '../../utils/apollo/reducers'
+import React from 'react'
 
-import { usePreferenceContext } from '../../utils/react-context/PreferenceContext'
 
 const Header = ({ children, theme }) => {
-    const initialState = usePreferenceContext();
 
     // const [state, dispatch] = useReducer(reducer, initialState)
 
