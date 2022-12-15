@@ -53,10 +53,10 @@ app.get('/', (req, res) => {
 
 // handling .slp file uploads
 app.post('/data/upload', upload.array('slpFiles', 10), async function (req, res) {
-  if(!req.files.length){
+  if (!req.files.length) {
     return res.status(400).redirect('/data/upload')
   }
-  const directory = `./upload/_tempSlps/`
+  const directory = path.join(__dirname, './upload/_tempSlps/')
   const response = await handleSlpSeed(directory, req.files)
   if (!response) {
     return res.status(500).send(`Error uploading files`)
