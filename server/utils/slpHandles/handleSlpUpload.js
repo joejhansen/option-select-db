@@ -37,15 +37,10 @@ const handleSlpUpload = async (payload) => {
             { new: true, upsert: true }
         )
         let index = 0
-        // TODO: FIX THIS
-        // $push, $addToSet don't work
-        // F$*#$)@#%&
         for (codeId of newCodeId_ids) {
             const addGameAndDisplayNames = await CodeId.updateOne(
                 { '_id': codeId },
                 { $addToSet: { 'games': newGameResponse._id, 'displayNames': newDisplayName_ids[index] } })
-            // { upsert: true }
-            // displayNames: { _id: newDisplayName_ids[index] } 
 
             index++
             continue
