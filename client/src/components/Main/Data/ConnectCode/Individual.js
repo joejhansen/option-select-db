@@ -1,6 +1,7 @@
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_CONNECT_CODE } from '../../../../utils/apollo/queries';
+import CardLoader from "../../../Loader/CardLoader"
 
 const ConnectCodeIndividual = ({ theme }) => {
     let { id } = useParams();
@@ -74,7 +75,7 @@ const ConnectCodeIndividual = ({ theme }) => {
     return (
         <>
             {loading
-                ? <p>loading</p>
+                ? <CardLoader />
                 : error || !data.codeIdById
                     ? navigate('/404')
                     : renderConnectCode(data)

@@ -1,6 +1,7 @@
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_DISPLAY_NAME } from '../../../../utils/apollo/queries';
+import CardLoader from "../../../Loader/CardLoader"
 
 const DisplayNameIndividual = ({ theme }) => {
     let { id } = useParams();
@@ -28,7 +29,6 @@ const DisplayNameIndividual = ({ theme }) => {
     }
     const renderDisplayName = (data) => {
         const name = data.displayNameById
-        console.log(name)
         let render = []
         const linkToDisplayName = `../${name._id}`
         const renderConnectCodes = []
@@ -57,7 +57,7 @@ const DisplayNameIndividual = ({ theme }) => {
     return (
         <>
             {loading
-                ? <p>loading</p>
+                ? <CardLoader />
                 : error || !data.displayNameById
                     ? navigate('/404')
                     : renderDisplayName(data)}

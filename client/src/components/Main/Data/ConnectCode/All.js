@@ -1,6 +1,7 @@
 import { useQuery } from "@apollo/client"
 import { QUERY_CONNECT_CODES } from "../../../../utils/apollo/queries"
 import { Link } from "react-router-dom"
+import CardLoader from "../../../Loader/CardLoader"
 import './All.css'
 const ConnectCodeAll = ({ theme }) => {
     const { loading, data } = useQuery(QUERY_CONNECT_CODES)
@@ -75,7 +76,7 @@ const ConnectCodeAll = ({ theme }) => {
     return (
         <div className="container">
             <div className='row'>
-                {loading ? <p>loading</p> : renderConnectCodes(data)}
+                {loading ? <CardLoader />: renderConnectCodes(data)}
 
             </div>
         </div>

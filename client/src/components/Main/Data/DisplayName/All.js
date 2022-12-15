@@ -2,6 +2,7 @@ import { useQuery } from "@apollo/client"
 import { useEffect } from "react"
 import { QUERY_DISPLAY_NAMES } from "../../../../utils/apollo/queries"
 import { Link } from "react-router-dom"
+import CardLoader from "../../../Loader/CardLoader"
 
 const DisplayName = ({ theme }) => {
     const { loading, data } = useQuery(QUERY_DISPLAY_NAMES)
@@ -55,7 +56,7 @@ const DisplayName = ({ theme }) => {
     return (
         <div className="container">
             <div className='row'>
-                {loading ? <p>loading</p> : renderDisplayNames(data)}
+                {loading ? <CardLoader /> : renderDisplayNames(data)}
             </div>
 
 

@@ -5,6 +5,8 @@ import './game.css'
 import movesList from '../../../../utils/game-info/moves.json'
 import charactersList from '../../../../utils/game-info/characters.json'
 import stagesList from '../../../../utils/game-info/stages.json'
+import CardLoader from '../../../Loader/CardLoader'
+
 // TODO: make individual componenents of each table passing in the correct props for eas of use/refactoring if needed
 // TODO: afix two-column tables design at 1022px for readability, if<1022px then make one column for conversions since it's like 7 columns
 
@@ -531,7 +533,7 @@ const GameIndividual = ({ theme }) => {
                                 </div>
                             </div>
                         </div>
-                            {/* TODO: componentize this i think */}
+                        {/* TODO: componentize this i think */}
                         <div className="card" style={styles.card}>
                             <div style={styles.cardWrapper}>
                                 <div className="row">
@@ -580,7 +582,7 @@ const GameIndividual = ({ theme }) => {
     return (
         <>
             {/* is it loading? show loading. if it loaded, render it */}
-            {loading ? <p>loading</p>
+            {loading ? <CardLoader />
                 : error ? navigate('/404')
                     : renderGameTable(data)}
         </>

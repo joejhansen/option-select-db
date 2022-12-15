@@ -2,7 +2,7 @@ import { useQuery } from "@apollo/client"
 import { useEffect } from "react"
 import { QUERY_GAMES_SIMPLE } from "../../../../utils/apollo/queries"
 import { Link } from "react-router-dom"
-
+import CardLoader from '../../../Loader/CardLoader'
 const Games = ({ theme }) => {
     const { loading, data } = useQuery(QUERY_GAMES_SIMPLE)
     const styles = {
@@ -71,7 +71,7 @@ const Games = ({ theme }) => {
     return (
         <div className="container">
             <div className='row'>
-                {loading ? <p>loading</p> : renderGames(data)}
+                {loading ? <CardLoader /> : renderGames(data)}
             </div>
 
 

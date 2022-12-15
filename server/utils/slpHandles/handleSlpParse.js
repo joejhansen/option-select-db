@@ -5,7 +5,6 @@ const handleSlpParse = async (slp) => {
     try {
         // instantiating a new SlippiGame class for parsing
         const game = new SlippiGame(slp)
-        console.log(game)
         // parsing the new SlippiGame = game
         const settings = game.getSettings()
         const metadata = game.getMetadata()
@@ -29,6 +28,7 @@ const handleSlpParse = async (slp) => {
         // fs.writeFileSync('./testSlps/parsedTestSlpJSONs/testSlpParseWinners.json', winners)
         return payload
     } catch (err) {
+        console.log(`Error parsing with slippi-js`)
         console.log(err)
         return null
     }

@@ -11,6 +11,7 @@ const handleSlpReaddir = async (directory) => {
             })
         return files
     } catch (err) {
+        console.log(err)
         return null
     }
 }

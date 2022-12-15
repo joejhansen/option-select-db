@@ -2,6 +2,8 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_MATCHUP } from '../../../../utils/apollo/queries';
 import { useEffect } from 'react';
+import CardLoader from "../../../Loader/CardLoader"
+
 import './h2h.css'
 
 const Head2Head = ({ theme }) => {
@@ -269,7 +271,7 @@ const Head2Head = ({ theme }) => {
     return (
         <>
             {loading
-                ? <p>loading</p>
+                ? <CardLoader />
                 : error || !data.matchup.length
                     ? navigate('/404')
                     : renderH2H(data)}

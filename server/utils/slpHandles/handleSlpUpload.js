@@ -47,6 +47,8 @@ const handleSlpUpload = async (payload) => {
         }
         return true
     } catch (err) {
+        console.log(`Error uploading game data`)
+        console.log(err)
         return null
     }
 }

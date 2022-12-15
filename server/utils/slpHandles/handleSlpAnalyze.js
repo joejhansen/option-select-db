@@ -171,7 +171,9 @@ const handleSlpAnalyze = (payload) => {
         }
         return finalPayload
     } catch (err) {
-        return (err)
+        console.log(`Error analyzing slippi-js data`)
+        console.log(err)
+        return null
     }
 }
 
