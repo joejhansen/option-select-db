@@ -1,6 +1,5 @@
 import React, { useReducer, useState } from 'react'
 import './Home.css'
-// TODO: MAKE ACTIONS AND IMPORT THEM
 import Info from './Info/Info'
 
 

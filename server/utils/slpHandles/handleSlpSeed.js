@@ -3,7 +3,6 @@
 const handleSlpParse = require('./handleSlpParse')
 const handleSlpAnalyze = require('./handleSlpAnalyze')
 const handleSlpUpload = require('./handleSlpUpload')
-const handleSlpReaddir = require('./handleSlpReaddir')
 const fs = require('fs').promises
 
 
@@ -17,8 +16,6 @@ const handleSlpSeed = async (directory, files) => {
         try {
             for (let file of files) {
                 const parsed = await handleSlpParse(`${directory}${file.filename}`)
-                console.log(parsed)
-                // :( promisify the stats getting process?
                 if (!parsed) {
                     console.log(`Error parsing .slp: ${file.filename}`)
                     await fs.unlink(file.path)

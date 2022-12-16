@@ -6,8 +6,9 @@ import CardLoader from "../../../Loader/CardLoader"
 const ConnectCodeIndividual = ({ theme }) => {
     let { id } = useParams();
     // IF YOU WANT TO USE A POUND # IN A URL
-    // IT MUST BE %23 APPARENTLY
+    // IT MUST BE %23 INSTEAD APPARENTLY
     // ANNOYING
+    // slippi.gg stylizes the # to - so I guess we'll do that too
     const { loading, error, data } = useQuery(QUERY_CONNECT_CODE, {
         variables: { id: id },
     });

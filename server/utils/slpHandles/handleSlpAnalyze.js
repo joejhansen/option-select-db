@@ -63,8 +63,6 @@ const handleSlpAnalyze = (payload) => {
         if (lastFrame <= 1800) {
             return null
         }
-        // TODO: convert PlayersMetadata to an array in the order of the playerindex or else the mongoose model wont work
-        // TODO: convert players.characters to an array where the values are numbers equal to the keyvalues of the original object. see below
         // for some reason, players.characters is "characterNum": "someRandomNumIDKWhatIt'sFor", so let's get rid of the value and just use the key as a number
         const playersMetadata = []
         for (let [player, data] of Object.entries(playersMetadataObject)) {
@@ -107,7 +105,6 @@ const handleSlpAnalyze = (payload) => {
         //     count,                              //num = framesRollback length
         //     lengths                             //array. not sure what this is
         // } = rollbackFrames
-        // TODO: parse this for more data functionality
 
 
         //this is an array for some reason. idk why. maybe for teams? we destructure it and then put the stuff in an object for conformity
