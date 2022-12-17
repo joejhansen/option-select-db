@@ -7,6 +7,8 @@ import charactersList from '../../../../utils/game-info/characters.json'
 import stagesList from '../../../../utils/game-info/stages.json'
 import CardLoader from '../../../Loader/CardLoader'
 import OverallTable from "./OverallTable";
+import GameClass from "./gameClass";
+
 
 // TODO: make individual componenents of each table passing in the correct props for eas of use/refactoring if needed
 // TODO: afix two-column tables design at 1022px for readability, if<1022px then make one column for conversions since it's like 7 columns
@@ -134,6 +136,9 @@ const GameIndividual = ({ theme }) => {
         }
     }
     const renderGameTable = (data) => {
+
+        const testGame = new GameClass(data)
+        console.log(testGame.renderConversions('p1'))
         // okay
         // so
         // we just call it game
