@@ -1,17 +1,21 @@
 import movesList from '../../../../utils/game-info/moves.json'
 import charactersList from '../../../../utils/game-info/characters.json'
 import stagesList from '../../../../utils/game-info/stages.json'
+import { Link } from 'react-router-dom'
 
-const conversionRowStyle = {
-    display: 'grid',
-    gridTemplate: `1fr/ 1fr 1fr 1fr 2fr 1fr 2fr`
-    // the second damage entry and openingType are a little large, let's give them 2 relative lengths of row
+const styles = {
+    winner: {
+        color: '#f88a8a'
+    },
+    dq: {
+        color: 'red'
+    },
+    link: {
+        textDecoration: 'none',
+        color: '#f88a8a'
+    },
 }
-const conversionStockStyle = {
-    display: 'grid',
-    gridTemplate: `1fr/1fr`,
-    // it's just a singular div
-}
+
 const renderMinutes = (frames) => {
     if (Math.floor(frames / 60) > 60) {
         let minutes = Math.floor((frames / 60) / 60)
@@ -26,9 +30,11 @@ const renderMinutes = (frames) => {
 }
 class Game {
     constructor(data) {
-        const newGame = data.gameById        // game metadata
-        this.fullData = data
+        const newGame = data.gameById
+        // game metadata / other relevant info
+        this.fullData = newGame
         this.startDate = new Date(parseInt(newGame.metadata.startAt))
+        this.stage = stagesList[newGame.settings.stageId]
         this.winnerIndex = newGame.stats.conversions[newGame.stats.conversions.length - 1].lastHitBy
         this.winnerName = newGame.displayNames[this.winnerIndex].displayName
         this.winnerCode = newGame.codeIds[this.winnerIndex].connectCode
@@ -36,24 +42,27 @@ class Game {
         // p1
         this.p1 = {}
         this.p2 = {}
+        // gotta do this for some reason
         this.p1.displayName = newGame.displayNames[0].displayName
         this.p1.displayLink = `../../displayname/${this.p1.displayName}`
         this.p1.connectCode = newGame.codeIds[0].connectCode
         this.p1.codeLink = `../../connectocde/${this.p1.connectCode.replace('#', '-')}`
-        this.p1.character = newGame.metadata.players[1].characters.length > 1 ? `Ice Climbers` : charactersList[newGame.metadata.players[1].characters[0]].name
+        this.p1.character = newGame.metadata.players[0].characters.length > 1 ? `Ice Climbers` : charactersList[newGame.metadata.players[0].characters[0]].name
         // p2
         this.p2.displayName = newGame.displayNames[1].displayName
         this.p2.displayLink = `../../displayname/${this.p2.displayName}`
         this.p2.connectCode = newGame.codeIds[1].connectCode
         this.p2.codeLink = `../../connnectcode${this.p2.connectCode.replace('#', '-')}`
+        this.p2.character = newGame.metadata.players[1].characters.length > 1 ? `Ice Climbers` : charactersList[newGame.metadata.players[1].characters[0]].name
+
         // link to head-2-head chart
-        this.h2hLink = `../../connectcode/${this.p1.connectCode.replace('#', '-')}/vs/${this.p2.connectCode.replace('#', '-')}`
+        this.linkToH2H = `../../connectcode/${this.p1.connectCode.replace('#', '-')}/vs/${this.p2.connectCode.replace('#', '-')}`
 
         // overall table stats
         // offense
         // kills
-        this.p1.kills = newGame.stats.overall[0].killCount
-        this.p2.kills = newGame.stats.overall[1].killCount
+        this.p1.killCount = newGame.stats.overall[0].killCount
+        this.p2.killCount = newGame.stats.overall[1].killCount
         // damage
         this.p1.damage = Math.floor(newGame.stats.overall[0].totalDamage * 100) / 100
         this.p2.damage = Math.floor(newGame.stats.overall[1].totalDamage * 100) / 100
@@ -67,6 +76,9 @@ class Game {
         // openings/kill
         this.p1.openingsKill = Math.floor(newGame.stats.overall[0].openingsPerKill.ratio * 1000) / 1000
         this.p2.openingsKill = Math.floor(newGame.stats.overall[1].openingsPerKill.ratio * 1000) / 1000
+        // damage per opening
+        this.p1.damagePerOpening = Math.floor(newGame.stats.overall[0].damagePerOpening.ratio * 100) / 100
+        this.p2.damagePerOpening = Math.floor(newGame.stats.overall[1].damagePerOpening.ratio * 100) / 100
         // defense
         // rolls
         this.p1.rolls = newGame.stats.actionCounts[0].rollCount
@@ -143,7 +155,7 @@ class Game {
                 })
             }
             return result
-        },[])
+        }, [])
         // conversionsTable
         this.p1.conversionsStats = newGame.stats.conversions.reduce((result, conversion) => {
             if (conversion.lastHitBy === 0) {
@@ -175,9 +187,39 @@ class Game {
         }, [])
     }
     renderOverall() {
-
+        
     }
     renderKills(player) {
+        const tableOuterStyle = {
+
+            display: 'grid',
+            gridTemplate: `1fr ${this[player].killsStats.length + 1}fr / 1fr`,
+            // 1fr for the top title, killRows.length+1 for the total ammount of kills + data header in the sibling element
+            height: 'max-content',
+            padding: '0',
+            margin: '0 1rem'
+        }
+
+        const tableDataOuterStyle = {
+
+            display: 'grid',
+
+            gridTemplate: `1fr ${this[player].killsStats.length}fr / 1fr`
+            // 1fr for the data header, killRows.length fr for the total ammount of rows in the sibling element
+        }
+        const tableDataHeaderStyle = {
+
+            display: 'grid',
+            gridTemplate: `1fr / repeat(4, 1fr)`
+            // as many columns as data showsn.
+            // see conversions row for shaping irregular columns
+        }
+        const tableDataBodyStyle = {
+
+            display: 'grid',
+            gridTemplate: `repeat(${this[player].killsStats.length}, 1fr) / repeat(4, 1fr)`
+            // repeate 1fr for each row we need, 4 columns
+        }
         let render = []
         this[player].killsStats.map((kill) => {
             render.push(
@@ -189,9 +231,61 @@ class Game {
                 </>
             )
         })
-        return render
+        const killComponent =
+            <div className="col" style={tableOuterStyle} >
+                <div><Link to={this[player].codeLink} style={styles.link}>{this[player].connectCode}</Link> as <Link to={this[player].displayLink} style={styles.link}>{this[player].displayName}</Link></div>
+                <div style={tableDataOuterStyle}>
+                    <div style={tableDataHeaderStyle}>
+                        <div>Start</div>
+                        <div>End</div>
+                        <div>Kill Move</div>
+                        <div>Percent</div>
+                    </div>
+                    <div id="killsData" className="dataRows" style={tableDataBodyStyle}>
+                        {render}
+                    </div>
+                </div>
+            </div >
+        return killComponent
     }
     renderConversions(player) {
+        const conversionRowStyle = {
+            display: 'grid',
+            gridTemplate: `1fr/ 1fr 1fr 1fr 2fr 1fr 2fr`
+            // the second damage entry and openingType are a little large, let's give them 2 relative lengths of row
+        }
+        const conversionStockStyle = {
+            display: 'grid',
+            gridTemplate: `1fr/1fr`,
+            // it's just a singular div
+        }
+        const tableOuterStyle = {
+            display: 'grid',
+            gridTemplate: `1fr ${this[player].conversionsStats.length + 1}fr / 1fr`,
+            // 1fr for the names header, then conversionRow.length+1fr for the total ammount of rows in our sibling component
+            height: 'max-content',
+            padding: '0',
+            margin: '0 1rem'
+        }
+        const tableDataOuterStyle = {
+            display: 'grid',
+            gridTemplate: `1fr ${this[player].conversionsStats.length}fr / 1fr`
+            // 1fr for the data header, then conversionRow.lengthfr for the total ammount of rows in our sibling component
+        }
+        const tableDataHeaderStyle = {
+            display: 'grid',
+            // we have 5 columns in our data header, but 6 rows in our data body?
+            gridTemplate: `1fr/1fr 1fr 3fr 1fr 2fr`
+            // 3fr for damage stats overall (1 + 2), 2fr for the opening type string because it's long
+        }
+        const tableDataBodyStyle = {
+            display: 'grid',
+            gridTemplate: `repeat(${this[player].conversionsStats.length}, 1fr) / 1fr`
+            // repeat rows for as many rows as we need
+        }
+        // all together now
+        let stocksTaken = 0
+        let stocks = 4
         let render = []
         this[player].conversionsStats.map((conversion) => {
             render.push(
@@ -206,8 +300,55 @@ class Game {
                     </div>
                 </>
             )
+            if (conversion.didKill) {
+                stocksTaken++
+                if (stocks - stocksTaken > 0) {
+                    render.push(
+                        <>
+                            <div style={conversionStockStyle}>
+                                <div>{stocks - stocksTaken} stocks left</div>
+                            </div>
+                        </>
+                    )
+                } else if (stocks - stocksTaken <= 0) {
+                    render.push(
+                        <>
+                            <div>
+                                <div>
+                                    You killed em bro
+                                </div>
+                            </div>
+                        </>
+                    )
+                }
+            }
         })
-        return render
+        if ((stocks - stocksTaken > 0) && (this[player].conversionsStats[this[player].conversionsStats.length - 1].didKill)) {
+            render.push(
+                <>
+                    <div style={conversionStockStyle}>
+                        <div>No punishes on opponent's {stocksTaken + 1} stock</div>
+                    </div>
+                </>
+            )
+        }
+        const conversionComponent =
+            <div className="col" style={tableOuterStyle}>
+                <div><Link to={this[player].codeLink} style={styles.link}>{this[player].connectCode}</Link> as <Link to={this[player].displayLink} style={styles.link}>{this[player].displayName}</Link></div>
+                <div style={tableDataOuterStyle}>
+                    <div style={tableDataHeaderStyle}>
+                        <div>Start</div>
+                        <div>End</div>
+                        <div>Damage</div>
+                        <div>Moves</div>
+                        <div>Opening</div>
+                    </div>
+                    <div id="conversionsData" className="dataRows" style={tableDataBodyStyle}>
+                        {render}
+                    </div>
+                </div>
+            </div>
+        return conversionComponent
     }
 
 }
