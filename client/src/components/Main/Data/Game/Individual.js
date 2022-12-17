@@ -6,6 +6,7 @@ import movesList from '../../../../utils/game-info/moves.json'
 import charactersList from '../../../../utils/game-info/characters.json'
 import stagesList from '../../../../utils/game-info/stages.json'
 import CardLoader from '../../../Loader/CardLoader'
+import OverallTable from "./OverallTable";
 
 // TODO: make individual componenents of each table passing in the correct props for eas of use/refactoring if needed
 // TODO: afix two-column tables design at 1022px for readability, if<1022px then make one column for conversions since it's like 7 columns
@@ -411,6 +412,7 @@ const GameIndividual = ({ theme }) => {
                 {/* or make it a component itself and pass in the data idk */}
                 <div className="row">
                     <div className="col">
+                        {/* <OverallTable theme={theme} data={data} /> */}
                         <div className="card" style={styles.card}>
                             <div style={styles.cardWrapper}>
 
