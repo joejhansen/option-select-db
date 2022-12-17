@@ -1,8 +1,7 @@
 import movesList from '../../../../utils/game-info/moves.json'
 import charactersList from '../../../../utils/game-info/characters.json'
 import stagesList from '../../../../utils/game-info/stages.json'
-
-
+import { Link } from 'react-router-dom'
 const OverallTable = ({ theme, data }) => {
     const styles = {
         card: {
