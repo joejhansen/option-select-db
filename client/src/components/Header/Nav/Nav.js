@@ -1,7 +1,6 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import capitalizeLocal from '../../../utils/helpers/capitalizeLocal'
-// TODO: MAKE ACTIONS AND IMPORT THEM
 
 // TODO: Compose the Nav within a <Header /> component on the main app for easy props
 const Nav = ({ pages, theme }) => {

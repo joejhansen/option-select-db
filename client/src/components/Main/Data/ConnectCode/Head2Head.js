@@ -6,6 +6,8 @@ import CardLoader from "../../../Loader/CardLoader"
 
 import './h2h.css'
 
+// TODO: think of more things to analyze
+
 const Head2Head = ({ theme }) => {
     const styles = {
         card: {
