@@ -1,5 +1,12 @@
 import './info.css'
+import Logo from '../../../../optionselectdb2-cropped.svg'
 const Info = () => {
+    const styles = {
+        logo: {
+            height: '25%',
+            width: '25%'
+        }
+    }
     return (
         <div id="pageWrapper" className='container-fluid'>
             <div id="info-section" className="row">
@@ -11,7 +18,7 @@ const Info = () => {
 
                                     <div className="info-column-head">
                                         <p>Welcome to</p>
-                                        <p>Option Select</p>
+                                        <p><img src={Logo}  style={styles.logo}/></p>
                                     </div>
                                     <div className="info-column-content">
                                         <p id="top-column-text">"An Option Select is a tactic in which a player takes advantage of certain input priority systems to cover multiple different scenarios at once from the same input." - Street Fighter Wiki</p>

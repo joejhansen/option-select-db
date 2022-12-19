@@ -29,9 +29,6 @@ import Games from './components/Main/Data/Game/Search'
 import GamesAll from './components/Main/Data/Game/All'
 import GameIndividual from './components/Main/Data/Game/Individual'
 import Home from './components/Main/Home/Home'
-// import Overlay from './components/Main/Overlay/Overlay';
-// import Settings from './components/Main/Settings/Settings';
-// import SlippiConnect from './components/Main/Settings/SlippiConnection';
 //    Footer
 import Footer from './components/Footer/Footer'
 //    Errors

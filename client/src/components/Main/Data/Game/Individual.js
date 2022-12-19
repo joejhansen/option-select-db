@@ -2,11 +2,7 @@ import { useQuery } from "@apollo/client";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { QUERY_GAME_FULL } from "../../../../utils/apollo/queries";
 import './game.css'
-import movesList from '../../../../utils/game-info/moves.json'
-import charactersList from '../../../../utils/game-info/characters.json'
-import stagesList from '../../../../utils/game-info/stages.json'
 import CardLoader from '../../../Loader/CardLoader'
-import OverallTable from "./OverallTable";
 import GameClass from "./gameClass";
 
 

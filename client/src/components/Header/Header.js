@@ -1,4 +1,5 @@
 import React from 'react'
+import Logo from '../../optionselectdb2-cropped.svg'
 
 // TODO: Make this a sidebar because that'd be slick
 const Header = ({ children, theme }) => {
@@ -17,6 +18,12 @@ const Header = ({ children, theme }) => {
         },
         headerWrapper: {
             margin: '.5rem'
+        },
+        logo: {
+            display: 'flex',
+            height: '70%',
+            width: '50%',
+            alignSelf: 'center'
         }
     }
     return (
@@ -25,7 +32,7 @@ const Header = ({ children, theme }) => {
                 <div className='row' style={styles.headerWrapper}>
                     <div className='col-md-4 d-flex justify-content-center'>
                         {/* TODO: Make the connect Option Select svg logo */}
-                        <h1>Option Select</h1>
+                        <img src={Logo} style={styles.logo} alt='The Option Select Databse Logo in Choral Pink' />
                     </div>
                     <div className='col-md-8' style={styles.navWrapper}>
                         {children}
