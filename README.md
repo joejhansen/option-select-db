@@ -1,5 +1,7 @@
 # **Option Select Database**
 
+![Option Select Database](./client/src/optionselectdb2-cropped.svg)
+
  Search, track, and analyze your greatest moments in Melee with the Option Select Database
 
 # **Current Scope**
@@ -54,9 +56,6 @@ Slippi.gg is the creator and proprieter of the information identifying a Connect
 
 However, Slippi.gg currently has no OAuth standard and functionality on 3rd Party Authentication in general would have to be expanded significantly in order for there to be a safe and secure connection between Option Select and Slippi.gg. As such, User creation has been left out of current development considering I want to avoid a scenario where a user impersonates someone for malicious intent.
 
-# **Original Scope**
+# **Want to Help?**
 
-## **Option Select Overlay**
-
-The original intent of this project was for an overlay that uses slp-realtime in order to cast information to a stream, but CORS makes that difficult so would be better suited for a fork with electron.
-
+The Option Select Database is an open-source project dedicated to giving players access to the information and stats they need. Currently, the only game supported is Super Smash Bros.: Melee, but I hope this platform can grow into much more than that. If you are a developer interested in adding functionality for your favorite game or a fellow fan of Melee and want to help out, please contact me at josephjameshansen@gmail.com or go ahead and submit a PR.
