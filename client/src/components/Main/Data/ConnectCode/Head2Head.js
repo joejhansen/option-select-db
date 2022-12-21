@@ -7,6 +7,7 @@ import CardLoader from "../../../Loader/CardLoader"
 import './h2h.css'
 
 // TODO: think of more things to analyze
+// TODO: add a list of shared games at the bottom, add context or something to track for a back/forward button
 
 const Head2Head = ({ theme }) => {
     const styles = {
@@ -65,7 +66,7 @@ const Head2Head = ({ theme }) => {
     }, [])
 
     const renderH2H = (data) => {
-        const codeRegex = /^([A-Z]{1,4})\-(\d{1,3})$/i
+        const codeRegex = /^(?=.{1,8}$)[A-Z]*\-\d*$/i
         let player1, player2
         let linkToP1, linkToP2
         if (id1.match(codeRegex) && id2.match(codeRegex)) {

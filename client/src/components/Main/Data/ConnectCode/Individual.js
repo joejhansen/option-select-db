@@ -3,6 +3,8 @@ import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_CONNECT_CODE } from '../../../../utils/apollo/queries';
 import CardLoader from "../../../Loader/CardLoader"
 
+// TODO: add a search bar for head2heads
+
 const ConnectCodeIndividual = ({ theme }) => {
     let { id } = useParams();
     // IF YOU WANT TO USE A POUND # IN A URL

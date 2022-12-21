@@ -1,7 +1,7 @@
 import React from 'react'
 import Logo from '../../optionselectdb2-cropped.svg'
 
-// TODO: Make this a sidebar because that'd be slick
+// TODO: Make this a sidebar with an animation or something like that because that'd be slick
 const Header = ({ children, theme }) => {
 
     // const [state, dispatch] = useReducer(reducer, initialState)

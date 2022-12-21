@@ -1,6 +1,8 @@
 const db = require('../../config/connection');
 const { CodeId, DisplayName, User, Game } = require('../../models')
 
+// TODO: make this nicer. the lack of lets in the for ofs is bothering me but it works rn so i don't want to touch it atm
+
 const handleSlpUpload = async (payload) => {
     let { game, codeIds, displayNames } = payload
     try {
@@ -31,6 +33,9 @@ const handleSlpUpload = async (payload) => {
         }
         game.displayNames = newDisplayName_ids
         game.codeIds = newCodeId_ids
+        // TODO: this does not work to sort out duplicates
+        // must look at UTC start at AND both connect codes
+        // this is annoying
         const newGameResponse = await Game.findOneAndUpdate(
             { 'metadata.startAt': game.startAt },
             game,

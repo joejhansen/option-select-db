@@ -28,12 +28,12 @@ import DisplayNameIndividual from './components/Main/Data/DisplayName/Individual
 import Games from './components/Main/Data/Game/Search'
 import GamesAll from './components/Main/Data/Game/All'
 import GameIndividual from './components/Main/Data/Game/Individual'
+import Upload from './components/Main/Data/Upload/Upload';
 import Home from './components/Main/Home/Home'
 //    Footer
 import Footer from './components/Footer/Footer'
 //    Errors
 import NotFound from './components/Error/NotFound'
-import Upload from './components/Main/Data/Upload/Upload';
 
 // Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({
@@ -71,6 +71,9 @@ function App() {
   }
 
   const [theme, setTheme] = useState(defaultTheme)
+  // this isn't strictly necessary but I figured i'd set it up for a light/dark theme if needed
+  // oh btw
+  // TODO: add light theme and switcher
 
 
   const styles = {
@@ -91,6 +94,8 @@ function App() {
   }
   // pages in lowercase regardless of language
   // see utils/capitalizeLocal
+  // this goes directly to the nav including <Link tos />
+  // if you want to add a page with the same /{var} address, just add it to the list
   const pages = [
     'home',
     'data',
@@ -107,12 +112,9 @@ function App() {
           <Header theme={theme}>
             <Nav theme={theme} pages={pages} />
           </Header>
-          {/* i could either keep this as a container for style and independently change the overlay to fullwidth
-            or i could just make the a container-fluid already */}
           <div className='container-fluid' style={styles.body}>
             <Routes>
               <Route
-                // quick hack to handle the nav
                 index
                 element={<Home theme={theme} />}
               />
@@ -138,6 +140,7 @@ function App() {
                 </Route>
               </Route>
               <Route path={'*' || '/404'}
+                // TODO: add 201 for uploads, syle 404, maybe 507 for slp storage on errors (just in case [knock on wood])
                 element={<NotFound theme={theme} />}
               />
             </Routes>

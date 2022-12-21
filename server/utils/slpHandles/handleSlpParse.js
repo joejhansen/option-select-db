@@ -13,6 +13,7 @@ const handleSlpParse = async (slp) => {
         // okay, SO
         // getWinners() is a relatively new method (as of 11/05/22) and so is apparently not supported on older generate .slps
         // as such, we're gonna have to fill this object ourselves for if !winners.length
+        // TODO: do the thing i said i'd do in the line above
 
         // const frames = JSON.stringify(game.getFrames(), null, 2)
         // const rollbackFrames = JSON.stringify(game.getRollbackFrames(), null, 2)

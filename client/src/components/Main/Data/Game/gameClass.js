@@ -31,6 +31,8 @@ const renderMinutes = (frames) => {
 class Game {
     constructor(data) {
         const newGame = data.gameById
+        // TODO: refactor so it takes the data object itself so that I can pass any query through
+        // honestly not that hard, i just don't want to do it right now
         // game metadata / other relevant info
         this.fullData = newGame
         this.startDate = new Date(parseInt(newGame.metadata.startAt))
@@ -39,10 +41,9 @@ class Game {
         this.winnerName = newGame.displayNames[this.winnerIndex].displayName
         this.winnerCode = newGame.codeIds[this.winnerIndex].connectCode
         // player info
-        // p1
         this.p1 = {}
         this.p2 = {}
-        // gotta do this for some reason
+        // gotta do this.
         this.p1.displayName = newGame.displayNames[0].displayName
         this.p1.displayLink = `../../displayname/${this.p1.displayName}`
         this.p1.connectCode = newGame.codeIds[0].connectCode
@@ -186,6 +187,7 @@ class Game {
             return result
         }, [])
     }
+    // TODO: this is static atm but should probably put it in here just for conformity.
     renderOverall() {
         
     }

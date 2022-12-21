@@ -3,7 +3,7 @@
 
 // TODO: add hate speech filter for display names. 
 // you can still upload as "fuck nintento" and other curse words but the *other* stuff, uh, no
-// TODO: MAYBE: allow the game data but censor with generic '****' when necessary
+// MAYBE: allow the game data for the non-offending party's benefit but censor with generic '****' for code and displayName to disincentivize as much as possible
 
 
 const handleSlpAnalyze = (payload) => {
@@ -16,6 +16,7 @@ const handleSlpAnalyze = (payload) => {
             // rollbackFrames,                     //object
             winners                             //array of objects
         } = payload
+        // TODO: add winners data if it's not there
         //players is an array of at least 2 objects
         //keep as const immutability
         const {
@@ -153,13 +154,14 @@ const handleSlpAnalyze = (payload) => {
         // games be an empty array, must fill with [...GameIDs, newGameId]
 
         const game = {
-            displayNames: [], //todo add id's afer adding other info
+            displayNames: [],
             codeIds: [],
             settings,
             metadata,
             stats,
             winners
         }
+        // TODO: construct winners with the available data if the slippi-game object returns !winners.length
 
         const finalPayload = {
             codeIds,                    //an array

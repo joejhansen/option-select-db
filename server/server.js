@@ -6,7 +6,6 @@ const { authMiddleware } = require('./utils/auth');
 const handleSlpSeed = require('./utils/slpHandles/handleSlpSeed')
 const { typeDefs, resolvers } = require('./schemas');
 const db = require('./config/connection');
-const fs = require('fs').promises
 
 
 const PORT = process.env.PORT || 3001;

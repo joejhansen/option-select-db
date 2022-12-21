@@ -1,6 +1,6 @@
 import React, { useReducer, useState } from 'react'
 
-
+// TODO: add links and light/dark theme changer
 
 const Footer = ({ theme, page }) => {
 

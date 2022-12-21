@@ -3,6 +3,9 @@ import { QUERY_CONNECT_CODES } from "../../../../utils/apollo/queries"
 import { Link } from "react-router-dom"
 import CardLoader from "../../../Loader/CardLoader"
 import './All.css'
+
+// MAYBE: add a most common character, would probs have to make an object with the character name as key and an ocurrence as int value
+
 const ConnectCodeAll = ({ theme }) => {
     const { loading, data } = useQuery(QUERY_CONNECT_CODES)
 

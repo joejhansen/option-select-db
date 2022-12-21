@@ -138,51 +138,6 @@ const GameIndividual = ({ theme }) => {
         // so
         // we just call it game
         const game = data.gameById
-        let render = []
-        const startDate = new Date(parseInt(game.metadata.startAt))
-        // make an array and push as many displayName+_id combos there are
-        let playerDisplayNames = []
-        for (let displayName of game.displayNames) {
-            playerDisplayNames.push({ displayName: displayName.displayName, display_id: displayName._id })
-        }
-        // do the same for connect codes
-        let playerConnectCodes = []
-        for (let connectCode of game.codeIds) {
-            playerConnectCodes.push({ connectCode: connectCode.connectCode, connect_id: connectCode._id })
-        }
-        let renderPlayers = []
-        let linkToDisplayNames = []
-        let linkToConnectCodes = []
-        // for each playerConnectCode, we're going to make a link to their connectCode and displayName
-        for (let i = 0; i < playerConnectCodes.length; i++) {
-            // get the displayName data
-            const { displayName, display_id } = playerDisplayNames[i]
-            // and make a link out of it for react-router-dom
-            const linkToDisplayName = `../../displayname/${displayName}`
-            linkToDisplayNames.push(linkToDisplayName)
-            // get the connectCode data
-            const { connectCode, connect_id } = playerConnectCodes[i]
-            // make the link
-            const codeIdLink = connectCode.replace('#', '-')
-            const linkToConnectCode = `../../connectcode/${codeIdLink}`
-            linkToConnectCodes.push(linkToConnectCode)
-            // push it to the renderPlayers array for rendering down the line
-            renderPlayers.push(
-                <>
-                    <li key={connectCode}><Link to={linkToConnectCode} style={styles.link}>{connectCode}</Link> as <Link to={linkToDisplayName} style={styles.link}>{displayName}</Link></li>
-                </>
-            )
-        }
-        let linkToGame = `../${game._id}`
-        let killsStats = [[], []]
-        // an array of two arrays. should be as many arrays as there are players but doubles isn't supported otherwise
-        for (let conversion of game.stats.conversions) {
-            // getting all of our kill conversions for kill stats
-            if (conversion.didKill) {
-                killsStats[conversion.lastHitBy].push({ start: conversion.startFrame, end: conversion.endFrame, killMove: conversion.moves.length ? conversion.moves[conversion.moves.length - 1] : `Error!`, direction: null, percent: Math.floor(conversion.currentPercent * 100) / 100, })
-            }
-        }
-        let renderKillsStats = []
         // this converts # of frames played so far into a M:SS format.
         // melee is played on the nintendo gamecube or emulated environment thereof at 60 frames per second
         const renderMinutes = (frames) => {
@@ -297,6 +252,7 @@ const GameIndividual = ({ theme }) => {
                                                             <div style={testGame.p1.counterHitRatio > testGame.p2.counterHitRatio ? styles.winner : null}>{testGame.p1.counterHitCount} ( {testGame.p1.counterHitRatio}% ) </div>
                                                             <div style={testGame.p1.counterHitRatio < testGame.p2.counterHitRatio ? styles.winner : null}>{testGame.p2.counterHitCount} ( {testGame.p2.counterHitRatio}% ) </div>
                                                             <div>Beneficial Trades</div>
+                                                            {/* TODO: finish doing this with the class, rename from testGame too */}
                                                             <div style={game.stats.overall[0].beneficialTradeRatio.ratio > game.stats.overall[1].beneficialTradeRatio.ratio ? styles.winner : null}>{game.stats.overall[0].beneficialTradeRatio.count} ( {Math.floor(game.stats.overall[0].beneficialTradeRatio.ratio * 10000) / 100}% ) </div>
                                                             <div style={game.stats.overall[0].beneficialTradeRatio.ratio < game.stats.overall[1].beneficialTradeRatio.ratio ? styles.winner : null}>{game.stats.overall[1].beneficialTradeRatio.count} ( {Math.floor(game.stats.overall[1].beneficialTradeRatio.ratio * 10000) / 100}% ) </div>
                                                             <div>Actions (WD/WL/DD/LG)</div>
@@ -329,7 +285,6 @@ const GameIndividual = ({ theme }) => {
                                 </div>
                             </div>
                         </div>
-                        {/* TODO: componentize this i think */}
                         <div className="card" style={styles.card}>
                             <div style={styles.cardWrapper}>
                                 <div className="row">
@@ -348,7 +303,6 @@ const GameIndividual = ({ theme }) => {
                                 </div>
                             </div>
                         </div>
-                        {/* TODO: componentize this too */}
                         <div className="card" style={styles.card}>
                             <div style={styles.cardWrapper}>
                                 <div className="row">
@@ -360,6 +314,7 @@ const GameIndividual = ({ theme }) => {
                                         </div>
                                         <div className="row">
                                             {/* render the conversions stats */}
+                                            {/* TODO: maybe make this so no args are needed, depends on if doubles is ever a wanted feature */}
                                             {testGame.renderConversions('p1')}
                                             {testGame.renderConversions('p2')}
                                         </div>
