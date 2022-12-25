@@ -70,12 +70,14 @@ const Head2Head = ({ theme }) => {
         let player1, player2
         let linkToP1, linkToP2
         if (id1.match(codeRegex) && id2.match(codeRegex)) {
-            player1 = id1.replace(/-/g, '#')
             linkToP1 = `../${id1}`
-            player2 = id2.replace(/-/g, '#')
+            player1 = id1.replace(/-/g, '#')
             linkToP2 = `../${id2}`
+            player2 = id2.replace(/-/g, '#')
 
         } else {
+            // why is this an array at index 0 instead of a singular object? what did you do, past me?
+            // TODO: change this idk
             if (data.matchup[0].codeIds[0]._id === id1) {
                 player1 = data.matchup[0].codeIds[0].connectCode
                 linkToP1 = `../${id1}`

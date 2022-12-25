@@ -8,6 +8,8 @@ const styles = {
         color: '#f88a8a'
     },
     dq: {
+        // TODO: add logic that determines if the game results in a dq depending on current ruleset
+        // referring to ledgegrab limits specifically but maybe something else comes up
         color: 'red'
     },
     link: {
@@ -213,7 +215,7 @@ class Game {
 
             display: 'grid',
             gridTemplate: `1fr / repeat(4, 1fr)`
-            // as many columns as data showsn.
+            // as many columns as data shown.
             // see conversions row for shaping irregular columns
         }
         const tableDataBodyStyle = {

@@ -152,7 +152,7 @@ const GameIndividual = ({ theme }) => {
                 return `0:${(Math.floor(frames / 60))}`
             }
         }
-        
+
         return (
             <>
                 {/* the overall data table is normalized throughout all games, it will always have this information in this order */}
@@ -252,24 +252,25 @@ const GameIndividual = ({ theme }) => {
                                                             <div style={testGame.p1.counterHitRatio > testGame.p2.counterHitRatio ? styles.winner : null}>{testGame.p1.counterHitCount} ( {testGame.p1.counterHitRatio}% ) </div>
                                                             <div style={testGame.p1.counterHitRatio < testGame.p2.counterHitRatio ? styles.winner : null}>{testGame.p2.counterHitCount} ( {testGame.p2.counterHitRatio}% ) </div>
                                                             <div>Beneficial Trades</div>
-                                                            {/* TODO: finish doing this with the class, rename from testGame too */}
-                                                            <div style={game.stats.overall[0].beneficialTradeRatio.ratio > game.stats.overall[1].beneficialTradeRatio.ratio ? styles.winner : null}>{game.stats.overall[0].beneficialTradeRatio.count} ( {Math.floor(game.stats.overall[0].beneficialTradeRatio.ratio * 10000) / 100}% ) </div>
-                                                            <div style={game.stats.overall[0].beneficialTradeRatio.ratio < game.stats.overall[1].beneficialTradeRatio.ratio ? styles.winner : null}>{game.stats.overall[1].beneficialTradeRatio.count} ( {Math.floor(game.stats.overall[1].beneficialTradeRatio.ratio * 10000) / 100}% ) </div>
+                                                            <div style={testGame.p1.beneficialTradeRatio > testGame.p2.beneficialTradeRatio ? styles.winner : null}>{testGame.p1.beneficialTradeCount} ( {testGame.p1.beneficialTradeRatio}% ) </div>
+                                                            <div style={testGame.p1.beneficialTradeRatio < testGame.p2.beneficialTradeRatio ? styles.winner : null}>{testGame.p2.beneficialTradeCount} ( {testGame.p2.beneficialTradeRatio}% ) </div>
                                                             <div>Actions (WD/WL/DD/LG)</div>
-                                                            <div>{game.stats.actionCounts[0].wavedashCount} / {game.stats.actionCounts[0].wavelandCount} / {game.stats.actionCounts[0].dashDanceCount} / {game.stats.actionCounts[0].ledgegrabCount}</div>
-                                                            <div>{game.stats.actionCounts[1].wavedashCount} / {game.stats.actionCounts[1].wavelandCount} / {game.stats.actionCounts[1].dashDanceCount} / {game.stats.actionCounts[1].ledgegrabCount}</div>
+                                                            <div>{testGame.p1.waveDash} / {testGame.p1.waveLand} / {testGame.p1.dashDance} / {testGame.p1.ledgeGrab}</div>
+                                                            <div>{testGame.p2.waveDash} / {testGame.p2.waveLand} / {testGame.p2.dashDance} / {testGame.p2.ledgeGrab}</div>
                                                         </div>
                                                     </div>
                                                     <div style={styles.overallTable.data.body.general.outer}>
                                                         <div>General</div>
                                                         <div id="overallGeneral" className="overallTable" style={styles.overallTable.data.body.general.inner}>
                                                             <div>Inputs / Minute</div>
-                                                            <div style={game.stats.overall[0].inputsPerMinute.ratio > game.stats.overall[1].inputsPerMinute.ratio ? styles.winner : null}>{Math.floor(game.stats.overall[0].inputsPerMinute.ratio * 100) / 100}</div>
-                                                            <div style={game.stats.overall[0].inputsPerMinute.ratio < game.stats.overall[1].inputsPerMinute.ratio ? styles.winner : null}>{Math.floor(game.stats.overall[1].inputsPerMinute.ratio * 100) / 100}</div>
+                                                            <div style={testGame.p1.inputsPerMinute > testGame.p2.inputsPerMinute ? styles.winner : null}>{testGame.p1.inputsPerMinute}</div>
+                                                            <div style={testGame.p1.inputsPerMinute < testGame.p2.inputsPerMinute ? styles.winner : null}>{testGame.p2.inputsPerMinute}</div>
                                                             <div>Digital Inputs / Minute</div>
-                                                            <div style={game.stats.overall[0].digitalInputsPerMinute.ratio > game.stats.overall[1].digitalInputsPerMinute.ratio ? styles.winner : null}>{Math.floor(game.stats.overall[0].digitalInputsPerMinute.ratio * 100) / 100}</div>
-                                                            <div style={game.stats.overall[0].digitalInputsPerMinute.ratio < game.stats.overall[1].digitalInputsPerMinute.ratio ? styles.winner : null}>{Math.floor(game.stats.overall[1].digitalInputsPerMinute.ratio * 100) / 100}</div>
+                                                            <div style={testGame.p1.digitalPerMinute > testGame.p2.digitalPerMinute ? styles.winner : null}>{testGame.p1.digitalPerMinute}</div>
+                                                            <div style={testGame.p1.digitalPerMinute < testGame.p2.digitalPerMinute ? styles.winner : null}>{testGame.p2.digitalPerMinute}</div>
                                                             <div>L-Cancel Success Rate</div>
+                                                            {/* TODO: finish doing this with the class, rename from testGame too */}
+                                                            {/* jesus christ what the fuck is this? */}
                                                             <div style={(game.stats.actionCounts[0].lCancelCount.success) / (game.stats.actionCounts[0].lCancelCount.success + game.stats.actionCounts[0].lCancelCount.fail) > (game.stats.actionCounts[1].lCancelCount.success) / (game.stats.actionCounts[1].lCancelCount.success + game.stats.actionCounts[1].lCancelCount.fail) ? styles.winner : null}>
                                                                 {Math.floor((game.stats.actionCounts[0].lCancelCount.success) / (game.stats.actionCounts[0].lCancelCount.success + game.stats.actionCounts[0].lCancelCount.fail) * 10000) / 100}%
                                                                 ( {game.stats.actionCounts[0].lCancelCount.success} / {game.stats.actionCounts[0].lCancelCount.success + game.stats.actionCounts[0].lCancelCount.fail} )</div>
@@ -335,8 +336,10 @@ const GameIndividual = ({ theme }) => {
     return (
         <>
             {/* is it loading? show loading. if it loaded, render it */}
-            {loading ? <CardLoader />
-                : error ? navigate('/404')
+            {loading
+                ? <CardLoader />
+                : error
+                    ? navigate('/404')
                     : renderGameTable(data)}
         </>
     )
