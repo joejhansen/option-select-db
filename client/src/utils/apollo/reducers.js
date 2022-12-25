@@ -1,3 +1,4 @@
+// should probably actually make and use these where needed
 export default function reducer(state, action){
     switch (action.type) {
         case 'IDK':

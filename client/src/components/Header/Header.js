@@ -31,7 +31,6 @@ const Header = ({ children, theme }) => {
             <header className='container-fluid' style={styles.container}>
                 <div className='row' style={styles.headerWrapper}>
                     <div className='col-md-4 d-flex justify-content-center'>
-                        {/* TODO: Make the connect Option Select svg logo */}
                         <img src={Logo} style={styles.logo} alt='The Option Select Databse Logo in Choral Pink' />
                     </div>
                     <div className='col-md-8' style={styles.navWrapper}>
