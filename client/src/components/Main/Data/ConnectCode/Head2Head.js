@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import CardLoader from "../../../Loader/CardLoader"
 
 import './h2h.css'
+import H2HClass from './H2HClass';
 
 // TODO: think of more things to analyze
 // TODO: add a list of shared games at the bottom, add context or something to track for a back/forward button
@@ -66,204 +67,61 @@ const Head2Head = ({ theme }) => {
     }, [])
 
     const renderH2H = (data) => {
-        const codeRegex = /^(?=.{1,8}$)[A-Z]*\-\d*$/i
-        let player1, player2
-        let linkToP1, linkToP2
-        if (id1.match(codeRegex) && id2.match(codeRegex)) {
-            linkToP1 = `../${id1}`
-            player1 = id1.replace(/-/g, '#')
-            linkToP2 = `../${id2}`
-            player2 = id2.replace(/-/g, '#')
-
-        } else {
-            // why is this an array at index 0 instead of a singular object? what did you do, past me?
-            // TODO: change this idk
-            if (data.matchup[0].codeIds[0]._id === id1) {
-                player1 = data.matchup[0].codeIds[0].connectCode
-                linkToP1 = `../${id1}`
-                player2 = data.matchup[0].codeIds[1].connectCode
-                linkToP2 = `../${id2}`
-            } else {
-                player1 = data.matchup[0].codeIds[1].connectCode
-                linkToP1 = `../${id2}`
-                player2 = data.matchup[0].codeIds[0].connectCode
-                linkToP2 = `../${id1}`
-            }
-        }
-        let playersInfo = {}
-        playersInfo[player1] = []
-        playersInfo[player2] = []
-        for (let game of data.matchup) {
-            // The player index can change for each game, but the data is normalized to that index within the game
-            let player1Index, player2Index
-            if (game.settings.players[0].connectCode === player1) {
-                player1Index = 0
-                player2Index = 1
-            } else {
-                player1Index = 1
-                player2Index = 0
-            }
-            playersInfo[player1].push(game.stats.overall[player1Index])
-            playersInfo[player2].push(game.stats.overall[player2Index])
-        }
-        let playersInfoAvg = {}
-        // TODO: make this a class with methods to make it easier, passing in the PlayerInfo[playerIndex] object
-        playersInfoAvg[player1] = {
-            beneficialTradeRatio: [],
-            conversionCount: [],
-            counterHitRatio: [],
-            damagePerOpening: [],
-            digitalInputsPerMinute: [],
-            inputCounts: [],
-            inputsPerMinute: [],
-            killCount: [],
-            neutralWinRatio: [],
-            openingsPerKill: [],
-            successfulConversions: [],
-            totalDamage: []
-        }
-        playersInfoAvg[player2] = {
-            beneficialTradeRatio: [],
-            conversionCount: [],
-            counterHitRatio: [],
-            damagePerOpening: [],
-            digitalInputsPerMinute: [],
-            inputCounts: [],
-            inputsPerMinute: [],
-            killCount: [],
-            neutralWinRatio: [],
-            openingsPerKill: [],
-            successfulConversions: [],
-            totalDamage: []
-        }
-        for (let stats of playersInfo[player1]) {
-            // playersInfoAvg[player1].push()
-            playersInfoAvg[player1].beneficialTradeRatio.push(stats.beneficialTradeRatio)
-            playersInfoAvg[player1].conversionCount.push(stats.conversionCount)
-            playersInfoAvg[player1].counterHitRatio.push(stats.counterHitRatio)
-            playersInfoAvg[player1].damagePerOpening.push(stats.damagePerOpening)
-            playersInfoAvg[player1].digitalInputsPerMinute.push(stats.digitalInputsPerMinute)
-            playersInfoAvg[player1].inputCounts.push(stats.inputCounts)
-            playersInfoAvg[player1].inputsPerMinute.push(stats.inputsPerMinute)
-            playersInfoAvg[player1].killCount.push(stats.killCount)
-            playersInfoAvg[player1].neutralWinRatio.push(stats.neutralWinRatio)
-            playersInfoAvg[player1].openingsPerKill.push(stats.openingsPerKill)
-            playersInfoAvg[player1].successfulConversions.push(stats.successfulConversions)
-            playersInfoAvg[player1].totalDamage.push(stats.totalDamage)
-        }
-        for (let stats of playersInfo[player2]) {
-            // playersInfoAvg[player1].push()
-            playersInfoAvg[player2].beneficialTradeRatio.push(stats.beneficialTradeRatio)
-            playersInfoAvg[player2].conversionCount.push(stats.conversionCount)
-            playersInfoAvg[player2].counterHitRatio.push(stats.counterHitRatio)
-            playersInfoAvg[player2].damagePerOpening.push(stats.damagePerOpening)
-            playersInfoAvg[player2].digitalInputsPerMinute.push(stats.digitalInputsPerMinute)
-            playersInfoAvg[player2].inputCounts.push(stats.inputCounts)
-            playersInfoAvg[player2].inputsPerMinute.push(stats.inputsPerMinute)
-            playersInfoAvg[player2].killCount.push(stats.killCount)
-            playersInfoAvg[player2].neutralWinRatio.push(stats.neutralWinRatio)
-            playersInfoAvg[player2].openingsPerKill.push(stats.openingsPerKill)
-            playersInfoAvg[player2].successfulConversions.push(stats.successfulConversions)
-            playersInfoAvg[player2].totalDamage.push(stats.totalDamage)
-        }
-        const player1Overall = {
-            conversionsPerGame: Math.floor((playersInfoAvg[player1].conversionCount.reduce((a, v) => {
-                return (a + v)
-            }) / playersInfo[player1].length) * 100) / 100,
-            damagePerOpening: Math.floor((playersInfoAvg[player1].damagePerOpening.reduce((a, v) => {
-                return a + v.ratio
-            }, 0) / playersInfo[player1].length) * 100) / 100,
-            inputsPerMinute: Math.floor((playersInfoAvg[player1].inputsPerMinute.reduce((a, v) => {
-                return a + v.ratio
-            }, 0) / playersInfo[player1].length) * 100) / 100,
-            killsPerGame: Math.floor((playersInfoAvg[player1].killCount.reduce((a, v) => {
-                return a + v
-            }, 0) / playersInfo[player1].length) * 100) / 100,
-            neutralWinsPer: Math.floor((playersInfoAvg[player1].neutralWinRatio.reduce((a, v) => {
-                return a + v.ratio
-            }, 0) / playersInfo[player1].length) * 10000) / 100,
-            openingsPerKill: Math.floor((playersInfoAvg[player1].openingsPerKill.reduce((a, v) => {
-                return a + v.ratio
-            }, 0) / playersInfo[player1].length) * 100) / 100,
-            conversionSuccess: Math.floor((playersInfoAvg[player1].successfulConversions.reduce((a, v) => {
-                return a + v.ratio
-            }, 0) / playersInfo[player1].length) * 10000) / 100,
-            damagePerGame: Math.floor((playersInfoAvg[player1].totalDamage.reduce((a, v) => {
-                return a + v
-            }, 0) / playersInfo[player1].length) * 100) / 100,
-        }
-        const player2Overall = {
-            conversionsPerGame: Math.floor((playersInfoAvg[player2].conversionCount.reduce((a, v) => {
-                return (a + v)
-            }) / playersInfo[player2].length) * 100) / 100,
-            damagePerOpening: Math.floor((playersInfoAvg[player2].damagePerOpening.reduce((a, v) => {
-                return a + v.ratio
-            }, 0) / playersInfo[player2].length) * 100) / 100,
-            inputsPerMinute: Math.floor((playersInfoAvg[player2].inputsPerMinute.reduce((a, v) => {
-                return a + v.ratio
-            }, 0) / playersInfo[player2].length) * 100) / 100,
-            killsPerGame: Math.floor((playersInfoAvg[player2].killCount.reduce((a, v) => {
-                return a + v
-            }, 0) / playersInfo[player2].length) * 100) / 100,
-            neutralWinsPer: Math.floor((playersInfoAvg[player2].neutralWinRatio.reduce((a, v) => {
-                return a + v.ratio
-            }, 0) / playersInfo[player2].length) * 10000) / 100,
-            openingsPerKill: Math.floor((playersInfoAvg[player2].openingsPerKill.reduce((a, v) => {
-                return a + v.ratio
-            }, 0) / playersInfo[player2].length) * 100) / 100,
-            conversionSuccess: Math.floor((playersInfoAvg[player2].successfulConversions.reduce((a, v) => {
-                return a + v.ratio
-            }, 0) / playersInfo[player2].length) * 10000) / 100,
-            damagePerGame: Math.floor((playersInfoAvg[player2].totalDamage.reduce((a, v) => {
-                return a + v
-            }, 0) / playersInfo[player2].length) * 100) / 100,
-        }
+        const h2h = new H2HClass({ data, players: [id1, id2] })
         return (
             <>
                 <div className='container'>
-                    <p>{player1} vs {player2}</p>
+                    <p>{h2h.p1.connectCode} vs {h2h.p2.connectCode}</p>
                     <div className='row'>
                         <div className='col'>
                             <div className='card' style={styles.card}>
                                 <div style={styles.cardWrapper}>
                                     <div style={styles.matchupTable.outer}>
                                         <div>
-                                            Matchup Statistics Over {playersInfo[player1].length} Games
+                                            Matchup Statistics Over {h2h.gamesPlayed} Games
                                         </div>
                                         <div style={styles.matchupTable.body.outer}>
                                             <div style={styles.matchupTable.body.header}>
                                                 <div>H2H Averages</div>
-                                                <div><Link to={linkToP1} style={styles.link}>{player1}</Link></div>
-                                                <div><Link to={linkToP2} style={styles.link}>{player2}</Link></div>
+                                                <div><Link to={h2h.p1.link} style={styles.link}>{h2h.p1.connectCode}</Link></div>
+                                                <div><Link to={h2h.p2.link} style={styles.link}>{h2h.p2.connectCode}</Link></div>
                                             </div>
                                             <div id="overallh2h" style={styles.matchupTable.body.data}>
                                                 <div>Conversions / Game</div>
-                                                <div style={player1Overall.conversionsPerGame > player2Overall.conversionsPerGame ? styles.winner : null}>{player1Overall.conversionsPerGame}</div>
-                                                <div style={player1Overall.conversionsPerGame < player2Overall.conversionsPerGame ? styles.winner : null}>{player2Overall.conversionsPerGame}</div>
+                                                <div style={h2h.p1.conversionsPerGame > h2h.p2.conversionsPerGame ? styles.winner : null}>{h2h.p1.conversionsPerGame}</div>
+                                                <div style={h2h.p1.conversionsPerGame < h2h.p2.conversionsPerGame ? styles.winner : null}>{h2h.p2.conversionsPerGame}</div>
                                                 <div>Damage / Opening</div>
-                                                <div style={player1Overall.damagePerOpening > player2Overall.damagePerOpening ? styles.winner : null}>{player1Overall.damagePerOpening}%</div>
-                                                <div style={player1Overall.damagePerOpening < player2Overall.damagePerOpening ? styles.winner : null}>{player2Overall.damagePerOpening}%</div>
+                                                <div style={h2h.p1.damagePerOpening > h2h.p2.damagePerOpening ? styles.winner : null}>{h2h.p1.damagePerOpening}%</div>
+                                                <div style={h2h.p1.damagePerOpening < h2h.p2.damagePerOpening ? styles.winner : null}>{h2h.p2.damagePerOpening}%</div>
                                                 <div>Inputs / Minute</div>
-                                                <div style={player1Overall.inputsPerMinute > player2Overall.inputsPerMinute ? styles.winner : null}>{player1Overall.inputsPerMinute}</div>
-                                                <div style={player1Overall.inputsPerMinute < player2Overall.inputsPerMinute ? styles.winner : null}>{player2Overall.inputsPerMinute}</div>
+                                                <div style={h2h.p1.inputsPerMinute > h2h.p2.inputsPerMinute ? styles.winner : null}>{h2h.p1.inputsPerMinute}</div>
+                                                <div style={h2h.p1.inputsPerMinute < h2h.p2.inputsPerMinute ? styles.winner : null}>{h2h.p2.inputsPerMinute}</div>
                                                 <div>Kills / Game</div>
-                                                <div style={player1Overall.killsPerGame > player2Overall.killsPerGame ? styles.winner : null}>{player1Overall.killsPerGame}</div>
-                                                <div style={player1Overall.killsPerGame < player2Overall.killsPerGame ? styles.winner : null}>{player2Overall.killsPerGame}</div>
+                                                <div style={h2h.p1.killsPerGame > h2h.p2.killsPerGame ? styles.winner : null}>{h2h.p1.killsPerGame}</div>
+                                                <div style={h2h.p1.killsPerGame < h2h.p2.killsPerGame ? styles.winner : null}>{h2h.p2.killsPerGame}</div>
                                                 <div>Neutral Win %</div>
-                                                <div style={player1Overall.neutralWinsPer > player2Overall.neutralWinsPer ? styles.winner : null}>{player1Overall.neutralWinsPer}%</div>
-                                                <div style={player1Overall.neutralWinsPer < player2Overall.neutralWinsPer ? styles.winner : null}>{player2Overall.neutralWinsPer}%</div>
+                                                <div style={h2h.p1.neutralWinsPer > h2h.p2.neutralWinsPer ? styles.winner : null}>{h2h.p1.neutralWinsPer}%</div>
+                                                <div style={h2h.p1.neutralWinsPer < h2h.p2.neutralWinsPer ? styles.winner : null}>{h2h.p2.neutralWinsPer}%</div>
                                                 <div>Openings / Kill</div>
-                                                <div style={player1Overall.openingsPerKill < player2Overall.openingsPerKill ? styles.winner : null}>{player1Overall.openingsPerKill}</div>
-                                                <div style={player1Overall.openingsPerKill > player2Overall.openingsPerKill ? styles.winner : null}>{player2Overall.openingsPerKill}</div>
+                                                <div style={h2h.p1.openingsPerKill < h2h.p2.openingsPerKill ? styles.winner : null}>{h2h.p1.openingsPerKill}</div>
+                                                <div style={h2h.p1.openingsPerKill > h2h.p2.openingsPerKill ? styles.winner : null}>{h2h.p2.openingsPerKill}</div>
                                                 <div>Successful Conversions %</div>
-                                                <div style={player1Overall.conversionSuccess > player2Overall.conversionSuccess ? styles.winner : null}>{player1Overall.conversionSuccess}%</div>
-                                                <div style={player1Overall.conversionSuccess < player2Overall.conversionSuccess ? styles.winner : null}>{player2Overall.conversionSuccess}%</div>
+                                                <div style={h2h.p1.conversionSuccess > h2h.p2.conversionSuccess ? styles.winner : null}>{h2h.p1.conversionSuccess}%</div>
+                                                <div style={h2h.p1.conversionSuccess < h2h.p2.conversionSuccess ? styles.winner : null}>{h2h.p2.conversionSuccess}%</div>
                                                 <div>Damage / Game</div>
-                                                <div style={player1Overall.damagePerGame > player2Overall.damagePerGame ? styles.winner : null}>{player1Overall.damagePerGame}%</div>
-                                                <div style={player1Overall.damagePerGame < player2Overall.damagePerGame ? styles.winner : null}>{player2Overall.damagePerGame}%</div>
+                                                <div style={h2h.p1.damagePerGame > h2h.p2.damagePerGame ? styles.winner : null}>{h2h.p1.damagePerGame}%</div>
+                                                <div style={h2h.p1.damagePerGame < h2h.p2.damagePerGame ? styles.winner : null}>{h2h.p2.damagePerGame}%</div>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className='row'>
+                        <div className='col'>
+                            <div className='card' style={styles.card}>
+                                <div style={styles.cardWrapper}>
                                 </div>
                             </div>
                         </div>

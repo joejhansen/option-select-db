@@ -49,13 +49,13 @@ class Game {
         this.p1.displayName = newGame.displayNames[0].displayName
         this.p1.displayLink = `../../displayname/${this.p1.displayName}`
         this.p1.connectCode = newGame.codeIds[0].connectCode
-        this.p1.codeLink = `../../connectocde/${this.p1.connectCode.replace('#', '-')}`
+        this.p1.codeLink = `../../connectcode/${this.p1.connectCode.replace('#', '-')}`
         this.p1.character = newGame.metadata.players[0].characters.length > 1 ? `Ice Climbers` : charactersList[newGame.metadata.players[0].characters[0]].name
         // p2
         this.p2.displayName = newGame.displayNames[1].displayName
         this.p2.displayLink = `../../displayname/${this.p2.displayName}`
         this.p2.connectCode = newGame.codeIds[1].connectCode
-        this.p2.codeLink = `../../connnectcode${this.p2.connectCode.replace('#', '-')}`
+        this.p2.codeLink = `../../connectcode/${this.p2.connectCode.replace('#', '-')}`
         this.p2.character = newGame.metadata.players[1].characters.length > 1 ? `Ice Climbers` : charactersList[newGame.metadata.players[1].characters[0]].name
 
         // link to head-2-head chart
