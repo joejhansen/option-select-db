@@ -125,7 +125,7 @@ const Head2Head = ({ theme }) => {
                                     {/* TODO: add grid css and row coloring */}
                                     <div>
                                         <div>
-                                            Games List Header
+                                            Games Played
                                         </div>
                                         <div>
                                             {h2h.gameInfo.map((game)=>{
