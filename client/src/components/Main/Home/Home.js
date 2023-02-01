@@ -54,7 +54,7 @@ const Home = ({ theme }) => {
         }
     }
     return (
-                <Info />
+                <Info theme={theme}/>
 
     )
 }

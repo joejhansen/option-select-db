@@ -12,7 +12,7 @@ class H2HClass {
         // setting up the p# object
         this.gamesPlayed = data.matchup.length
         this.gameInfo = data.matchup.map((game)=>{
-            return {_id:game._id, date: new Date(parseInt(game.metadata.startAt)).toLocaleString()}
+            return {_id:game._id, link: `../../game/${game._id}`, date: new Date(parseInt(game.metadata.startAt)).toLocaleString()}
         })
         console.log(this.gameInfo)
         this.p1 = {}

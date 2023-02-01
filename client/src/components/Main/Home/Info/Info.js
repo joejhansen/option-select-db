@@ -1,11 +1,16 @@
 import './info.css'
 import Logo from '../../../../optionselectdb2-cropped.svg'
-const Info = () => {
+import { Link } from 'react-router-dom'
+const Info = ({ theme }) => {
     const styles = {
         logo: {
             height: '25%',
             width: '25%'
-        }
+        },
+        link: {
+            textDecoration: 'none',
+            color: theme.accent
+        },
     }
     return (
         <div id="pageWrapper" className='container-fluid'>
@@ -18,7 +23,7 @@ const Info = () => {
 
                                     <div className="info-column-head">
                                         <p>Welcome to</p>
-                                        <p><img src={Logo}  style={styles.logo}/></p>
+                                        <p><img src={Logo} style={styles.logo} /></p>
                                     </div>
                                     <div className="info-column-content">
                                         <p id="top-column-text">"An Option Select is a tactic in which a player takes advantage of certain input priority systems to cover multiple different scenarios at once from the same input." - Street Fighter Wiki</p>
@@ -86,7 +91,7 @@ const Info = () => {
                                         </div>
                                         <div className="info-column-content">
                                             <p id="tldr">&emsp;Upload your .slp files and search up whatever you want. The web app is in alpha currently so most of the files are my own. feel free to scrutinize my lack of improvement in 5 years of playing Melee!</p>
-                                            <p id="tldr">&emsp;And check out the GitHub (https://github.com/joejhansen/option-select-db)</p>
+                                            <p id="tldr">&emsp;And <a style={styles.link} href='https://github.com/joejhansen/option-select-db'>check out the GitHub</a></p>
                                         </div>
                                     </div>
                                 </div>

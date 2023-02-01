@@ -122,6 +122,17 @@ const Head2Head = ({ theme }) => {
                         <div className='col'>
                             <div className='card' style={styles.card}>
                                 <div style={styles.cardWrapper}>
+                                    {/* TODO: add grid css and row coloring */}
+                                    <div>
+                                        <div>
+                                            Games List Header
+                                        </div>
+                                        <div>
+                                            {h2h.gameInfo.map((game)=>{
+                                                return(<div><Link to={game.link} style={styles.link}>Played on {game.date}</Link></div>)
+                                            })}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
