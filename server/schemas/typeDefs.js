@@ -1,5 +1,6 @@
 const { gql } = require('apollo-server-express');
 
+// NOTE: everything having to do with percents and damage has to be a float. youd never know it because it only shows real integers, but melee tracks a ton of sig figs
 const typeDefs = gql`
   type Auth {
     token: ID!
